@@ -150,6 +150,46 @@ input:focus {
 .sidebar {
 
 }
+aside {
+	min-height: 500px;
+	border-left: 1px solid #ccc;
+	float: left;
+	margin-top: 2em;
+	padding-left: 1em;
+	padding-right: 1em;
+}
+.sidebar-widget .thumbnail {
+	width: 45px;
+	height: 45px;
+	background: #ccc;
+	float: left;
+	margin-right: .5em;
+}
+.sidebar-widget {
+    padding-bottom: 2px;
+    border-bottom: 1px solid #ccc;
+    display: block;
+    float: left;
+}
+.sidebar-widget ul {
+	padding-left: 0;
+	padding-bottom: 2em;
+}
+.sidebar-widget ul li {
+	font-weight: 600;
+	padding-bottom: 1em;
+	line-height: 1em;
+	font-size: .9em;
+	letter-spacing: -1px;
+	float: left;
+}
+.sidebar-widget ul li a {
+	text-decoration: none;
+	color: #000;
+}
+.sidebar-widget ul li span.post-date {
+	display: block;
+}
 /* footer */
 .footer {
 

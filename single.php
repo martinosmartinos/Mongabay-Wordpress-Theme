@@ -3,6 +3,15 @@
 	<main role="main">
 
 	<?php if (have_posts()): while (have_posts()) : the_post(); ?>
+		<?php
+			$post_id = get_the_ID();
+			$featured = get_post_meta($post_id,"featured_as");
+			$translator = get_post_meta($post_id,"translated_by",true);
+			$adaptor = get_post_meta($post_id,"adapted_by",true);
+			$translated_adapted = get_post_meta($post_id,"translated_adapted",true);
+			$topics = wp_get_post_terms($post_id, 'location');
+			//var_dump($topics);
+		?>
 		<!-- article -->
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 			<div id="headline">
@@ -11,7 +20,7 @@
 		          <h1><?php the_title(); ?></h1>
 		        </div>
 		        <div class="single-article-meta">
-		          by Sue Branford and Maurício Torreson <?php the_time('F j Y'); ?>
+		          by Sue Branford and Maurício Torreson on <?php the_time('j F Y'); ?>
 		          <div class="social">
 		            <a class="facebook" href=""></a>
 		            <a class="google" href=""></a>
@@ -22,7 +31,7 @@
 			</div>
 			<?php if ( has_post_thumbnail()) : // Check if Thumbnail exists ?>
 			<div class="row article-cover-image no-gutters">
-		        <div class="col-lg-12" style="background: url('<?php get_the_post_thumbnail_url('large')?>';background-size: cover">
+		        <div class="col-lg-12" style="background: url('<?php echo get_the_post_thumbnail_url('large')?>');background-size: cover">
 		        </div>
 		        <div class="clearfix"></div>
 			<?php endif; ?><!-- /post thumbnail -->
@@ -32,12 +41,10 @@
 		        	<div class="bulletpoints"></div>
 		        	<?php the_content();?>
 		        </div>
+
+				<?php get_sidebar(); ?>
+
 		    </div>
-			<!-- post details -->
-			<span class="date"><?php the_time('F j, Y'); ?> <?php the_time('g:i a'); ?></span>
-			<span class="author"><?php _e( 'Published by', 'mongabay' ); ?> <?php the_author_posts_link(); ?></span>
-			<span class="comments"><?php if (comments_open( get_the_ID() ) ) comments_popup_link( __( 'Leave your thoughts', 'html5blank' ), __( '1 Comment', 'html5blank' ), __( '% Comments', 'html5blank' )); ?></span>
-			<!-- /post details -->
 
 
 			<?php the_tags( __( 'Tags: ', 'mongabay' ), ', ', '<br>'); // Separated by commas with a line break at the end ?>
@@ -67,7 +74,5 @@
 	<?php endif; ?>
 
 	</main>
-
-<?php get_sidebar(); ?>
 
 <?php get_footer(); ?>

@@ -4,7 +4,10 @@
 	External Modules/Files
 \*------------------------------------*/
 
-include (get_template_directory().'/custom-walker.php');
+include (get_template_directory().'/custom-code/custom-walker.php');
+//include (get_template_directory().'/custom-code/topic.php');
+include (get_template_directory().'/custom-code/taxonomy-location.php');
+include (get_template_directory().'/custom-code/thumbnailed-recent-posts.php');
 
 /*------------------------------------*\
 	Theme Support
