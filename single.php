@@ -11,7 +11,7 @@
 		          <h1><?php the_title(); ?></h1>
 		        </div>
 		        <div class="single-article-meta">
-		          by Sue Branford and Maurício Torreson 1 June 2017
+		          by Sue Branford and Maurício Torreson <?php the_time('F j Y'); ?>
 		          <div class="social">
 		            <a class="facebook" href=""></a>
 		            <a class="google" href=""></a>
@@ -20,10 +20,12 @@
 		          </div>
 		        </div>
 			</div>
+			<?php if ( has_post_thumbnail()) : // Check if Thumbnail exists ?>
 			<div class="row article-cover-image no-gutters">
 		        <div class="col-lg-12" style="background: url('<?php get_the_post_thumbnail_url('large')?>';background-size: cover">
 		        </div>
 		        <div class="clearfix"></div>
+			<?php endif; ?><!-- /post thumbnail -->
 		    </div>
 		    <div class="row">
 		      	<div id="main" class="col-lg-8 single">
@@ -31,15 +33,6 @@
 		        	<?php the_content();?>
 		        </div>
 		    </div>
-			<!-- post thumbnail -->
-			<?php if ( has_post_thumbnail()) : // Check if Thumbnail exists ?>
-				<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-					<?php the_post_thumbnail(); // Fullsize image for the single post ?>
-				</a>
-			<?php endif; ?>
-			<!-- /post thumbnail -->
-
-
 			<!-- post details -->
 			<span class="date"><?php the_time('F j, Y'); ?> <?php the_time('g:i a'); ?></span>
 			<span class="author"><?php _e( 'Published by', 'html5blank' ); ?> <?php the_author_posts_link(); ?></span>
