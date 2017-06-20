@@ -21,7 +21,7 @@
 		        </div>
 			</div>
 			<div class="row article-cover-image no-gutters">
-		        <div class="col-lg-12" style="background: url(https://imgs.mongabay.com/wp-content/uploads/sites/20/2017/06/01132212/FEATURED-temer.jpg);background-size: cover">
+		        <div class="col-lg-12" style="background: url('<?php get_the_post_thumbnail_url('large')?>';background-size: cover">
 		        </div>
 		        <div class="clearfix"></div>
 		    </div>
