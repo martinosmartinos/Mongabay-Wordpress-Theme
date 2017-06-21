@@ -112,6 +112,11 @@ STRUCTURE
 .header .top-nav {
     margin: 1em 0;
 }
+.top-search {
+	height: 24px;
+	width: 24px;
+	margin-top: 5px;
+}
 #language-picker {
     border: none;
 }
@@ -200,6 +205,9 @@ aside {
     font-size: .9em;
     font-weight: 700;
 }
+#headline .single-article-meta a {
+	color: #000;
+}
 #headline .article-headline h1 {
     margin-bottom: 0.5em;
 }
@@ -256,11 +264,17 @@ aside {
 .bulletpoints ul li {
     margin-bottom: .5em;
 }
+#main.single {
+	padding-top: 2em;
+}
 #main.single p {
-    margin-left: 5em;
+    margin-left: 0;
     margin-right: 5em;
     font-family: georgia, "times new roman", times, serif;
     font-size: 1.06em;
+}
+#main.single figure {
+	margin: 4em 0;
 }
 #single-article-footer {
     margin: 2em 0;

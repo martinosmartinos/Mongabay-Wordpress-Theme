@@ -25,7 +25,7 @@
                     <h1><?php the_title(); ?></h1>
                 </div>
                 <div class="single-article-meta">
-                  by Sue Branford and Maurício Torreson on <?php the_time('j F Y'); ?>
+                  by <?php echo get_the_term_list( $post_id, 'byline', '', ', ' ); ?> on <?php the_time('j F Y'); ?>
                   <div class="social">
                     <a class="facebook" href=""></a>
                     <a class="google" href=""></a>
