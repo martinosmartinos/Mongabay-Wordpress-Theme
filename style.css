@@ -194,6 +194,7 @@ aside {
 
 /* featured image, single post */
 #headline .single-article-meta {
+<<<<<<< HEAD
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     padding: 1em 0;
@@ -241,6 +242,55 @@ aside {
 }
 .social a.email {
     background: url(img/icons/message.png) left bottom no-repeat;
+=======
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	padding: 1em 0;
+	font-size: .9em;
+	font-weight: 700;
+}
+#headline .article-headline h1 {
+	margin-bottom: 0.5em;
+}
+#headline .social {
+	float: right;
+}
+#headline .social a {
+	display: inline;
+	float: left;
+}
+.social a {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin: 0 10px;
+  vertical-align: middle;
+  -o-transition: all .3s;
+  -moz-transition: all .3s;
+  -webkit-transition: all .3s;
+  -ms-transition: all .3s;
+}
+.social a:hover {
+  opacity: .3;
+}
+.social a.sharethis {
+  background: url(img/icons/share.png) left top no-repeat;
+}
+.social a.facebook {
+  background: url(img/icons/facebook.png) left bottom no-repeat;
+}
+.social a.twitter {
+  background: url(img/icons/twitter.png) left bottom no-repeat;
+}
+.social a.google {
+  background: url(img/icons/google-plus.png) left bottom no-repeat;
+}
+.social a.bookmark {
+  background: url(img/icons/bookmark.png) left bottom no-repeat;
+}
+.social a.email {
+  background: url(img/icons/message.png) left bottom no-repeat;
+>>>>>>> f0d592b7662c712c855c7ad9a29da15ee05dac67
 }
 .article-cover-image {
     height: 450px;
