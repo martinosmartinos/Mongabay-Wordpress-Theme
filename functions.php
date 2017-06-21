@@ -5,8 +5,10 @@
 \*------------------------------------*/
 
 include (get_template_directory().'/custom-code/custom-walker.php');
-//include (get_template_directory().'/custom-code/topic.php');
+include (get_template_directory().'/custom-code/figure-caption.php');
 include (get_template_directory().'/custom-code/taxonomy-location.php');
+include (get_template_directory().'/custom-code/taxonomy-serial.php');
+include (get_template_directory().'/custom-code/taxonomy-topic.php');
 include (get_template_directory().'/custom-code/thumbnailed-recent-posts.php');
 
 /*------------------------------------*\
@@ -59,7 +61,7 @@ if (function_exists('add_theme_support'))
 /*------------------------------------*\
 	Functions
 \*------------------------------------*/
-
+//custom nav menu
 function mongabay_nav()
 {
 	wp_nav_menu(

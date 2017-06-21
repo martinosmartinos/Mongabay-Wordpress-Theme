@@ -1,6 +1,6 @@
 <?php 
 	class bootstrap_walker extends Walker_Nav_Menu {
-	    function start_el(&$output, $item, $depth, $args) {
+	    function start_el(&$output, $item, $depth=0, $args=array(), $id = 0) {
 	        global $wp_query;
 	        $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 	 
@@ -30,7 +30,7 @@
 	        $item_output .= '</a>';
 	        $item_output .= $args->after;
 	 
-	        $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
+	        $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args);
 	    }
 	}
 ?>
