@@ -86,6 +86,19 @@ function mongabay_nav()
 	);
 }
 
+// sanitize content
+function mongabay_sanitized_content($post_id) {
+    if (get_post_meta($post_id,"mongabay_post_legacy_status",true) == 'yes')    {
+        $content = get_the_content();
+        $content = str_replace(']]>', '', $content);
+        $content = str_replace(array("}","{"),'',$content);
+        $content = str_replace(array('<br>','<BR>','<br/>','<BR/>'),"\n",$content);
+        $content = apply_filters('the_content', $content);
+        $content = str_replace('<p></p>', '', $content);
+        /*if (strpos($content,'<br>') == FALSE) $content = nl2br($content); */
+        echo $content;
+    } else the_content(); 
+}
 // Load scripts (header.php)
 function mongabay_header_scripts()
 {
@@ -111,17 +124,23 @@ function mongabay_header_scripts()
 
         wp_register_script('scripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '1.0.0');
         wp_enqueue_script('scripts');
+        // to do!!
+        wp_register_script('axios', get_template_directory_uri() . '/js/lib/axios-0.16.2.min.js', array(), '0.16.2');
+        wp_enqueue_script('axios');
+
+        wp_register_script('newsfetch', get_template_directory_uri() . '/js/lib/bundle.js', array(), '1.0.0', true);
+        wp_enqueue_script('newsfetch');
     }
 }
 
 // Load conditional scripts
 function mongabay_conditional_scripts()
 {
-    if (is_page('home')) {
-        wp_register_script('axios', get_template_directory_uri() . '/js/axios-0.16.2.min.js', array(''), '0.16.2');
+    if ( is_front_page() && is_home() ) {
+        wp_register_script('axios', get_template_directory_uri() . '/js/lib/axios-0.16.2.min.js', array(), '0.16.2');
         wp_enqueue_script('axios');
 
-        wp_register_script('newsfetch', get_template_directory_uri() . '/js/bundle.js', array(''), '1.0.0');
+        wp_register_script('newsfetch', get_template_directory_uri() . '/js/lib/bundle.js', array(), '1.0.0');
         wp_enqueue_script('newsfetch');
     }
 }
@@ -189,22 +208,11 @@ function add_slug_to_body_class($classes)
 // If Dynamic Sidebar Exists
 if (function_exists('register_sidebar'))
 {
-    // Define Sidebar Widget Area 1
+    // Define Sidebar Widget
     register_sidebar(array(
-        'name' => __('Widget Area 1', 'mongabay'),
-        'description' => __('Description for this widget-area...', 'mongabay'),
-        'id' => 'widget-area-1',
-        'before_widget' => '<div id="%1$s" class="%2$s">',
-        'after_widget' => '</div>',
-        'before_title' => '<h3>',
-        'after_title' => '</h3>'
-    ));
-
-    // Define Sidebar Widget Area 2
-    register_sidebar(array(
-        'name' => __('Widget Area 2', 'mongabay'),
-        'description' => __('Description for this widget-area...', 'mongabay'),
-        'id' => 'widget-area-2',
+        'name' => __('Sidebar Widget', 'mongabay'),
+        'description' => __('All sidebar widhets should be placed here.', 'mongabay'),
+        'id' => 'sidebar-widget',
         'before_widget' => '<div id="%1$s" class="%2$s">',
         'after_widget' => '</div>',
         'before_title' => '<h3>',
@@ -296,7 +304,7 @@ function remove_thumbnail_dimensions( $html )
 
 // Add Actions
 add_action('init', 'mongabay_header_scripts'); // Add Custom Scripts to wp_head
-add_action('wp_print_scripts', 'mongabay_conditional_scripts'); // Add Conditional Page Scripts
+add_action('wp_enqueue_scripts', 'mongabay_conditional_scripts'); // Add Conditional Page Scripts
 add_action('wp_enqueue_scripts', 'mongabay_styles'); // Add Theme Stylesheet
 add_action('init', 'register_mongabay_menu'); // Add Blank Menu
 add_action('widgets_init', 'my_remove_recent_comments_style'); // Remove inline Recent Comment Styles from wp_head()

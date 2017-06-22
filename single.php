@@ -60,7 +60,7 @@
                                 echo "</ul></div>"; 
                             } 
                         ?>
-                        <?php the_content();?>
+                        <?php mongabay_sanitized_content($post_id);?>
                     <div id="single-article-footer">
                         <div id="single-article-meta">
                             <span><?php _e( 'Article published by ', 'mongabay' ); the_author(); ?></span>
@@ -73,6 +73,9 @@
                 </div>
                 <?php get_sidebar(); ?>
             </div>
+
+            <div id="special-series">
+                <?php get_template_part( section, series ); ?>
         </article>
         <!-- /article -->
     <?php endwhile; ?>
@@ -84,4 +87,6 @@
         <!-- /article -->
     <?php endif; ?>
     </main>
+</div>
+<!-- /container -->
 <?php get_footer(); ?>

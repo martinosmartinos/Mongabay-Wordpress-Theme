@@ -1,7 +1,6 @@
 <?php
-// Create Filter Taxonomies
+add_action( 'init', 'mongabay_tax_register_serial', 0 );
 function mongabay_tax_register_serial() {
-	$filter_content_types = array('post');
 	
 	$labels = array(
 		'name'              => _x( 'Serials', 'taxonomy general name' ),
@@ -31,35 +30,5 @@ function mongabay_tax_register_serial() {
 		'rewrite'           => array( 'slug' => 'serial' ),
 	);
 
-	register_taxonomy( 'serial', $filter_content_types, $args );
+	register_taxonomy( 'serial', array('post'), $args );
 }
-
-
-// Serial and Locations taxonomies meta fields - Display
-function mongabay_tax_meta_fields_serial($term) {
-	if (isset($_GET['tag_ID'])) { $tid = intval($_GET['tag_ID']); }
-	else $tid = 0;
-	
-	$cover_image_url = mb_termmeta( $tid , 'cover_image_url'); 
-
-	?>
-    <div class="form-field">
-		<label for="term_meta[cover_image_url]"><?php _e( 'Cover Image / Logo URL', 'mongabay' ); ?></label>
-		<input type="text" name="term_meta[cover_image_url]" id="term_meta[cover_image_url]" value="<?php echo esc_attr($cover_image_url); ?>">
-		<p class="description"><?php _e( 'URL to the Cover Image or Logo displayed on the serial page.','mongabay' ); ?></p>
-	</div>
-
-    <?php
-	
-} 
-// Serial and Locations taxonomies meta fields - Save
-function mongabay_tax_meta_fields_serial_save( $tid ) {
-	if ( isset( $_POST['term_meta'] ) ) {
-		$meta = $_POST['term_meta'];
-		
-		mb_termmeta_set($tid,'cover_image_url',$meta['cover_image_url']);
-
-	}
-}  
-add_action( 'edited_serial', 'mongabay_tax_meta_fields_serial_save', 10, 2 );  
-add_action( 'create_serial', 'mongabay_tax_meta_fields_serial_save', 10, 2 );

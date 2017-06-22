@@ -32,7 +32,6 @@
 
 	</head>
 	<body <?php body_class(); ?>>
-
 		<!-- container -->
 		<div class="container">
 			<header class="header clear" role="banner">
