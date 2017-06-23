@@ -31,7 +31,7 @@
 
         ?>
         <div class="thumbnail-series">
-          <img src="build/img/giraffes.jpg">
+          <img src="https://imgs.mongabay.com/wp-content/uploads/sites/20/2017/06/07172039/Oil_palm_plantation_in_Cigudeg-03-135x135.jpg">
         </div>
         <div class="more-special">
           <a href="">More articles</a>
@@ -67,7 +67,7 @@
 
         ?>
         <div class="thumbnail-series">
-          <img src="build/img/giraffes.jpg">
+          <img src="https://imgs.mongabay.com/wp-content/uploads/sites/20/2017/06/07172039/Oil_palm_plantation_in_Cigudeg-03-135x135.jpg">
         </div>
         <div class="more-special">
           <a href="">More articles</a>
@@ -103,7 +103,7 @@
 
         ?>
         <div class="thumbnail-series">
-          <img src="build/img/giraffes.jpg">
+          <img src="https://imgs.mongabay.com/wp-content/uploads/sites/20/2017/06/07172039/Oil_palm_plantation_in_Cigudeg-03-135x135.jpg">
         </div>
         <div class="more-special">
           <a href="">More articles</a>
@@ -111,7 +111,7 @@
     </div>
 
     <div class="col-lg-3">
-        <h4><?php _e( 'Haze beat', 'mongabay' ); ?></h4>
+        <h4><?php _e( 'Mekong dams', 'mongabay' ); ?></h4>
         <?php
             $args = array(
                 'post_type' => 'post',
@@ -120,7 +120,7 @@
                     array(
                         'taxonomy' => 'serial',
                         'field'    => 'slug',
-                        'terms'    => 'haze',
+                        'terms'    => 'mekong-dams',
                     ),
                 ),
             );
@@ -139,7 +139,7 @@
 
         ?>
         <div class="thumbnail-series">
-          <img src="build/img/giraffes.jpg">
+          <img src="https://imgs.mongabay.com/wp-content/uploads/sites/20/2017/06/07172039/Oil_palm_plantation_in_Cigudeg-03-135x135.jpg">
         </div>
         <div class="more-special">
           <a href="">More articles</a>
@@ -181,7 +181,7 @@
 
         ?>
         <div class="thumbnail-series">
-          <img src="build/img/giraffes.jpg">
+          <img src="https://imgs.mongabay.com/wp-content/uploads/sites/20/2017/06/07172039/Oil_palm_plantation_in_Cigudeg-03-135x135.jpg">
         </div>
         <div class="more-special">
           <a href="">More articles</a>
@@ -217,7 +217,7 @@
 
         ?>
         <div class="thumbnail-series">
-          <img src="build/img/giraffes.jpg">
+          <img src="https://imgs.mongabay.com/wp-content/uploads/sites/20/2017/06/07172039/Oil_palm_plantation_in_Cigudeg-03-135x135.jpg">
         </div>
         <div class="more-special">
           <a href="">More articles</a>
@@ -253,7 +253,7 @@
 
         ?>
         <div class="thumbnail-series">
-          <img src="build/img/giraffes.jpg">
+          <img src="https://imgs.mongabay.com/wp-content/uploads/sites/20/2017/06/07172039/Oil_palm_plantation_in_Cigudeg-03-135x135.jpg">
         </div>
         <div class="more-special">
           <a href="">More articles</a>
@@ -289,7 +289,7 @@
 
         ?>
         <div class="thumbnail-series">
-          <img src="build/img/giraffes.jpg">
+          <img src="https://imgs.mongabay.com/wp-content/uploads/sites/20/2017/06/07172039/Oil_palm_plantation_in_Cigudeg-03-135x135.jpg">
         </div>
         <div class="more-special">
           <a href="">More articles</a>

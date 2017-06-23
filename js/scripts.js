@@ -4,7 +4,7 @@
 		
 		'use strict';
 		
-		// DOM ready, take it away
+    	jQuery(".responsive-title").fitText(1.2, { minFontSize: '16px', maxFontSize: '32px' });
 		
 	});
 	
