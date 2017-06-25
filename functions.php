@@ -124,23 +124,17 @@ function mongabay_header_scripts()
 
         wp_register_script('scripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '1.0.0');
         wp_enqueue_script('scripts');
-        // to do!!
-        wp_register_script('axios', get_template_directory_uri() . '/js/lib/axios-0.16.2.min.js', array(), '0.16.2');
-        wp_enqueue_script('axios');
-
-        wp_register_script('newsfetch', get_template_directory_uri() . '/js/lib/bundle.js', array(), '1.0.0', true);
-        wp_enqueue_script('newsfetch');
     }
 }
 
 // Load conditional scripts
 function mongabay_conditional_scripts()
 {
-    if ( is_front_page() && is_home() ) {
+    if ( is_front_page() ) {
         wp_register_script('axios', get_template_directory_uri() . '/js/lib/axios-0.16.2.min.js', array(), '0.16.2');
         wp_enqueue_script('axios');
 
-        wp_register_script('newsfetch', get_template_directory_uri() . '/js/lib/bundle.js', array(), '1.0.0');
+        wp_register_script('newsfetch', get_template_directory_uri() . '/js/lib/bundle.js', array(), '1.0.0', true);
         wp_enqueue_script('newsfetch');
     }
 }
@@ -211,12 +205,12 @@ if (function_exists('register_sidebar'))
     // Define Sidebar Widget
     register_sidebar(array(
         'name' => __('Sidebar Widget', 'mongabay'),
-        'description' => __('All sidebar widhets should be placed here.', 'mongabay'),
+        'description' => __('All sidebar widgets should be placed here.', 'mongabay'),
         'id' => 'sidebar-widget',
         'before_widget' => '<div id="%1$s" class="%2$s">',
         'after_widget' => '</div>',
-        'before_title' => '<h3>',
-        'after_title' => '</h3>'
+        'before_title' => '<h2>',
+        'after_title' => '</h2>'
     ));
 }
 

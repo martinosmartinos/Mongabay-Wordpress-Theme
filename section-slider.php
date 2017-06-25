@@ -2,11 +2,13 @@
     $args = array(
     	'posts_per_page' => '4',
         'meta_query' => array(
-           'key' => 'featured_as',
-           'value' => 'featured',
-           'compare' => '=='
-	       )
-	   );
+            array(
+               'key' => 'featured_as',
+               'value' => 'featured',
+               'compare' => '='
+            )
+        )
+    );
     $query = new WP_Query( $args );
      
     if ($query->have_posts()) {

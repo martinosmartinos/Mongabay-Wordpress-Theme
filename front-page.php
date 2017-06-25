@@ -1,5 +1,4 @@
 <?php get_header(); ?>
-
 	<main role="main">
 		<!-- featured slider -->
 		<div class="row featured-slider no-gutters">
