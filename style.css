@@ -159,8 +159,8 @@ STRUCTURE
     width: 100%;
     display: block;
     float: left;
-    border-top: 2px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
     background: none;
     min-height: 54px;
 }
@@ -369,6 +369,7 @@ footer {
 
 #main.single figure {
     margin: 4em 0;
+    width: 100%;
 }
 
 #single-article-footer:before {
