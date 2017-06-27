@@ -25,6 +25,9 @@ if (function_exists('add_theme_support'))
     // Add Menu Support
     add_theme_support('menus');
 
+    // Add aside post format
+    add_theme_support( 'post-formats', array( 'aside' ) );
+
     // Add Thumbnail Theme Support
     //add_theme_support('post-thumbnails');
     //add_image_size('large', 700, '', true); // Large Thumbnail
@@ -127,6 +130,22 @@ function mongabay_header_scripts()
     }
 }
 
+// Function to detect if we are dealing with featured aside article
+function mongabay_layout() {
+    if ( is_single() ) {
+        $post_id = get_the_ID();
+        $aside = get_post_format();
+        $featured = get_post_meta( $post_id, "featured_as", false );
+        if ( $aside == "aside" && $featured[1] == "featured" ) {
+            $container = 'container-fluid';
+        }
+        else {
+            $container = 'container';
+        }
+    }
+    return $container;
+}
+
 // Load conditional scripts
 function mongabay_conditional_scripts()
 {
@@ -136,6 +155,12 @@ function mongabay_conditional_scripts()
 
         wp_register_script('newsfetch', get_template_directory_uri() . '/js/lib/bundle.js', array(), '1.0.0', true);
         wp_enqueue_script('newsfetch');
+    }
+
+    if ( mongabay_layout() == 'container-fluid') {
+        wp_register_script('parallax', get_template_directory_uri() . '/js/lib/parallax.min.js', array(), '1.4.2');
+        wp_enqueue_script('parallax');
+
     }
 }
 
@@ -291,6 +316,8 @@ function remove_thumbnail_dimensions( $html )
     $html = preg_replace('/(width|height)=\"\d*\"\s/', "", $html);
     return $html;
 }
+
+
 
 /*------------------------------------*\
 	Actions + Filters + ShortCodes

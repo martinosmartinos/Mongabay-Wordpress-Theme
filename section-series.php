@@ -31,7 +31,7 @@
 
         ?>
         <div class="thumbnail-series">
-          <img src="https://imgs.mongabay.com/wp-content/uploads/sites/20/2017/06/07172039/Oil_palm_plantation_in_Cigudeg-03-135x135.jpg">
+          <img src="<?php echo get_template_directory_uri(); ?>/img/endangered-environmentalists.jpg">
         </div>
         <div class="more-special">
           <a href="">More articles</a>
@@ -67,7 +67,7 @@
 
         ?>
         <div class="thumbnail-series">
-          <img src="https://imgs.mongabay.com/wp-content/uploads/sites/20/2017/06/07172039/Oil_palm_plantation_in_Cigudeg-03-135x135.jpg">
+          <img src="<?php echo get_template_directory_uri(); ?>/img/global-forest-reporting-network.jpg">
         </div>
         <div class="more-special">
           <a href="">More articles</a>
@@ -103,7 +103,7 @@
 
         ?>
         <div class="thumbnail-series">
-          <img src="https://imgs.mongabay.com/wp-content/uploads/sites/20/2017/06/07172039/Oil_palm_plantation_in_Cigudeg-03-135x135.jpg">
+          <img src="<?php echo get_template_directory_uri(); ?>/img/almost-famous-animals.jpg">
         </div>
         <div class="more-special">
           <a href="">More articles</a>
@@ -111,7 +111,7 @@
     </div>
 
     <div class="col-lg-3">
-        <h4><?php _e( 'Mekong dams', 'mongabay' ); ?></h4>
+        <h4><?php _e( 'Palm oil', 'mongabay' ); ?></h4>
         <?php
             $args = array(
                 'post_type' => 'post',
@@ -120,7 +120,7 @@
                     array(
                         'taxonomy' => 'serial',
                         'field'    => 'slug',
-                        'terms'    => 'mekong-dams',
+                        'terms'    => 'palm-oil',
                     ),
                 ),
             );
@@ -139,7 +139,7 @@
 
         ?>
         <div class="thumbnail-series">
-          <img src="https://imgs.mongabay.com/wp-content/uploads/sites/20/2017/06/07172039/Oil_palm_plantation_in_Cigudeg-03-135x135.jpg">
+          <img src="<?php echo get_template_directory_uri(); ?>/img/palm-oil.jpg">
         </div>
         <div class="more-special">
           <a href="">More articles</a>
@@ -181,7 +181,7 @@
 
         ?>
         <div class="thumbnail-series">
-          <img src="https://imgs.mongabay.com/wp-content/uploads/sites/20/2017/06/07172039/Oil_palm_plantation_in_Cigudeg-03-135x135.jpg">
+          <img src="<?php echo get_template_directory_uri(); ?>/img/amazon-infrastructure.jpg">
         </div>
         <div class="more-special">
           <a href="">More articles</a>
@@ -217,7 +217,7 @@
 
         ?>
         <div class="thumbnail-series">
-          <img src="https://imgs.mongabay.com/wp-content/uploads/sites/20/2017/06/07172039/Oil_palm_plantation_in_Cigudeg-03-135x135.jpg">
+          <img src="<?php echo get_template_directory_uri(); ?>/img/great-apes.jpg">
         </div>
         <div class="more-special">
           <a href="">More articles</a>
@@ -253,7 +253,7 @@
 
         ?>
         <div class="thumbnail-series">
-          <img src="https://imgs.mongabay.com/wp-content/uploads/sites/20/2017/06/07172039/Oil_palm_plantation_in_Cigudeg-03-135x135.jpg">
+          <img src="<?php echo get_template_directory_uri(); ?>/img/latin-american-wildlife-trade.jpg">
         </div>
         <div class="more-special">
           <a href="">More articles</a>
@@ -261,7 +261,7 @@
     </div>
 
     <div class="col-lg-3">
-        <h4><?php _e( 'Conservation and religion', 'mongabay' ); ?></h4>
+        <h4><?php _e( 'Indonesian fisheries', 'mongabay' ); ?></h4>
         <?php
             $args = array(
                 'post_type' => 'post',
@@ -270,7 +270,7 @@
                     array(
                         'taxonomy' => 'serial',
                         'field'    => 'slug',
-                        'terms'    => 'conservation-and-religion',
+                        'terms'    => 'indonesian-fisheries',
                     ),
                 ),
             );
@@ -289,7 +289,7 @@
 
         ?>
         <div class="thumbnail-series">
-          <img src="https://imgs.mongabay.com/wp-content/uploads/sites/20/2017/06/07172039/Oil_palm_plantation_in_Cigudeg-03-135x135.jpg">
+          <img src="<?php echo get_template_directory_uri(); ?>/img/indonesian-fisheries.jpg">
         </div>
         <div class="more-special">
           <a href="">More articles</a>

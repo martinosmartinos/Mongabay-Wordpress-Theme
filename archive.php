@@ -1,19 +1,14 @@
 <?php get_header(); ?>
-
 	<main role="main">
-		<!-- section -->
-		<section>
-
-			<h1><?php _e( 'Archives', 'html5blank' ); ?></h1>
-
-			<?php get_template_part('loop'); ?>
-
-			<?php get_template_part('pagination'); ?>
-
-		</section>
-		<!-- /section -->
+		<div class="row">
+            <div id="main" class="col-lg-8">
+				<h1><?php _e( 'Archives', 'mongabay' ); ?></h1>
+				<?php get_template_part('loop'); ?>
+				<?php //get_template_part('pagination'); ?>
+			</div>
+			<?php get_sidebar(); ?>
+		</div>
 	</main>
-
-<?php get_sidebar(); ?>
-
+</div>
+<!-- /container -->
 <?php get_footer(); ?>

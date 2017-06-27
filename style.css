@@ -132,7 +132,7 @@ STRUCTURE
 
 .navbar-toggler.navbar-toggler-left {
     margin: 0;
-    padding: 0;
+    padding: 6px;
     z-index: 3;
     background: #fff;
 }
@@ -233,6 +233,16 @@ aside {
     background: #ccc;
     float: right;
     margin-left: .5em;
+}
+
+.sidebar-widget > div:first-child {
+    padding-top: 0;
+}
+
+.sidebar-widget > div {
+    border-bottom: 4px double #ccc;
+    float: left;
+    padding: 2em 0;
 }
 
 .sidebar-widget {
@@ -462,6 +472,21 @@ footer {
     left: 2px;
 }
 
+ol.gtc-list {
+    padding-left: 1em;
+}
+
+ol.gtc-list li:before {
+    border-radius: 4px;
+    background-color: #000;
+    width: 4px;
+    height: 4px;
+    content: '';
+    position: absolute;
+    display: block;
+    left: 1em;
+}
+
 #special-series ul li {
     font-size: 14px;
     white-space: nowrap;
@@ -505,7 +530,7 @@ MISC
 
 #backdrop {
     position: absolute;
-    top: 155px;
+    top: 165px;
     left: 0;
     width: 100%;
     height: 100%;
@@ -645,6 +670,19 @@ PAGES
 }
 
 /*------------------------------------*\
+PARALLAX ARTICLES
+\*------------------------------------*/
+.full-height {
+    height: 100vh;
+    width: 100%;
+}
+
+.parallax-section {
+    display: flex;
+    margin-bottom: 2em;
+}
+
+/*------------------------------------*\
 IMAGES
 \*------------------------------------*/
 
@@ -706,11 +744,7 @@ RESPONSIVE
 @media only screen and (-webkit-min-device-pixel-ratio:1.5), only screen and (min-resolution:144dpi) {
 }
 
-@media (max-width:25em) {
-    .main-menu {
-        min-height: 42px;
-    }
-
+@media (max-width:27em) {
     .main-menu ul li {
         text-transform: none;
     }
@@ -722,7 +756,7 @@ RESPONSIVE
     .collapse {
         position: absolute;
         left: 0;
-        top: 29px;
+        top: 40px;
         background: #fff;
         width: 100%;
         border-top: 1px solid #ccc;

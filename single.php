@@ -2,10 +2,9 @@
 
     <main role="main">
 
-    <?php if (have_posts()): while (have_posts()) : the_post(); ?>
+    
         <?php
             $post_id = get_the_ID();
-            $featured = get_post_meta($post_id,"featured_as");
             $translator = get_post_meta($post_id,"translated_by",true);
             $adaptor = get_post_meta($post_id,"adapted_by",true);
             $translated_adapted = get_post_meta($post_id,"translated_adapted",true);
@@ -13,8 +12,7 @@
             $serial = wp_get_post_terms($post_id, 'serial');
             //var_dump($serial);
         ?>
-        <!-- article -->
-        <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+        
             <div id="headline">
                 <div class="article-headline">
                     <?php
@@ -41,8 +39,21 @@
                 <div class="clearfix"></div>
             <?php endif; ?><!-- /post thumbnail -->
             </div>
-            <div class="row">
-                <div id="main" class="col-lg-8 single">
+            <?php
+                if (mongabay_layout() == 'container-fluid') {
+                    $rowclass = 'row justify-content-center';
+                    $contentclass = 'col-lg-5 col-md-9';
+                }
+                else {
+                    $rowclass = 'row';
+                    $contentclass = 'col-lg-8';
+                }
+            ?>
+            <div class="<?php echo $rowclass; ?>">
+                <div id="main" class="<?php echo $contentclass; ?>">
+                <?php if (have_posts()): while (have_posts()) : the_post(); ?>
+                    <!-- article -->
+                    <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                         <?php
                             $mog_count = 0;
                             for ($n=0;$n < 4;$n++){
@@ -70,22 +81,26 @@
                             <?php echo get_the_term_list( $post_id, 'topic', '', ', ' ); ?>
                         </div>
                     </div>
+                    </article>
+                    <!-- /article -->
+                <?php endwhile; ?>
+                <?php else: ?>
+                <!-- article -->
+                <article>
+                    <h1><?php _e( 'Sorry, nothing to display.', 'mongabay' ); ?></h1>
+                </article>
+                <!-- /article -->
+                <?php endif; ?>
                 </div>
-                <?php get_sidebar(); ?>
+                <?php
+                    if (mongabay_layout() == 'container') {
+                        get_sidebar();
+                    }
+                ?>
             </div>
-
             <div id="special-series">
                 <?php get_template_part( section, series ); ?>
-        </article>
-        <!-- /article -->
-    <?php endwhile; ?>
-    <?php else: ?>
-        <!-- article -->
-        <article>
-            <h1><?php _e( 'Sorry, nothing to display.', 'mongabay' ); ?></h1>
-        </article>
-        <!-- /article -->
-    <?php endif; ?>
+            </div>
     </main>
 </div>
 <!-- /container -->

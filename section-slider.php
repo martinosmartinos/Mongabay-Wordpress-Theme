@@ -7,6 +7,14 @@
                'value' => 'featured',
                'compare' => '='
             )
+        ),
+        'tax_query' => array(
+            array(                
+                'taxonomy' => 'post_format',
+                'field' => 'slug',
+                'terms' => array('post-format-aside'),
+                'operator'  => 'IN'
+            )
         )
     );
     $query = new WP_Query( $args );
@@ -42,7 +50,7 @@
             <?php if ($i == 2): ?>
                 <div class="clearfix"></div>
                 <div class="col hidden-md-down">
-                    <div class="<?php echo $slideclass; ?>" style="background: url(<?php the_post_thumbnail_url('medium'); ?>);background-size: cover;border-left: 5px solid white;border-bottom: 5px solid white;">
+                    <div class="<?php echo $slideclass; ?>" style="background: url(<?php the_post_thumbnail_url('medium'); ?>);background-size: cover;border-left: 5px solid #fff;border-bottom: 5px solid #fff;">
                         <a href="<?php the_permalink(); ?>">
                             <div class="slider-headline responsive-title"><?php the_title(); ?></div>
                         </a>
@@ -56,7 +64,7 @@
                     </div>
             <?php endif; ?>
             <?php if ($i == 4): ?>
-                    <div class="<?php echo $slideclass; ?>" style="background: url(<?php the_post_thumbnail_url('medium'); ?>);background-size: cover;position: absolute;right: 0;top: 50%;">
+                    <div class="<?php echo $slideclass; ?>" style="background: url(<?php the_post_thumbnail_url('medium'); ?>);background-size: cover;position: absolute;right: 0;top: 50%;border-left: 5px solid #fff">
                         <a href="<?php the_permalink(); ?>">
                             <div class="slider-headline responsive-title"><?php the_title(); ?></div>
                         </a>
