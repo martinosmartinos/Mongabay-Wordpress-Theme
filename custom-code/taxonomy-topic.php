@@ -27,7 +27,7 @@ function mongabay_tax_register_topic() {
 		'show_ui'           => true,
 		'show_admin_column' => true,
 		'query_var'         => true,
-		'rewrite'           => array( 'slug' => 'topic' ),
+		'rewrite'           => array( 'slug' => 'list' ),
 	);
 
 	register_taxonomy( 'topic', array('post'), $args );

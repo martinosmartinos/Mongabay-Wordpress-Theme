@@ -10,6 +10,7 @@ include (get_template_directory().'/custom-code/taxonomy-location.php');
 include (get_template_directory().'/custom-code/taxonomy-serial.php');
 include (get_template_directory().'/custom-code/taxonomy-topic.php');
 include (get_template_directory().'/custom-code/thumbnailed-recent-posts.php');
+include (get_template_directory().'/custom-code/url-rewrites.php');
 
 /*------------------------------------*\
 	Theme Support
@@ -143,6 +144,9 @@ function mongabay_layout() {
             $container = 'container';
         }
     }
+    else {
+        $container = 'container';
+    }
     return $container;
 }
 
@@ -163,6 +167,17 @@ function mongabay_conditional_scripts()
 
     }
 }
+
+// Featured articles template
+
+function mongabay_featured() {
+    if ( mongabay_layout() == 'container-fluid' ) {
+        include (TEMPLATEPATH . '/single-featured.php');
+        exit;
+    }
+}
+add_action('template_redirect', 'mongabay_featured');
+
 
 // Load styles
 function mongabay_styles()
@@ -236,6 +251,50 @@ if (function_exists('register_sidebar'))
         'after_widget' => '</div>',
         'before_title' => '<h2>',
         'after_title' => '</h2>'
+    ));
+
+    // Define Footer Widget 1/4
+    register_sidebar(array(
+        'name' => __('Footer Widget 1/4', 'mongabay'),
+        'description' => __('First column widget', 'mongabay'),
+        'id' => 'footer-widget-1',
+        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'after_widget' => '</div>',
+        'before_title' => '<h4>',
+        'after_title' => '</h4>'
+    ));
+
+    // Define Footer Widget 2/4
+    register_sidebar(array(
+        'name' => __('Footer Widget 2/4', 'mongabay'),
+        'description' => __('Second column widget', 'mongabay'),
+        'id' => 'footer-widget-2',
+        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'after_widget' => '</div>',
+        'before_title' => '<h4>',
+        'after_title' => '</h4>'
+    ));
+
+    // Define Footer Widget 3/4
+    register_sidebar(array(
+        'name' => __('Footer Widget 3/4', 'mongabay'),
+        'description' => __('Third column widget', 'mongabay'),
+        'id' => 'footer-widget-3',
+        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'after_widget' => '</div>',
+        'before_title' => '<h4>',
+        'after_title' => '</h4>'
+    ));
+
+    // Define Footer Widget 4/4
+    register_sidebar(array(
+        'name' => __('Footer Widget 4/4', 'mongabay'),
+        'description' => __('Forth column widget', 'mongabay'),
+        'id' => 'footer-widget-4',
+        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'after_widget' => '</div>',
+        'before_title' => '<h4>',
+        'after_title' => '</h4>'
     ));
 }
 

@@ -27,8 +27,10 @@
                   <div class="social">
                     <a class="facebook" href=""></a>
                     <a class="google" href=""></a>
-                    <a class="twitter" href=""></a>
-                    <a class="sharethis" href=""></a>
+                    <a class="twitter hidden-md-down" href=""></a>
+                    <a class="sharethis hidden-md-down" href=""></a>
+                    <a class="email hidden-md-down" href=""></a>
+                    <a class="bookmark hidden-md-down" href=""></a>
                   </div>
                 </div>
             </div>
@@ -39,18 +41,8 @@
                 <div class="clearfix"></div>
             <?php endif; ?><!-- /post thumbnail -->
             </div>
-            <?php
-                if (mongabay_layout() == 'container-fluid') {
-                    $rowclass = 'row justify-content-center';
-                    $contentclass = 'col-lg-5 col-md-9';
-                }
-                else {
-                    $rowclass = 'row';
-                    $contentclass = 'col-lg-8';
-                }
-            ?>
-            <div class="<?php echo $rowclass; ?>">
-                <div id="main" class="<?php echo $contentclass; ?>">
+            <div class="row">
+                <div id="main" class="col-lg-8 single">
                 <?php if (have_posts()): while (have_posts()) : the_post(); ?>
                     <!-- article -->
                     <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -92,15 +84,9 @@
                 <!-- /article -->
                 <?php endif; ?>
                 </div>
-                <?php
-                    if (mongabay_layout() == 'container') {
-                        get_sidebar();
-                    }
-                ?>
+                <?php get_sidebar(); ?>
             </div>
-            <div id="special-series">
-                <?php get_template_part( section, series ); ?>
-            </div>
+            <?php get_template_part( section, series ); ?>
     </main>
 </div>
 <!-- /container -->

@@ -3,17 +3,16 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-3">
-						<h4><?php _e( 'About Mongabay', 'mongabay' ); ?></h4>
-						<p><?php _e( 'Mongabay is an environmental science and conservation news and information site. Much of Mongabay has operated under a non-profit — Mongabay.org — since 2012.', 'mongabay' ); ?></p>
+							<?php if(!function_exists('dynamic_sidebar') || !dynamic_sidebar('footer-widget-1')) ?>
 						</div>
 						<div class="col-lg-3">
-
+						<?php if(!function_exists('dynamic_sidebar') || !dynamic_sidebar('footer-widget-2')) ?>
 						</div>
 						<div class="col-lg-3">
-
+							<?php if(!function_exists('dynamic_sidebar') || !dynamic_sidebar('footer-widget-3')) ?>
 						</div>
 						<div class="col-lg-3">
-
+						<?php if(!function_exists('dynamic_sidebar') || !dynamic_sidebar('footer-widget-4')) ?>
 						</div>
 						<!-- copyright -->
 						<p class="copyright">

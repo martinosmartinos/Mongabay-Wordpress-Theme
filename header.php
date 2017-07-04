@@ -36,23 +36,26 @@
 	</head>
 	<body <?php body_class(); ?>>
 		<!-- container -->
-		<div class="<?php echo mongabay_layout(); ?>">
+		<div class="container">
 			<header class="header clear" role="banner">
 				<div class="top-nav">
-			        <div class="dropdown">
-			          <button class="btn btn-secondary dropdown-toggle" type="button" id="language-picker" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			            English
-			          </button>
-			          <div class="dropdown-menu" aria-labelledby="language-picker">
-			            <button class="dropdown-item" type="button">Deutsch</button>
-			            <button class="dropdown-item" type="button">Español</button>
-			            <button class="dropdown-item" type="button">Français</button>
-			          </div>
-			        </div>
-			      </div>
+					<ul>
+						<li><a href="https://cn.mongabay.com/">中文 (Chinese)</a></li>
+						<li><a href="https://de.mongabay.com/">Deutsch (German)</a></li>
+						<li><a href="https://www.mongabay.com/">English</a></li>
+						<li><a href="https://es.mongabay.com/">Español (Spanish)</a></li>
+						<li><a href="https://fr.mongabay.com/">Français (French)</a></li>
+						<li><a href="https://www.mongabay.co.id/">Bahasa Indonesia (Indonesian)</a></li>
+						<li><a href="https://it.mongabay.com/">Italiano (Italian)</a></li>
+						<li><a href="https://jp.mongabay.com/">日本語 (Japanese)</a></li>
+						<li><a href="https://pt.mongabay.com/">Português (Portuguese)</a></li>
+					</ul>
+			    </div>
 				<div class="site-identity">
 					<div class="logo">
-						<a href="<?php echo home_url(); ?>"><img src="<?php echo get_template_directory_uri(); ?>/img/mongabay_logo_full.png" alt="Mongabay Environmental News"/></a>
+						<a href="<?php echo home_url(); ?>">
+							<img src="<?php echo get_template_directory_uri(); ?>/img/mongabay_logo_full.png" alt="Environmental headlines"/>
+                        </a>
 					</div>
 				</div>
 				<div class="main-menu">

@@ -40,9 +40,9 @@
 	        </div>
 	        <?php get_sidebar(); ?>
 	    </div>
-      	<div id="special-series">
-      		<?php get_template_part( section, series ); ?>
-    	</div>
+      	
+      	<?php get_template_part( section, series ); ?>
+
 	</main>
 </div>
 <!-- /container -->
