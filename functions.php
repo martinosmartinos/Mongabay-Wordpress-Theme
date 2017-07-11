@@ -1,25 +1,21 @@
 <?php
 
 /*------------------------------------*\
-	External Modules/Files
+    External Modules/Files
 \*------------------------------------*/
 
-include (get_template_directory().'/custom-code/custom-walker.php');
+//require_once (get_template_directory().'/custom-code/router.php');
+include (get_template_directory().'/custom-code/url-rewrites.php');
 include (get_template_directory().'/custom-code/figure-caption.php');
 include (get_template_directory().'/custom-code/taxonomy-location.php');
 include (get_template_directory().'/custom-code/taxonomy-serial.php');
 include (get_template_directory().'/custom-code/taxonomy-topic.php');
 include (get_template_directory().'/custom-code/thumbnailed-recent-posts.php');
-include (get_template_directory().'/custom-code/url-rewrites.php');
+
 
 /*------------------------------------*\
-	Theme Support
+    Theme Support
 \*------------------------------------*/
-
-// if (!isset($content_width))
-// {
-//     $content_width = 900;
-// }
 
 if (function_exists('add_theme_support'))
 {
@@ -38,21 +34,21 @@ if (function_exists('add_theme_support'))
 
     // Add Support for Custom Backgrounds - Uncomment below if you're going to use
     /*add_theme_support('custom-background', array(
-	'default-color' => 'FFF',
-	'default-image' => get_template_directory_uri() . '/img/bg.jpg'
+    'default-color' => 'FFF',
+    'default-image' => get_template_directory_uri() . '/img/bg.jpg'
     ));*/
 
     // Add Support for Custom Header - Uncomment below if you're going to use
     /*add_theme_support('custom-header', array(
-	'default-image'			=> get_template_directory_uri() . '/img/headers/default.jpg',
-	'header-text'			=> false,
-	'default-text-color'		=> '000',
-	'width'				=> 1000,
-	'height'			=> 198,
-	'random-default'		=> false,
-	'wp-head-callback'		=> $wphead_cb,
-	'admin-head-callback'		=> $adminhead_cb,
-	'admin-preview-callback'	=> $adminpreview_cb
+    'default-image'         => get_template_directory_uri() . '/img/headers/default.jpg',
+    'header-text'           => false,
+    'default-text-color'        => '000',
+    'width'             => 1000,
+    'height'            => 198,
+    'random-default'        => false,
+    'wp-head-callback'      => $wphead_cb,
+    'admin-head-callback'       => $adminhead_cb,
+    'admin-preview-callback'    => $adminpreview_cb
     ));*/
 
     // Enables post and comment RSS feed links to head
@@ -63,36 +59,145 @@ if (function_exists('add_theme_support'))
 }
 
 /*------------------------------------*\
-	Functions
+    Functions
 \*------------------------------------*/
-//custom nav menu
-function mongabay_nav()
-{
-	wp_nav_menu(
-	array(
-		'theme_location'  => 'header-menu',
-		'menu'            => '',
-		'container'       => 'div',
-		'container_class' => 'menu-{menu slug}-container',
-		'container_id'    => '',
-		'menu_class'      => 'menu',
-		'menu_id'         => '',
-		'echo'            => true,
-		'fallback_cb'     => 'wp_page_menu',
-		'before'          => '',
-		'after'           => '',
-		'link_before'     => '',
-		'link_after'      => '',
-		'items_wrap'      => '<ul class="navbar-nav mr-auto">%3$s</ul>',
-		'depth'           => 0,
-		'walker'          => new bootstrap_walker()
-		)
-	);
+// Main WP_query modifier to process multiple vars
+
+
+
+function mongabay_mega_query($query) {
+
+    if ($query->is_home() && $query->is_main_query() && ! is_admin()) {
+
+        $home_url = esc_url( home_url( '/' ) );
+        $section = get_query_var('section');
+        $firstvar = get_query_var('nc1');
+        $secondvar = get_query_var('nc2');
+
+        $item1 = get_terms(array('topic','location'), array('slug' => $firstvar));
+        $item2 = get_terms(array('topic','location'), array('slug' => $secondvar));
+
+        // check if no first variable in url
+        if($section == 'list' && empty($firstvar)) {
+            wp_redirect( $home_url );//home sweet home
+            exit;
+        }
+
+
+        if($section == 'list' && !empty($firstvar) && empty($secondvar)) {
+
+            $tax_query = array(
+                array(
+                    'taxonomy' => $item1[0]->taxonomy,
+                    'field' => 'slug',
+                    'terms' => $item1[0]->slug
+                )
+            );
+
+            $query->set('tax_query', $tax_query);
+
+        }
+
+        if($section == 'list' && !empty($firstvar) && !empty($secondvar)) {
+
+            $tax_query = array(
+                'relation' => 'AND',
+                array(
+                    'taxonomy' => $item1[0]->taxonomy,
+                    'field' => 'slug',
+                    'terms' => $item1[0]->slug
+                ),
+
+                array(
+                    'taxonomy' => $item2[0]->taxonomy,
+                    'field' => 'slug',
+                    'terms' => $item2[0]->slug
+                )
+            );
+
+            $query->set('tax_query', $tax_query);
+
+            if($item1[0]->taxonomy=='location' && $item2[0]->taxonomy=='topic') {
+
+                wp_redirect( $home_url.'list/'.$secondvar.'/'.$firstvar );
+                exit;
+
+            }
+        }
+
+
+    }
+
 }
+
+add_filter( 'pre_get_posts', 'mongabay_mega_query' );
+
+// Router
+// RoutingWP\add_frontend_route('^list/([^/]+)/?$', function($matches) {
+//     return [
+//         'post_status'    => 'publish',
+//         'post_type'      => 'post',
+//         'tax_query'      => array(
+//             'relation'   => 'OR',
+//             array(                
+//                 'taxonomy' => 'topic',
+//                 'field' => 'slug',
+//                 'terms' => $matches[1],
+//                 'operator' => 'IN'
+//             ),
+//             array(                
+//                 'taxonomy' => 'location',
+//                 'field' => 'slug',
+//                 'terms' => $matches[1],
+//                 'operator' => 'IN'
+//             )
+//         )
+//     ];
+// });
+
+// RoutingWP\add_frontend_route('^by/([^/]+)/?$', function($matches) {
+//     return [
+//         'post_status'    => 'publish',
+//         'post_type'      => 'post',
+//         'tax_query'      => array(
+//             array(                
+//                 'taxonomy' => 'byline',
+//                 'field' => 'slug',
+//                 'terms' => $matches[1],
+//                 'operator' => 'IN'
+//             )
+//         )
+//     ];
+// });
+
+//custom nav menu
+// function mongabay_nav()
+// {
+//     wp_nav_menu(
+//     array(
+//         'theme_location'  => 'header-menu',
+//         'menu'            => '',
+//         'container'       => 'div',
+//         'container_class' => 'menu-{menu slug}-container',
+//         'container_id'    => '',
+//         'menu_class'      => 'menu',
+//         'menu_id'         => '',
+//         'echo'            => true,
+//         'fallback_cb'     => 'wp_page_menu',
+//         'before'          => '',
+//         'after'           => '',
+//         'link_before'     => '',
+//         'link_after'      => '',
+//         'items_wrap'      => '<ul class="navbar-nav mr-auto">%3$s</ul>',
+//         'depth'           => 0,
+//         'walker'          => new bootstrap_walker()
+//         )
+//     );
+// }
 
 // sanitize content
 function mongabay_sanitized_content($post_id) {
-    if (get_post_meta($post_id,"mongabay_post_legacy_status",true) == 'yes')    {
+    if (get_post_meta($post_id,"mongabay_post_legacy_status",true) == 'yes') {
         $content = get_the_content();
         $content = str_replace(']]>', '', $content);
         $content = str_replace(array("}","{"),'',$content);
@@ -101,14 +206,19 @@ function mongabay_sanitized_content($post_id) {
         $content = str_replace('<p></p>', '', $content);
         /*if (strpos($content,'<br>') == FALSE) $content = nl2br($content); */
         echo $content;
-    } else the_content(); 
+    }
+    else {
+        the_content();
+    }
 }
-// Load scripts (header.php)
+
+
+// Load scripts
 function mongabay_header_scripts()
 {
     if ($GLOBALS['pagenow'] != 'wp-login.php' && !is_admin()) {
 
-    	wp_register_script('conditionizr', get_template_directory_uri() . '/js/lib/conditionizr-4.3.0.min.js', array(), '4.3.0');
+        wp_register_script('conditionizr', get_template_directory_uri() . '/js/lib/conditionizr-4.3.0.min.js', array(), '4.3.0');
         wp_enqueue_script('conditionizr');
 
         wp_register_script('modernizr', get_template_directory_uri() . '/js/lib/modernizr-2.7.1.min.js', array(), '2.7.1');
@@ -135,9 +245,9 @@ function mongabay_header_scripts()
 function mongabay_layout() {
     if ( is_single() ) {
         $post_id = get_the_ID();
-        $aside = get_post_format();
-        $featured = get_post_meta( $post_id, "featured_as", false );
-        if ( $aside == "aside" && $featured[1] == "featured" ) {
+        $aside = get_post_format($post_id);
+        $featured = get_post_meta( $post_id, 'featured_as', false );
+        if ( $aside == 'aside' && in_array('featured', $featured) ) {
             $container = 'container-fluid';
         }
         else {
@@ -171,7 +281,7 @@ function mongabay_conditional_scripts()
 // Featured articles template
 
 function mongabay_featured() {
-    if ( mongabay_layout() == 'container-fluid' ) {
+    if ( mongabay_layout() == "container-fluid" ) {
         include (TEMPLATEPATH . '/single-featured.php');
         exit;
     }
@@ -354,7 +464,7 @@ function mongabay_excerpt($length_callback = '', $more_callback = '')
 function mongabay_blank_view_article($more)
 {
     global $post;
-    return '... <a class="view-article" href="' . get_permalink($post->ID) . '">' . __('View Article', 'html5blank') . '</a>';
+    return '... <a class="view-article" href="' . get_permalink($post->ID) . '">' . __('View Article', 'mongabay') . '</a>';
 }
 
 // Remove Admin bar
@@ -376,10 +486,18 @@ function remove_thumbnail_dimensions( $html )
     return $html;
 }
 
+function mongabay_query_var( $vars ) {
+    $vars[] = 'section';
+    $vars[] = 'nc1';
+    $vars[] = 'nc2';
+ 
+    return $vars;
+}
+add_filter( 'query_vars', 'mongabay_query_var' );
 
 
 /*------------------------------------*\
-	Actions + Filters + ShortCodes
+    Actions + Filters
 \*------------------------------------*/
 
 // Add Actions
@@ -423,23 +541,5 @@ add_filter('image_send_to_editor', 'remove_thumbnail_dimensions', 10); // Remove
 
 // Remove Filters
 remove_filter('the_excerpt', 'wpautop'); // Remove <p> tags from Excerpt altogether
-
-// Shortcodes
-add_shortcode('mongabay_shortcode_demo', 'mongabay_shortcode_demo'); // You can place [mongabay_shortcode_demo] in Pages, Posts now.
-
-// Shortcodes above would be nested like this -
-// [mongabay_shortcode_demo] [mongabay_shortcode_demo_2] Here's the page title! [/mongabay_shortcode_demo_2] [/mongabay_shortcode_demo]
-
-
-
-/*------------------------------------*\
-	ShortCode Functions
-\*------------------------------------*/
-
-// Shortcode Demo with Nested Capability
-function mongabay_shortcode_demo($atts, $content = null)
-{
-    return '<div class="shortcode-demo">' . do_shortcode($content) . '</div>'; // do_shortcode allows for nested Shortcodes
-}
 
 ?>

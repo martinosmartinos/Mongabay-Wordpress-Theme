@@ -9,7 +9,7 @@
 	      	<div id="main" class="col-lg-8">
 				<div class="tag-line">
 					<h1><?php _e( 'Environmental headlines', 'mongabay' ); ?></h1>
-					<p><?php _e( 'Mongabay is a non-profit provider of conservation and environmental science news. We aim to inspire, educate, and inform.', 'mongabay' ); ?></p>
+					<p><?php _e( 'Mongabay is a non-profit provider of conservation and environmental science news.', 'mongabay' ); ?></p>
 				</div>
 	          <!-- section -->
 				<section>

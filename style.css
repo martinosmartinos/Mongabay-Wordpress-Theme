@@ -11,11 +11,6 @@
     License URI: http://opensource.org/licenses/mit-license.php
 */
 
-/*todo!!!!*/
-ul.sub-menu {
-    display: none;
-}
-
 /*------------------------------------*\
     MAIN
 \*------------------------------------*/
@@ -134,40 +129,77 @@ STRUCTURE
     line-height: 1.2em;
 }
 
-.header .top-nav {
+#navbarMobileMenu.show {
+    position: absolute;
+    top: 52px;
+    width: 100%;
+    z-index: 2;
+    padding: 2em 1em;
+    background: #f9f9f9;
     border-top: 1px solid #ccc;
+}
+
+#language-bar {
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+
+#language-bar ul {
+    min-height: 20px;
+    display: block;
+    padding: 0 0 5px 0:
+}
+
+#language-bar ul li a {
+    color: #000;
+    padding: 0 7px;
+}
+
+#language-bar ul li {
+    display: inline;
+    list-style: none;
+    font-size: 0.8em;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+
+.header .top-nav {
+    height: 56px;
+}
+
+.top-nav.fixed-top {
+    background: #fff;
 }
 
 .top-nav ul {
     list-style: none;
-    display: block;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    margin: 0 auto;
-    padding: 0;
-    width: 880px;
-    background: #fff;
-    margin-top: -1px;
-    text-align: center;
+    float: left;
+    padding-left: 0;
 }
 
 .top-nav ul li {
-    display: inline-block;
-    font-size: .6em;
-    padding: 0 .5em;
+    padding: 0;
 }
 
 .top-nav li a {
     color: #000;
     font-weight: 400;
+    font-size: .9em;
+    line-height: 1.1em;
+    padding: 6px 0;
+}
+
+button.navbar-toggler.navbar-toggler-left.opened {
+    padding-bottom: 18px;
 }
 
 .navbar-toggler.navbar-toggler-left {
     margin: 0;
     padding: 6px;
     z-index: 3;
-    background: #fff;
+    background: #f9f9f9;
+    left: 1em;
 }
 
 .navbar-toggler.navbar-toggler-left.opened {
@@ -228,6 +260,8 @@ STRUCTURE
 
 .main-menu ul {
     padding: 0px;
+    float: left;
+    display: block;
 }
 
 .main-menu ul li {
@@ -236,6 +270,7 @@ STRUCTURE
     text-transform: uppercase;
     font-weight: 500;
     font-size: .9em;
+    margin-right: 1.2em;
 }
 
 .slideout-toggle {
@@ -289,8 +324,8 @@ aside {
     width: 45px;
     height: 45px;
     background: #ccc;
-    float: right;
-    margin-left: .5em;
+    float: left;
+    margin-right: .5em
 }
 
 .sidebar-widget > div:first-child {
@@ -300,7 +335,7 @@ aside {
 .sidebar-widget > div {
     border-bottom: 4px double #ccc;
     float: left;
-    padding: 2em 0;
+    padding: 1.5em 0;
     width: 100%;
 }
 
@@ -318,17 +353,14 @@ aside {
 .widget_recent_entries ul,
 ol.gtc-list {
     padding-left: 0;
-    padding-bottom: 2em;
     float: left;
 }
 
 .sidebar-widget ul li,
 ol.gtc-list li {
-    font-weight: 600;
     padding-bottom: 1em;
     line-height: 1em;
     font-size: .9em;
-    letter-spacing: -1px;
     float: left;
     list-style: none;
     width: 100%;
@@ -384,6 +416,8 @@ footer ul li a:hover {
     padding: 1em 0;
     font-size: .9em;
     font-weight: 700;
+    float: left;
+    width: 100%;
 }
 
 .featured-article-meta {
@@ -443,6 +477,10 @@ footer ul li a:hover {
 
 .social a.google {
     background: url(img/icons/google-plus.png) left bottom no-repeat;
+}
+
+.social a.linkedin {
+    background: url(img/icons/linkedin.png) left bottom no-repeat;
 }
 
 .social a.bookmark {
@@ -570,6 +608,7 @@ ol.gtc-list li:before {
     position: absolute;
     display: block;
     left: 1em;
+    margin-top: 4px;
 }
 
 #special-series ul li {
@@ -610,6 +649,7 @@ MISC
 #app {
     min-height: 500px;
 }
+
 .spacer {
     display: block;
     width: 100%;
@@ -618,7 +658,7 @@ MISC
 
 #backdrop {
     position: absolute;
-    top: 165px;
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
@@ -638,6 +678,7 @@ MISC
     background-size: cover;
     margin: 5em auto;
 }
+
 /*------------------------------------*\
 PAGES
 \*------------------------------------*/
@@ -652,7 +693,6 @@ PAGES
 
 .post-wrapper-news {
     width: 100%;
-    height: 100%;
     padding: 0;
     margin: 0;
     -webkit-column-count: 2;
@@ -807,6 +847,26 @@ h1 {
     font-weight: 900;
 }
 
+h2 {
+    font-size: 1.7em;
+    margin-bottom: .7em;
+    font-weight: 500;
+    margin-top: 0;
+}
+
+h3 {
+    font-size: 1.7em;
+}
+
+h4 {
+    font-size: 1em;
+    font-weight: 500;
+}
+
+strong {
+    font-weight: 600;
+}
+
 .featured-article-meta {
     color: #fff;
     text-shadow: 0px 3px 7px rgba(0, 0, 0, .9);
@@ -845,24 +905,8 @@ h1 {
     color: #fff;
 }
 
-h2 {
-    font-size: 1.7em;
-    margin-bottom: .7em;
-    font-weight: 500;
-    margin-top: 0;
-}
-
-h3 {
-    font-size: 1.7em;
-}
-
 article.post h3 {
     margin-top: 1.5em;
-}
-
-h4 {
-    font-size: 1em;
-    font-weight: 500;
 }
 
 a {
@@ -902,6 +946,10 @@ RESPONSIVE
         padding: 1em 0;
     }
 
+    .top-nav.fixed-top {
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, .3);
+    }
+
     .collapse {
         position: absolute;
         left: 0;
@@ -911,6 +959,10 @@ RESPONSIVE
         border-top: 1px solid #ccc;
         z-index: 2;
         border-bottom: 2px solid #ccc;
+    }
+
+    #headline {
+        margin-top: 80px;
     }
 
     #main.single p {
@@ -951,6 +1003,23 @@ RESPONSIVE
         font-size: .8em;
     }
 
+    .post-title-news {
+        margin-top: 5px;
+    }
+
+    #headline .social {
+        float: left;
+        padding: .5em 0;
+    }
+
+    #special-series {
+        padding: 2em 0;
+    }
+
+    .more-special {
+        margin-bottom: 2em;
+    }
+
 }
 
 /*------------------------------------*\
@@ -972,6 +1041,10 @@ MISC
     background: #04A4CC;
     color: #FFF;
     text-shadow: none;
+}
+
+button:focus {
+    outline: none;
 }
 
 /*------------------------------------*\
@@ -1041,7 +1114,6 @@ a img.aligncenter {
 figcaption.wp-caption-text {
     font-size: 13px;
     line-height: 17px;
-    max-width: 630px;
     margin-left: 0;
     text-align: left;
 }

@@ -21,17 +21,23 @@
                         }
                     ?>
                     <h1><?php the_title(); ?></h1>
+                    <?php
+                        if(wp_is_mobile()) {
+                            echo '<div class="social">';
+                            get_template_part( section, social );
+                            echo '</div>';
+                        }
+                    ?>
                 </div>
                 <div class="single-article-meta">
-                  by <?php echo get_the_term_list( $post_id, 'byline', '', ', ' ); ?> on <?php the_time('j F Y'); ?>
-                  <div class="social">
-                    <a class="facebook" href=""></a>
-                    <a class="google" href=""></a>
-                    <a class="twitter hidden-md-down" href=""></a>
-                    <a class="sharethis hidden-md-down" href=""></a>
-                    <a class="email hidden-md-down" href=""></a>
-                    <a class="bookmark hidden-md-down" href=""></a>
-                  </div>
+                    <?php _e('by ', 'mongabay'); ?><?php echo get_the_term_list( $post_id, 'byline', '', ', ' ); ?><?php _e(' on ', 'mongabay'); ?><?php the_time('j F Y'); ?>
+                    <?php
+                        if(!wp_is_mobile()) {
+                            echo '<div class="social">';
+                            get_template_part( section, social );
+                            echo '</div>';
+                        }
+                    ?>
                 </div>
             </div>
             <?php if ( has_post_thumbnail()) : // Check if Thumbnail exists ?>
@@ -66,7 +72,7 @@
                         <?php mongabay_sanitized_content($post_id);?>
                     <div id="single-article-footer">
                         <div id="single-article-meta">
-                            <span><?php _e( 'Article published by ', 'mongabay' ); the_author(); ?></span>
+                            <span><?php _e( 'Article published by ', 'mongabay' ); ?><?php the_author_posts_link(); ?></span>
                             <span class="article-comments"><a href="">11 comments</a></span>
                         </div>
                         <div id="single-article-tags">
@@ -84,7 +90,11 @@
                 <!-- /article -->
                 <?php endif; ?>
                 </div>
-                <?php get_sidebar(); ?>
+                <?php
+                    if(!wp_is_mobile()) {
+                        get_sidebar();
+                    }
+                ?>
             </div>
             <?php get_template_part( section, series ); ?>
     </main>

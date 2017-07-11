@@ -27,7 +27,10 @@ function mongabay_tax_register_location() {
 		'show_ui'           => true,
 		'show_admin_column' => true,
 		'query_var'         => true,
-		'rewrite'           => array( 'slug' => 'location' ),
+		'rewrite'           => array(
+			'with_front' => true,
+			'slug' => 'location'
+			)
 	);
 
 	register_taxonomy( 'location', array('post'), $args );

@@ -1,77 +1,73 @@
 <?php get_header(); ?>
 
 	<main role="main">
-		<!-- section -->
-		<section>
 
-		<?php if (have_posts()): the_post(); ?>
+		<div class="row">
+	    	<div id="main" class="col-lg-8">
+	    		<div class="tag-line">
+				
 
-			<h1><?php _e( 'Articles by ', 'mongabay' ); echo get_the_author(); ?></h1>
+						<h1><?php _e( 'Articles by ', 'mongabay' ); echo get_the_author(); ?></h1>
 
-		<?php if ( get_the_author_meta('description')) : ?>
+						<?php echo wpautop( get_the_author_meta('description') ); ?>
+	    		</div>
+				<!-- section -->
+				<section>
+					<div class="post-wrapper-news">
+						
 
-		<?php echo get_avatar(get_the_author_meta('user_email')); ?>
+						<?php if (have_posts()): while (have_posts()) : the_post(); ?>
 
-			<h2><?php _e( 'About ', 'mongabay' ); echo get_the_author() ; ?></h2>
+							<!-- article -->
+							<article id="post-<?php the_ID(); ?>" class="post-news">
+								<?php if ( has_post_thumbnail()) : ?>
+									<div class="hidden-md-up">
+									<?php echo get_the_post_thumbnail($post_id, 'medium')?>
+									</div>
+								<?php endif; ?>
+					      		<h2 class="post-title-news"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+					      		<div class="entry-meta-news">
+					      			<?php _e('by ', 'mongabay'); ?><?php echo get_the_term_list( $post_id, 'byline', '', ', ' ); ?> <?php the_time('j F Y'); ?>
+					      		</div>
+								<div class="excerpt-news">
+					      			<?php mongabay_excerpt('mongabay_index'); ?>
+					      		</div>
+					      		<?php if ( has_post_thumbnail()) : ?>
+									<div class="thumbnail-news hidden-md-down">
+									<?php echo get_the_post_thumbnail($post_id, 'thumbnail')?>
+									</div>
+								<?php endif; ?>
+				      		</article>
+							<!-- /article -->
 
-			<?php echo wpautop( get_the_author_meta('description') ); ?>
+						<?php endwhile; ?>
 
-		<?php endif; ?>
+						<?php else: ?>
 
-		<?php rewind_posts(); while (have_posts()) : the_post(); ?>
+							<!-- article -->
+							<article>
 
-			<!-- article -->
-			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+								<h2><?php _e( 'Sorry, nothing to display.', 'mongabay' ); ?></h2>
 
-				<!-- post thumbnail -->
-				<?php if ( has_post_thumbnail()) : // Check if Thumbnail exists ?>
-					<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-						<?php the_post_thumbnail(array(120,120)); // Declare pixel size you need inside the array ?>
-					</a>
-				<?php endif; ?>
-				<!-- /post thumbnail -->
+							</article>
+							<!-- /article -->
 
-				<!-- post title -->
-				<h2>
-					<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a>
-				</h2>
-				<!-- /Post title -->
-
-				<!-- post details -->
-				<span class="date"><?php the_time('F j, Y'); ?> <?php the_time('g:i a'); ?></span>
-				<span class="author"><?php _e( 'Published by', 'mongabay' ); ?> <?php the_author_posts_link(); ?></span>
-				<span class="comments"><?php comments_popup_link( __( 'Leave your thoughts', 'mongabay' ), __( '1 Comment', 'mongabay' ), __( '% Comments', 'mongabay' )); ?></span>
-				<!-- /post details -->
-
-				<?php html5wp_excerpt('mongabay_index'); // Build your custom callback length in functions.php ?>
-
-				<br class="clear">
-
-				<?php edit_post_link(); ?>
-
-			</article>
-			<!-- /article -->
-
-		<?php endwhile; ?>
-
-		<?php else: ?>
-
-			<!-- article -->
-			<article>
-
-				<h2><?php _e( 'Sorry, nothing to display.', 'mongabay' ); ?></h2>
-
-			</article>
-			<!-- /article -->
-
-		<?php endif; ?>
-
-			<?php get_template_part('pagination'); ?>
-
-		</section>
-		<!-- /section -->
+						<?php endif; ?>
+					</div>
+					<div class="counter">
+						<?php mongabay_pagination(); ?>
+					</div>
+				</section>
+				<!-- /section -->
+			</div>
+			<?php
+                if(!wp_is_mobile()) {
+                    get_sidebar();
+                }
+            ?>
+		</div>
+		<?php get_template_part( section, series ); ?>
 	</main>
-
-<?php get_sidebar(); ?>
-
+</div>
+<!-- /container -->
 <?php get_footer(); ?>

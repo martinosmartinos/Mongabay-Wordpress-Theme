@@ -29,9 +29,9 @@
     </div>
     <!-- /post thumbnail -->
     <main role="main">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row justify-content-center">
-                <div id="main" class="col-lg-5 col-md-9 single">
+                <div id="main" class="col-lg-8 single">
                 <?php if (have_posts()): while (have_posts()) : the_post(); ?>
                     <!-- article -->
                     <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
