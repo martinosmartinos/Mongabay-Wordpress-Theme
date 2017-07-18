@@ -25,14 +25,15 @@
             </div>
         </div>
         <div class="clearfix"></div>
-    <?php endif; ?>
     </div>
+    <?php endif; ?>
     <!-- /post thumbnail -->
+    
     <main role="main">
         <div class="container">
             <div class="row justify-content-center">
                 <div id="main" class="col-lg-8 single">
-                <?php if (have_posts()): while (have_posts()) : the_post(); ?>
+                    <?php if (have_posts()): while (have_posts()) : the_post(); ?>
                     <!-- article -->
                     <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                         <?php
@@ -64,20 +65,19 @@
                         </div>
                     </article>
                     <!-- /article -->
-                <?php endwhile; ?>
-                <?php else: ?>
-                <!-- article -->
-                <article>
-                    <h1><?php _e( 'Sorry, nothing to display.', 'mongabay' ); ?></h1>
-                </article>
-                <!-- /article -->
-                <?php endif; ?>
+                    <?php endwhile; ?>
+                    <?php else: ?>
+                    <!-- article -->
+                    <article>
+                        <h1><?php _e( 'Sorry, nothing to display.', 'mongabay' ); ?></h1>
+                    </article>
+                    <!-- /article -->
+                    <?php endif; ?>
                 </div>
             </div>
+            <!-- /row -->
         </div>
         <!-- /container -->
-        
         <?php get_template_part( section, series ); ?>
-
     </main>
 <?php get_footer(); ?>

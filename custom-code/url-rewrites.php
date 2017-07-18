@@ -1,5 +1,5 @@
 <?php
-add_action('init', 'custom_author_base');
+//add_action('init', 'custom_author_base');
 function custom_author_base() {
     global $wp_rewrite;
     $author_slug = 'by';
@@ -21,11 +21,16 @@ function add_rewrite_url()
     //     'index.php?topic=$matches[1]',
     //     'bottom'
     // );
-    add_rewrite_rule( '^by/([^/]*)/?$', 'index.php?section=author&nc1=$matches[1]', 'top' );
-    add_rewrite_rule( '^series/([^/]*)/?$', 'index.php?section=series&nc1=$matches[1]', 'top' );
-	add_rewrite_rule( '^topic/([^/]*)/?$', 'index.php?section=news&nc1=$matches[1]', 'top' );
-	add_rewrite_rule( '^list/([^/]*)/([^/]*)/?$', 'index.php?section=list&nc1=$matches[1]&nc2=$matches[2]', 'top' );
-	add_rewrite_rule( '^list/([^/]*)/?$', 'index.php?section=list&nc1=$matches[1]', 'top' );
-	add_rewrite_rule( '^wildtech/([0-9]{4})/([0-9]{1,2})/([^/]*)/?$', 'index.php?year=$matches[1]&monthnum=$matches[2]&name=$matches[3]', 'top' );
-	add_rewrite_rule( '^list/?$', 'index.php?section=list', 'top' );
+//pagination
+add_rewrite_rule( '^list/([^/]*)/page/([0-9]{1,})/?$', 'index.php?section=list&nc1=$matches[1]&paged=$matches[2]', "top" );
+add_rewrite_rule( '^list/([^/]*)/([^/]*)/page/([0-9]{1,})/?$', 'index.php?section=list&nc1=$matches[1]&nc2=$matches[2]&paged=$matches[3]', "top" );
+
+//custom taxonomies
+//add_rewrite_rule( '^by/([^/]*)/?$', 'byline=$matches[1]', 'top' );
+//add_rewrite_rule( '^series/([^/]*)/?$', 'index.php?section=series&nc1=$matches[1]', 'top' );
+add_rewrite_rule( '^topic/([^/]*)/?$', 'index.php?section=list&nc1=$matches[1]', 'top' );
+add_rewrite_rule( '^list/([^/]*)/([^/]*)/?$', 'index.php?section=list&nc1=$matches[1]&nc2=$matches[2]', 'top' );
+add_rewrite_rule( '^list/([^/]*)/?$', 'index.php?section=list&nc1=$matches[1]', 'top' );
+add_rewrite_rule( '^wildtech/([0-9]{4})/([0-9]{1,2})/([^/]*)/?$', 'index.php?year=$matches[1]&monthnum=$matches[2]&name=$matches[3]', 'top' );
+add_rewrite_rule( '^list/?$', 'index.php?section=list', 'top' );
 }

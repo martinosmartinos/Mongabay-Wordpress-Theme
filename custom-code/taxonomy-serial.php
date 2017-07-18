@@ -27,7 +27,7 @@ function mongabay_tax_register_serial() {
 		'show_ui'           => true,
 		'show_admin_column' => true,
 		'query_var'         => true,
-		'rewrite'           => array( 'slug' => 'serial' ),
+		'rewrite'           => array( 'slug' => 'series' ),
 	);
 
 	register_taxonomy( 'serial', array('post'), $args );

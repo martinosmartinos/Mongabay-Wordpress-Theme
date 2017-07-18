@@ -2,28 +2,26 @@
 
 /*------------------------------------*\
     External Modules/Files
-\*------------------------------------*/
-
-//require_once (get_template_directory().'/custom-code/router.php');
-include (get_template_directory().'/custom-code/url-rewrites.php');
-include (get_template_directory().'/custom-code/figure-caption.php');
-include (get_template_directory().'/custom-code/taxonomy-location.php');
-include (get_template_directory().'/custom-code/taxonomy-serial.php');
-include (get_template_directory().'/custom-code/taxonomy-topic.php');
-include (get_template_directory().'/custom-code/thumbnailed-recent-posts.php');
+    \*------------------------------------*/
+    include (get_template_directory().'/custom-code/url-rewrites.php');
+    include (get_template_directory().'/custom-code/figure-caption.php');
+    include (get_template_directory().'/custom-code/taxonomy-location.php');
+    include (get_template_directory().'/custom-code/taxonomy-serial.php');
+    include (get_template_directory().'/custom-code/taxonomy-topic.php');
+    include (get_template_directory().'/custom-code/thumbnailed-recent-posts.php');
 
 
 /*------------------------------------*\
     Theme Support
-\*------------------------------------*/
+    \*------------------------------------*/
 
-if (function_exists('add_theme_support'))
-{
+    if (function_exists('add_theme_support'))
+    {
     // Add Menu Support
-    add_theme_support('menus');
+        add_theme_support('menus');
 
     // Add aside post format
-    add_theme_support( 'post-formats', array( 'aside' ) );
+        add_theme_support( 'post-formats', array( 'aside' ) );
 
     // Add Thumbnail Theme Support
     //add_theme_support('post-thumbnails');
@@ -60,25 +58,28 @@ if (function_exists('add_theme_support'))
 
 /*------------------------------------*\
     Functions
-\*------------------------------------*/
+    \*------------------------------------*/
+// Get current host
+    function mongabay_subdomain_name() {
+        $parsedUrl = parse_url($_SERVER['SERVER_NAME']);
+        $host = explode('.', $parsedUrl['path']);
+        $domain = $host[0];
+        return $domain;
+    }
+
 // Main WP_query modifier to process multiple vars
 
+    function mongabay_mega_query($query) {
 
+        if ($query->is_home() && $query->is_main_query() && ! is_admin()) {
 
-function mongabay_mega_query($query) {
-
-    if ($query->is_home() && $query->is_main_query() && ! is_admin()) {
-
-        $home_url = esc_url( home_url( '/' ) );
-        $section = get_query_var('section');
-        $firstvar = get_query_var('nc1');
-        $secondvar = get_query_var('nc2');
-
-        $item1 = get_terms(array('topic','location'), array('slug' => $firstvar));
-        $item2 = get_terms(array('topic','location'), array('slug' => $secondvar));
+            $home_url = esc_url( home_url( '/' ) );
+            $section = get_query_var('section');
+            $firstvar = get_query_var('nc1');
+            $secondvar = get_query_var('nc2');
 
         // check if no first variable in url
-        if($section == 'list' && empty($firstvar)) {
+            if($section == 'list' && empty($firstvar)) {
             wp_redirect( $home_url );//home sweet home
             exit;
         }
@@ -86,13 +87,15 @@ function mongabay_mega_query($query) {
 
         if($section == 'list' && !empty($firstvar) && empty($secondvar)) {
 
+            $item1 = get_terms(array('topic','location'), array('slug' => $firstvar));
+
             $tax_query = array(
                 array(
                     'taxonomy' => $item1[0]->taxonomy,
                     'field' => 'slug',
                     'terms' => $item1[0]->slug
-                )
-            );
+                    )
+                );
 
             $query->set('tax_query', $tax_query);
 
@@ -100,20 +103,23 @@ function mongabay_mega_query($query) {
 
         if($section == 'list' && !empty($firstvar) && !empty($secondvar)) {
 
+            $item1 = get_terms(array('topic','location'), array('slug' => $firstvar));
+            $item2 = get_terms(array('topic','location'), array('slug' => $secondvar));
+
             $tax_query = array(
                 'relation' => 'AND',
                 array(
                     'taxonomy' => $item1[0]->taxonomy,
                     'field' => 'slug',
                     'terms' => $item1[0]->slug
-                ),
+                    ),
 
                 array(
                     'taxonomy' => $item2[0]->taxonomy,
                     'field' => 'slug',
                     'terms' => $item2[0]->slug
-                )
-            );
+                    )
+                );
 
             $query->set('tax_query', $tax_query);
 
@@ -131,6 +137,37 @@ function mongabay_mega_query($query) {
 }
 
 add_filter( 'pre_get_posts', 'mongabay_mega_query' );
+
+//fix topics links
+function mongabay_topic_link( $link, $term, $taxonomy )
+{
+    if ( $taxonomy !== 'topic' )
+        return $link;
+
+    return str_replace( 'topic/', 'list/', $link );
+}
+add_filter( 'term_link', 'mongabay_topic_link', 10, 3 );
+
+
+//fix locations links
+function mongabay_location_link( $link, $term, $taxonomy )
+{
+    if ( $taxonomy !== 'location' )
+        return $link;
+
+    return str_replace( 'location/', 'list/', $link );
+}
+add_filter( 'term_link', 'mongabay_location_link', 10, 3 );
+
+//fix byline links
+function mongabay_byline_link( $link, $term, $taxonomy )
+{
+    if ( $taxonomy !== 'byline' )
+        return $link;
+
+    return str_replace( 'byline/', 'by/', $link );
+}
+add_filter( 'term_link', 'mongabay_byline_link', 10, 3 );
 
 // Router
 // RoutingWP\add_frontend_route('^list/([^/]+)/?$', function($matches) {
@@ -195,6 +232,92 @@ add_filter( 'pre_get_posts', 'mongabay_mega_query' );
 //     );
 // }
 
+// special series section function. Usage mongabay_series_section (array('slug1','slug2','slug3'), 3) where 3 is number of posts
+function mongabay_series_section ( $names, $number) {
+    echo '<div id="special-series" class="container">';
+    $count = 0;
+    foreach ($names as $name) {
+        $count = $count + 1;
+        $title = ucfirst(str_replace('-', ' ', $name));
+
+        switch ($count) {
+            case '1': ?>
+                <div class="row"><h2><?php _e( 'Special series', 'mongabay' ); ?></h2>
+                <?php break;
+            case '5': ?>
+                <div class="spacer clearfix"></div>
+                <div class="row">
+                <?php break;
+        } ?>
+
+            <div class="col-lg-3">
+                <h4><?php echo $title; ?></h4>
+        <?php
+            $args = array(
+                'post_type' => 'post',
+                'posts_per_page' => $number,
+                'tax_query' => array(
+                    array(
+                        'taxonomy' => 'serial',
+                        'field'    => 'slug',
+                        'terms'    => $name,
+                        ),
+                    ),
+                );
+
+            $query = new WP_Query( $args );
+
+            if ($query->have_posts()) { ?>
+
+            <ul>
+            <?php
+                $counter = 0;
+                while ( $query->have_posts() ) : $query->the_post();
+                $counter = $counter + 1; ?>
+                <li class="post-<?php the_ID(); ?>">
+                    <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                </li>
+            <?php endwhile; ?>
+            </ul>
+            <div class="thumbnail-series">
+                <img src="<?php echo get_template_directory_uri(); ?>/img/series/<?php echo $name; ?>.jpg" alt="<?php echo $title; ?>"/>
+            </div>
+            <?php
+            }
+            wp_reset_postdata(); ?>
+
+            <div class="more-special">
+                <a href="<?php echo esc_url( home_url( '/' ) ).'series/'.$name; ?>"><?php _e('More articles', 'mongabay'); ?></a>
+            </div>
+            </div>
+        <?php if ($count == 4 || $count == 8) { ?>
+            </div>
+        <?php }
+    } ?>
+    </div>
+
+<?php }
+
+
+// Function to detect if we are dealing with featured aside article
+function mongabay_layout() {
+    if ( is_single() ) {
+        $post_id = get_the_ID();
+        $aside = get_post_format($post_id);
+        $featured = get_post_meta( $post_id, 'featured_as', false );
+        if ( $aside == 'aside' && in_array('featured', $featured) ) {
+            $container = 'container-fluid';
+        }
+        else {
+            $container = 'container';
+        }
+    }
+    else {
+        $container = 'container';
+    }
+    return $container;
+}
+
 // sanitize content
 function mongabay_sanitized_content($post_id) {
     if (get_post_meta($post_id,"mongabay_post_legacy_status",true) == 'yes') {
@@ -218,46 +341,18 @@ function mongabay_header_scripts()
 {
     if ($GLOBALS['pagenow'] != 'wp-login.php' && !is_admin()) {
 
-        wp_register_script('conditionizr', get_template_directory_uri() . '/js/lib/conditionizr-4.3.0.min.js', array(), '4.3.0');
-        wp_enqueue_script('conditionizr');
-
-        wp_register_script('modernizr', get_template_directory_uri() . '/js/lib/modernizr-2.7.1.min.js', array(), '2.7.1');
-        wp_enqueue_script('modernizr');
-
         wp_register_script('fittext', get_template_directory_uri() . '/js/lib/jquery.fittext.js', array('jquery'), '1.2', true);
         wp_enqueue_script('fittext');
 
         wp_register_script('bootstraputils', get_template_directory_uri() . '/js/lib/util.js', array('jquery'), '4.0.0', true);
         wp_enqueue_script('bootstraputils');
 
-        wp_register_script('bootstrapdropdown', get_template_directory_uri() . '/js/lib/dropdown.js', array('jquery'), '4.0.0');
-        wp_enqueue_script('bootstrapdropdown');
-
-        wp_register_script('slideoutmenu', get_template_directory_uri() . '/js/lib/slideout.min.js', array(), '4.0.0', true);
-        wp_enqueue_script('slideoutmenu');
+        wp_register_script('bootstraptabs', get_template_directory_uri() . '/js/lib/tabs.js', array('jquery'), '4.0.0', true);
+        wp_enqueue_script('bootstraptabs');
 
         wp_register_script('scripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '1.0.0');
         wp_enqueue_script('scripts');
     }
-}
-
-// Function to detect if we are dealing with featured aside article
-function mongabay_layout() {
-    if ( is_single() ) {
-        $post_id = get_the_ID();
-        $aside = get_post_format($post_id);
-        $featured = get_post_meta( $post_id, 'featured_as', false );
-        if ( $aside == 'aside' && in_array('featured', $featured) ) {
-            $container = 'container-fluid';
-        }
-        else {
-            $container = 'container';
-        }
-    }
-    else {
-        $container = 'container';
-    }
-    return $container;
 }
 
 // Load conditional scripts
@@ -267,8 +362,67 @@ function mongabay_conditional_scripts()
         wp_register_script('axios', get_template_directory_uri() . '/js/lib/axios-0.16.2.min.js', array(), '0.16.2');
         wp_enqueue_script('axios');
 
-        wp_register_script('newsfetch', get_template_directory_uri() . '/js/lib/bundle.js', array(), '1.0.0', true);
-        wp_enqueue_script('newsfetch');
+        //include react component, site dependant
+        if( get_current_blog_id() == 20 ) {
+            // general news site
+            wp_register_script('newsfetch_general', get_template_directory_uri() . '/js/lib/bundle.js', array(), '1.0.0', true);
+            wp_enqueue_script('newsfetch_general');
+        }
+
+        if( get_current_blog_id() == 21 ) {
+            // kids news site
+            wp_register_script('newsfetch_kids', get_template_directory_uri() . '/js/lib/bundle_kids.js', array(), '1.0.0', true);
+            wp_enqueue_script('newsfetch_kids');
+        }
+
+        if( get_current_blog_id() == 22 ) {
+            // wildtech news site
+            wp_register_script('newsfetch_wildtech', get_template_directory_uri() . '/js/lib/bundle_wildtech.js', array(), '1.0.0', true);
+            wp_enqueue_script('newsfetch_wildtech');
+        }
+
+        if( get_current_blog_id() == 23 ) {
+            // Chinese news site
+            wp_register_script('newsfetch_cn', get_template_directory_uri() . '/js/lib/bundle_cn.js', array(), '1.0.0', true);
+            wp_enqueue_script('newsfetch_cn');
+        }
+
+        if( get_current_blog_id() == 24 ) {
+            // German news site
+            wp_register_script('newsfetch_de', get_template_directory_uri() . '/js/lib/bundle_de.js', array(), '1.0.0', true);
+            wp_enqueue_script('newsfetch_de');
+        }
+
+        if( get_current_blog_id() == 25 ) {
+            // Spanish news site
+            wp_register_script('newsfetch_es', get_template_directory_uri() . '/js/lib/bundle_es.js', array(), '1.0.0', true);
+            wp_enqueue_script('newsfetch_es');
+        }
+
+        if( get_current_blog_id() == 26 ) {
+            // French news site
+            wp_register_script('newsfetch_fr', get_template_directory_uri() . '/js/lib/bundle_fr.js', array(), '1.0.0', true);
+            wp_enqueue_script('newsfetch_fr');
+        }
+
+        if( get_current_blog_id() == 27 ) {
+            // Italian news site
+            wp_register_script('newsfetch_it', get_template_directory_uri() . '/js/lib/bundle_it.js', array(), '1.0.0', true);
+            wp_enqueue_script('newsfetch_it');
+        }
+
+        if( get_current_blog_id() == 28 ) {
+            // Japanese news site
+            wp_register_script('newsfetch_jp', get_template_directory_uri() . '/js/lib/bundle_jp.js', array(), '1.0.0', true);
+            wp_enqueue_script('newsfetch_jp');
+        }
+
+        if( get_current_blog_id() == 29 ) {
+            // Portuguese news site
+            wp_register_script('newsfetch_pt', get_template_directory_uri() . '/js/lib/bundle_pt.js', array(), '1.0.0', true);
+            wp_enqueue_script('newsfetch_pt');
+        }
+
     }
 
     if ( mongabay_layout() == 'container-fluid') {
@@ -309,7 +463,7 @@ function register_mongabay_menu()
         'header-menu' => __('Header Menu', 'mongabay'), // Main Navigation
         'sidebar-menu' => __('Sidebar Menu', 'mongabay'), // Sidebar Navigation
         'extra-menu' => __('Extra Menu', 'mongabay') // Extra Navigation if needed (duplicate as many as you need!)
-    ));
+        ));
 }
 
 // Remove the <div> surrounding the dynamic navigation to cleanup markup
@@ -361,7 +515,7 @@ if (function_exists('register_sidebar'))
         'after_widget' => '</div>',
         'before_title' => '<h2>',
         'after_title' => '</h2>'
-    ));
+        ));
 
     // Define Footer Widget 1/4
     register_sidebar(array(
@@ -372,7 +526,7 @@ if (function_exists('register_sidebar'))
         'after_widget' => '</div>',
         'before_title' => '<h4>',
         'after_title' => '</h4>'
-    ));
+        ));
 
     // Define Footer Widget 2/4
     register_sidebar(array(
@@ -383,7 +537,7 @@ if (function_exists('register_sidebar'))
         'after_widget' => '</div>',
         'before_title' => '<h4>',
         'after_title' => '</h4>'
-    ));
+        ));
 
     // Define Footer Widget 3/4
     register_sidebar(array(
@@ -394,7 +548,7 @@ if (function_exists('register_sidebar'))
         'after_widget' => '</div>',
         'before_title' => '<h4>',
         'after_title' => '</h4>'
-    ));
+        ));
 
     // Define Footer Widget 4/4
     register_sidebar(array(
@@ -405,8 +559,115 @@ if (function_exists('register_sidebar'))
         'after_widget' => '</div>',
         'before_title' => '<h4>',
         'after_title' => '</h4>'
-    ));
+        ));
 }
+
+// Tabbed articles by topic/location
+
+function mongabay_tabs() {
+    register_widget( 'mongabay_topic_location' );
+}
+add_action( 'widgets_init', 'mongabay_tabs' );
+
+
+
+class mongabay_topic_location extends WP_Widget {
+
+    function __construct() {
+        parent::__construct(
+            'mongabay_topic_location', 
+            __('Topic and location tabs', 'mongabay'), 
+            array( 'description' => __( 'Listing topics and locations as tabbed content', 'mongabay' ), ) 
+            );
+    }
+
+    public function widget( $args, $instance ) {
+        $title = apply_filters( 'widget_title', $instance['title'] );
+
+        echo $args['before_widget'];
+        if ( ! empty( $title ) )
+            echo $args['before_title'] . $title . $args['after_title'];
+        
+        ?>
+        <?php
+            function mongabay_tabbed_content ($items) {
+                $home_url = esc_url( home_url( '/' ) );
+                foreach ($items as $item) { 
+                    $title = ucfirst(str_replace('-', ' ', $item));
+                    $slug = sanitize_title($item);?>
+                    <a class="widget-term" href="<?php echo $home_url.'list/'.$slug ;?>"><?php echo $title; ?></a>
+                <?php }
+        }
+        ?>
+        <ul class="nav nav-tabs">
+          <li><a data-toggle="tab" href="#topic"><h2><?php _e('By topic', 'mongabay'); ?></h2></a></li>
+          <li><a data-toggle="tab" href="#location"><h2><?php _e('By location', 'mongabay'); ?></h2></a></li>
+      </ul>
+      <div class="tab-content">
+        <div id="topic" class="tab-pane fade in active show">
+            <?php
+            switch (get_current_blog_id()) {
+                case '20':
+                    mongabay_tabbed_content(array('agriculture','animals','birds','climate-change','conservation','deforestation','energy','featured','forests','happy-upbeat-environmental','herps','indigenous-people','interviews','mammals','new-species','oceans','palm-oil','rainforests','technology','wildlife'));
+                    break;
+                case '25':
+                    mongabay_tabbed_content(array('agricultura','animales','pájaros','climate-change','conservation','deforestation','energy','featured','forests','happy-upbeat-environmental','herps','indigenous-people','interviews','mammals','new-species','oceans','palm-oil','rainforests','technology','wildlife'));
+                    break;
+                
+                default:
+                    mongabay_tabbed_content(array('agriculture','animals','birds','climate-change','conservation','deforestation','energy','featured','forests','happy-upbeat-environmental','herps','indigenous-people','interviews','mammals','new-species','oceans','palm-oil','rainforests','technology','wildlife'));
+                    break;
+            }
+                
+            ?>
+            <a href="<?php echo $home_url ;?>topics" class="plus-link"><?php _e('Many more topics', 'mongabay'); ?></a>
+        </div>
+        <div id="location" class="tab-pane fade">
+            <?php
+                switch (get_current_blog_id()) {
+                    case '20':
+                        mongabay_tabbed_content(array('africa','amazon','asia','australia','borneo','brazil','cameroon','central-america','china','colombia','congo','india','indonesia','latin-america','madagascar','malaysia','new-guinea','peru','sumatra','united-states'));
+                        break;
+                    
+                    default:
+                        mongabay_tabbed_content(array('africa','amazon','asia','australia','borneo','brazil','cameroon','central-america','china','colombia','congo','india','indonesia','latin-america','madagascar','malaysia','new-guinea','peru','sumatra','united-states'));
+                        break;
+                }
+                
+            ?>
+            <a href="<?php echo $home_url ;?>locations" class="plus-link"><?php _e('Browse more locations', 'mongabay'); ?></a>
+        </div>
+    </div>
+    <?php
+    echo $args['after_widget'];
+}
+
+    // Widget Backend 
+public function form( $instance ) {
+    if ( isset( $instance[ 'title' ] ) ) {
+        $title = $instance[ 'title' ];
+    }
+    else {
+        $title = __( 'New title', 'mongabay' );
+    }
+    ?>
+    <p>
+        <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
+        <input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
+    </p>
+    <?php 
+}
+
+
+public function update( $new_instance, $old_instance ) {
+    $instance = array();
+    $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+    return $instance;
+}
+
+}
+
+
 
 // Remove wp_head() injected Recent Comment styles
 function my_remove_recent_comments_style()
@@ -415,7 +676,7 @@ function my_remove_recent_comments_style()
     remove_action('wp_head', array(
         $wp_widget_factory->widgets['WP_Widget_Recent_Comments'],
         'recent_comments_style'
-    ));
+        ));
 }
 
 // Pagination for paged posts, Page 1, Page 2, Page 3, with Next and Previous Links, No plugin
@@ -428,7 +689,7 @@ function mongabay_pagination()
         'format' => '?paged=%#%',
         'current' => max(1, get_query_var('paged')),
         'total' => $wp_query->max_num_pages
-    ));
+        ));
 }
 
 // Custom Excerpts
@@ -490,7 +751,7 @@ function mongabay_query_var( $vars ) {
     $vars[] = 'section';
     $vars[] = 'nc1';
     $vars[] = 'nc2';
- 
+
     return $vars;
 }
 add_filter( 'query_vars', 'mongabay_query_var' );
@@ -498,7 +759,7 @@ add_filter( 'query_vars', 'mongabay_query_var' );
 
 /*------------------------------------*\
     Actions + Filters
-\*------------------------------------*/
+    \*------------------------------------*/
 
 // Add Actions
 add_action('init', 'mongabay_header_scripts'); // Add Custom Scripts to wp_head
@@ -506,7 +767,7 @@ add_action('wp_enqueue_scripts', 'mongabay_conditional_scripts'); // Add Conditi
 add_action('wp_enqueue_scripts', 'mongabay_styles'); // Add Theme Stylesheet
 add_action('init', 'register_mongabay_menu'); // Add Blank Menu
 add_action('widgets_init', 'my_remove_recent_comments_style'); // Remove inline Recent Comment Styles from wp_head()
-add_action('init', 'mongabay_pagination'); // Add our HTML5 Pagination
+//add_action('init', 'mongabay_pagination'); // Add our HTML5 Pagination
 
 // Remove Actions
 remove_action('wp_head', 'feed_links_extra', 3); // Display the links to the extra feeds such as category feeds

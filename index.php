@@ -50,7 +50,7 @@
 				      			<?php mongabay_excerpt('mongabay_index'); ?>
 				      		</div>
 				      		<?php if ( has_post_thumbnail()) : ?>
-								<div class="thumbnail-news hidden-md-down">
+								<div class="thumbnail-news hidden-xs-down">
 								<?php echo get_the_post_thumbnail($post_id, 'thumbnail')?>
 								</div>
 							<?php endif; ?>
@@ -69,7 +69,7 @@
 						</article>
 						<!-- /article -->
 
-						<?php endif; ?>
+						<?php endif;?>
 					</div>
 					<div class="counter">
 						<?php mongabay_pagination(); ?>

@@ -4,7 +4,7 @@
 
     $twitterURL = 'https://twitter.com/intent/tweet?text='.$postTitle.'&amp;url='.$postURL.'&amp;via=Crunchify';
     $facebookURL = 'https://www.facebook.com/sharer/sharer.php?u='.$postURL;
-    $googleURL = 'https://plus.google.com/share?url='.$postURL;
+    //$googleURL = 'https://plus.google.com/share?url='.$postURL;
     $linkedInURL = 'https://www.linkedin.com/shareArticle?mini=true&url='.$postURL.'&amp;title='.$postTitle;
 
     $facebook = '<a class="facebook" href="'.$facebookURL.'" target="_blank"></a>';
@@ -15,7 +15,7 @@
     $bookmark = '<a class="bookmark" href="" target="_blank"></a>';
 
     echo $facebook;
-    echo $google;
+    //echo $google;
     echo $twitter;
     echo $linkedin;
     echo $email;

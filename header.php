@@ -36,7 +36,7 @@
 						get_template_part( navigation, mobile );
 						echo '<div class="logo-small" style="margin-top: 7px">';
 						echo '<a href="'.home_url().'">';
-						echo '<img src="'.get_template_directory_uri().'/img/mongabay_logo_black.png" alt="Environmental headlines"/>';
+						echo '<img src="'.get_template_directory_uri().'/img/logo/mongabay_logo_black.png" alt="Environmental headlines"/>';
 						echo '</a>';
 						echo '</div>';
 						echo '</div>';
@@ -59,7 +59,19 @@
 						echo '<div class="site-identity">';
 						echo '<div class="logo">';
 						echo '<a href="'.home_url().'">';
-						echo '<img src="'.get_template_directory_uri().'/img/mongabay_logo_full.png" alt="Environmental headlines"/>';
+						$subdomain = mongabay_subdomain_name();
+
+						switch ($subdomain) {
+							case 'es':
+								$logo = 'mongabay_logo_full_es';
+								break;
+							
+							default:
+								$logo = 'mongabay_logo_full';
+								break;
+						}
+
+						echo '<img src="'.get_template_directory_uri().'/img/logo/'.$logo.'.png" alt="Environmental headlines"/>';
 						echo '</a>';
 						echo '</div>';
 						echo '</div>';

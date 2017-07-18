@@ -1,24 +1,17 @@
 <?php get_header(); ?>
-
 	<main role="main">
-
+		<div class="row featured-slider no-gutters">
+			<?php get_template_part( section, slider ); ?>
+	    </div>
 		<div class="row">
 	    	<div id="main" class="col-lg-8">
 	    		<div class="tag-line">
-				
-
-						<h1><?php _e( 'Articles by ', 'mongabay' ); echo get_the_author(); ?></h1>
-
-						<?php echo wpautop( get_the_author_meta('description') ); ?>
+					<h1><?php _e( 'Articles by ', 'mongabay' ); echo get_the_author(); ?></h1>
+					<?php echo wpautop( get_the_author_meta('description') ); ?>
 	    		</div>
-				<!-- section -->
 				<section>
 					<div class="post-wrapper-news">
-						
-
 						<?php if (have_posts()): while (have_posts()) : the_post(); ?>
-
-							<!-- article -->
 							<article id="post-<?php the_ID(); ?>" class="post-news">
 								<?php if ( has_post_thumbnail()) : ?>
 									<div class="hidden-md-up">
@@ -33,32 +26,22 @@
 					      			<?php mongabay_excerpt('mongabay_index'); ?>
 					      		</div>
 					      		<?php if ( has_post_thumbnail()) : ?>
-									<div class="thumbnail-news hidden-md-down">
+									<div class="thumbnail-news hidden-xs-down">
 									<?php echo get_the_post_thumbnail($post_id, 'thumbnail')?>
 									</div>
 								<?php endif; ?>
 				      		</article>
-							<!-- /article -->
-
 						<?php endwhile; ?>
-
 						<?php else: ?>
-
-							<!-- article -->
 							<article>
-
 								<h2><?php _e( 'Sorry, nothing to display.', 'mongabay' ); ?></h2>
-
 							</article>
-							<!-- /article -->
-
 						<?php endif; ?>
 					</div>
 					<div class="counter">
 						<?php mongabay_pagination(); ?>
 					</div>
 				</section>
-				<!-- /section -->
 			</div>
 			<?php
                 if(!wp_is_mobile()) {
