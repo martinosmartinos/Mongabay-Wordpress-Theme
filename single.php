@@ -4,14 +4,13 @@
 
 
     <?php
-    $post_id = get_the_ID();
-    $translator = get_post_meta($post_id,"translated_by",true);
-    $adaptor = get_post_meta($post_id,"adapted_by",true);
-    $translated_adapted = get_post_meta($post_id,"translated_adapted",true);
-    $topics = wp_get_post_terms($post_id, 'topic');
-    $serial = wp_get_post_terms($post_id, 'serial');
-    $legacy = get_post_meta($post_id, 'mongabay_post_legacy_status',true);
-    //var_dump($legacy);
+        $post_id = get_the_ID();
+        $translator = get_post_meta($post_id,"translated_by",true);
+        $adaptor = get_post_meta($post_id,"adapted_by",true);
+        $translated_adapted = get_post_meta($post_id,"translated_adapted",true);
+        $topics = wp_get_post_terms($post_id, 'topic');
+        $serial = wp_get_post_terms($post_id, 'serial');
+        $legacy = get_post_meta($post_id, 'mongabay_post_legacy_status',true);
     ?>
 
     <div id="headline">
@@ -34,13 +33,30 @@
             ?>
         </div>
         <div class="single-article-meta">
-            <?php _e('by ', 'mongabay'); ?><?php echo get_the_term_list( $post_id, 'byline', '', ', ', '' ); ?><?php _e(' on ', 'mongabay'); ?><?php the_time('j F Y'); ?>
+            <?php _e('by ', 'mongabay'); ?><?php echo get_the_term_list( $post_id, 'byline', '', ', ', '' ); ?><?php _e(' on ', 'mongabay'); ?><?php the_time('j F Y');?>
             <?php
-            if(!wp_is_mobile()) {
-                echo '<div class="social">';
-                get_template_part( 'partials/section', 'social' );
-                echo '</div>';
-            }
+                if (!empty($translator)) {
+
+                        if ($translated_adapted == 'adapted' && !empty($adaptor)) {
+                            $string_title = 'Adapted by';
+                            $translator_adaptor = $adaptor;
+                        }
+                        elseif (!empty($translator)) {
+                            $string_title = 'Translated by';
+                            $translator_adaptor = $translator;
+                        }
+                        echo '| ';
+                        _e( $string_title ,'mongabay');
+                        echo ' ';
+                        echo '<a href="'.home_url( '/' ).'by/'.$translator_adaptor[slug].'">'.$translator_adaptor[name].'</a>';
+                }
+            ?>
+            <?php
+                if(!wp_is_mobile()) {
+                    echo '<div class="social">';
+                    get_template_part( 'partials/section', 'social' );
+                    echo '</div>';
+                }
             ?>
         </div>
     </div>
@@ -101,8 +117,9 @@
         ?>
     </div>
     <!-- /row -->
-    </div>
-    <!-- /container -->
+
     <?php get_template_part( 'partials/section', 'series' ); ?>
 </main>
+</div>
+<!-- /container -->
 <?php get_footer(); ?>
