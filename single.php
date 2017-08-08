@@ -10,42 +10,47 @@
     $translated_adapted = get_post_meta($post_id,"translated_adapted",true);
     $topics = wp_get_post_terms($post_id, 'topic');
     $serial = wp_get_post_terms($post_id, 'serial');
-            //var_dump($serial);
+    $legacy = get_post_meta($post_id, 'mongabay_post_legacy_status',true);
+    //var_dump($legacy);
     ?>
 
     <div id="headline">
         <div class="article-headline">
             <?php
             if ($serial) {
-                echo '<p>'.get_the_term_list( $post_id, 'serial', _e('Mongabay Series: ', 'mongabay'), ', ' ).'</p>';
+                echo '<p>';
+                _e('Mongabay Series: ', 'mongabay');
+                echo get_the_term_list( $post_id, 'serial', '', ', ', '' );
+                echo '</p>';
             }
             ?>
             <h1><?php the_title(); ?></h1>
             <?php
             if(wp_is_mobile()) {
                 echo '<div class="social">';
-                get_template_part( section, social );
+                get_template_part( 'partials/section', 'social' );
                 echo '</div>';
             }
             ?>
         </div>
         <div class="single-article-meta">
-            <?php _e('by ', 'mongabay'); ?><?php echo get_the_term_list( $post_id, 'byline', '', ', ' ); ?><?php _e(' on ', 'mongabay'); ?><?php the_time('j F Y'); ?>
+            <?php _e('by ', 'mongabay'); ?><?php echo get_the_term_list( $post_id, 'byline', '', ', ', '' ); ?><?php _e(' on ', 'mongabay'); ?><?php the_time('j F Y'); ?>
             <?php
             if(!wp_is_mobile()) {
                 echo '<div class="social">';
-                get_template_part( section, social );
+                get_template_part( 'partials/section', 'social' );
                 echo '</div>';
             }
             ?>
         </div>
     </div>
-    <?php if ( has_post_thumbnail()) : // Check if Thumbnail exists ?>
+    <?php if ( has_post_thumbnail() && $legacy !== 'yes' )  : ?>
         <div class="row article-cover-image no-gutters">
-            <div class="col-lg-12" style="background: url('<?php echo get_the_post_thumbnail_url($post_id, 'large')?>');background-size: cover"></div>
-            <div class="clearfix"></div>
+            <div class="col-lg-12" style="background: url('<?php echo get_the_post_thumbnail_url($post_id, 'large')?>');background-size: cover; background-position: center"></div>
+            
         </div>
-    <?php endif; ?><!-- /post thumbnail -->
+    <?php endif; ?>
+
     <div class="row">
         <div id="main" class="col-lg-8 single">
             <?php if (have_posts()): while (have_posts()) : the_post(); ?>
@@ -72,7 +77,7 @@
                     <div id="single-article-footer">
                         <div id="single-article-meta">
                             <span><?php _e( 'Article published by ', 'mongabay' ); ?><?php the_author_posts_link(); ?></span>
-                            <span class="article-comments"><a href="">11 comments</a></span>
+                            <span class="article-comments"><a href=""></a></span>
                         </div>
                         <div id="single-article-tags">
                             <?php echo get_the_term_list( $post_id, 'topic', '', ', ' ); ?>
@@ -98,6 +103,6 @@
     <!-- /row -->
     </div>
     <!-- /container -->
-    <?php get_template_part( section, series ); ?>
+    <?php get_template_part( 'partials/section', 'series' ); ?>
 </main>
 <?php get_footer(); ?>

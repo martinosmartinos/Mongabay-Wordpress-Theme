@@ -33,4 +33,13 @@ add_rewrite_rule( '^list/([^/]*)/([^/]*)/?$', 'index.php?section=list&nc1=$match
 add_rewrite_rule( '^list/([^/]*)/?$', 'index.php?section=list&nc1=$matches[1]', 'top' );
 add_rewrite_rule( '^wildtech/([0-9]{4})/([0-9]{1,2})/([^/]*)/?$', 'index.php?year=$matches[1]&monthnum=$matches[2]&name=$matches[3]', 'top' );
 add_rewrite_rule( '^list/?$', 'index.php?section=list', 'top' );
+
+//legacy support
+add_rewrite_rule( 'news.xml$', 'index.php?section=movedxml&nc1=news', 'top' );
+add_rewrite_rule( 'xml/([^/]*).xml$', 'index.php?section=movedxml&nc1=$matches[1]', 'top' );
+    
+add_rewrite_rule( '([0-9]{4})/([^/]*).html$', 'index.php?section=moved&nc1=$matches[1]&nc2=$matches[2]', 'top' );
+add_rewrite_rule( 'news/([0-9]{4})/([^/]*).html$', 'index.php?section=moved&nc1=$matches[1]&nc2=$matches[2]', 'top' );
+add_rewrite_rule( '([^/]*)/images/([^/]*).html$', 'index.php?section=moved&nc1=$matches[1]&nc2=$matches[2]', 'top' );
+add_rewrite_rule( '([^/]*)/images/([^/]*)/([^/]*).html$', 'index.php?section=moved&nc1=$matches[1]&nc2=$matches[2]', 'top' );
 }

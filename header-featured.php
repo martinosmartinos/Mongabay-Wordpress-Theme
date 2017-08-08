@@ -28,30 +28,14 @@
 </head>
 <body <?php body_class(); ?>>
 	<header class="header fixed-top header-small" role="banner">
-		<a class="slideout-toggle">☰ Menu</a>
-
+		<?php get_template_part( 'partials/navigation', 'featured' ); ?>
 		<div class="logo-small" style="">
 			<a href="<?php echo home_url(); ?>"><img src="<?php echo get_template_directory_uri(); ?>/img/logo/mongabay_logo_black.png" class="mongabay-logo"></a>
 		</div>
-
 		<div class="social">
-			<a class="facebook" href=""></a>
-			<a class="google" href=""></a>
-			<a class="twitter hidden-md-down" href=""></a>
-			<a class="sharethis hidden-md-down" href=""></a>
-			<a class="email hidden-md-down" href=""></a>
-			<a class="bookmark hidden-md-down" href=""></a>
+			<?php get_template_part( 'partials/section', 'social' ); ?>
 		</div>
-
-		
 	</header>
-	<!-- /header -->
-	<!-- slideout nav -->
-			<!-- <div class="main-menu">
-				<nav id="main-nav" class="menu slideout-menu slideout-menu-left" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement">
-					<button class="navbar-toggler navbar-toggler-left" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-				</nav>
-			</div> -->
-			<!-- /slideout nav -->
+	<?php if(wp_is_mobile()) {?>
+	<div id="backdrop" class=""></div>
+	<?php }?>

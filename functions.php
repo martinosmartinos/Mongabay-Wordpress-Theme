@@ -9,7 +9,10 @@
     include (get_template_directory().'/custom-code/taxonomy-serial.php');
     include (get_template_directory().'/custom-code/taxonomy-topic.php');
     include (get_template_directory().'/custom-code/thumbnailed-recent-posts.php');
-
+    include (get_template_directory().'/custom-code/feed-query.php');
+    include (get_template_directory().'/custom-code/meta.php');
+    include (get_template_directory().'/custom-code/menus.php');
+    include (get_template_directory().'/custom-code/analytics.php');
 
 /*------------------------------------*\
     Theme Support
@@ -24,10 +27,10 @@
         add_theme_support( 'post-formats', array( 'aside' ) );
 
     // Add Thumbnail Theme Support
-    //add_theme_support('post-thumbnails');
-    //add_image_size('large', 700, '', true); // Large Thumbnail
-    //add_image_size('medium', 250, '', true); // Medium Thumbnail
-    //add_image_size('small', 120, '', true); // Small Thumbnail
+    add_theme_support('post-thumbnails');
+    add_image_size('large', 1200, 600, true); // Large Thumbnail
+    add_image_size('medium', 768, 512, true); // Medium Thumbnail
+    add_image_size('thumbnail', 135, 135, true); // Small Thumbnail
     //add_image_size('custom-size', 700, 200, true); // Custom Thumbnail Size call using the_post_thumbnail('custom-size');
 
     // Add Support for Custom Backgrounds - Uncomment below if you're going to use
@@ -73,68 +76,103 @@
 
         if ($query->is_home() && $query->is_main_query() && ! is_admin()) {
 
+
             $home_url = esc_url( home_url( '/' ) );
             $section = get_query_var('section');
             $firstvar = get_query_var('nc1');
             $secondvar = get_query_var('nc2');
+            
+            if(get_current_blog_id() == 1) {
+                switch_to_blog(20);
+                $query->set('post_type', 'post');
+            }
 
-        // check if no first variable in url
-            if($section == 'list' && empty($firstvar)) {
-            wp_redirect( $home_url );//home sweet home
-            exit;
-        }
+            if(get_current_blog_id() == 22) {
 
-
-        if($section == 'list' && !empty($firstvar) && empty($secondvar)) {
-
-            $item1 = get_terms(array('topic','location'), array('slug' => $firstvar));
-
-            $tax_query = array(
-                array(
-                    'taxonomy' => $item1[0]->taxonomy,
-                    'field' => 'slug',
-                    'terms' => $item1[0]->slug
-                    )
-                );
-
-            $query->set('tax_query', $tax_query);
-
-        }
-
-        if($section == 'list' && !empty($firstvar) && !empty($secondvar)) {
-
-            $item1 = get_terms(array('topic','location'), array('slug' => $firstvar));
-            $item2 = get_terms(array('topic','location'), array('slug' => $secondvar));
-
-            $tax_query = array(
-                'relation' => 'AND',
-                array(
-                    'taxonomy' => $item1[0]->taxonomy,
-                    'field' => 'slug',
-                    'terms' => $item1[0]->slug
-                    ),
-
-                array(
-                    'taxonomy' => $item2[0]->taxonomy,
-                    'field' => 'slug',
-                    'terms' => $item2[0]->slug
-                    )
-                );
-
-            $query->set('tax_query', $tax_query);
-
-            if($item1[0]->taxonomy=='location' && $item2[0]->taxonomy=='topic') {
-
-                wp_redirect( $home_url.'list/'.$secondvar.'/'.$firstvar );
-                exit;
+                $meta_query = array(
+                    array(
+                        'key' => 'news_category',
+                        'value' => 'wildtech',
+                        'compare' => '='
+                        )
+                    );
+                switch_to_blog(20);
+                $query->set('meta_query', $meta_query);
 
             }
+
+            if($section == 'moved') {
+
+                $moved_query = array(
+                    'post_type' => 'post',
+                    'posts_per_page' => 1,
+                    'offset' => 0,
+                    array(
+                        'key' => 'mongabay_post_legacy_url',
+                        'value' => $secondvar,
+                        'compare' => '='
+                        )
+                    );
+
+                $query->set('meta_query', $moved_query);
+
+            }
+
+            // check if no first variable in url
+            if($section == 'list' && empty($firstvar)) {
+                wp_redirect( $home_url );//home sweet home
+                exit;
+            }
+
+            if($section == 'list' && !empty($firstvar) && empty($secondvar)) {
+
+                $item1 = get_terms(array('topic','location'), array('slug' => $firstvar));
+
+                $tax_query = array(
+                    array(
+                        'taxonomy' => $item1[0]->taxonomy,
+                        'field' => 'slug',
+                        'terms' => $item1[0]->slug
+                        )
+                    );
+
+                $query->set('tax_query', $tax_query);
+
+            }
+
+            if($section == 'list' && !empty($firstvar) && !empty($secondvar)) {
+
+                $item1 = get_terms(array('topic','location'), array('slug' => $firstvar));
+                $item2 = get_terms(array('topic','location'), array('slug' => $secondvar));
+
+                $tax_query = array(
+                    'relation' => 'AND',
+                    array(
+                        'taxonomy' => $item1[0]->taxonomy,
+                        'field' => 'slug',
+                        'terms' => $item1[0]->slug
+                        ),
+
+                    array(
+                        'taxonomy' => $item2[0]->taxonomy,
+                        'field' => 'slug',
+                        'terms' => $item2[0]->slug
+                        )
+                    );
+
+                $query->set('tax_query', $tax_query);
+
+                if($item1[0]->taxonomy=='location' && $item2[0]->taxonomy=='topic') {
+
+                    wp_redirect( $home_url.'list/'.$secondvar.'/'.$firstvar );
+                    exit;
+
+                }
+            }
+
         }
 
-
     }
-
-}
 
 add_filter( 'pre_get_posts', 'mongabay_mega_query' );
 
@@ -169,73 +207,12 @@ function mongabay_byline_link( $link, $term, $taxonomy )
 }
 add_filter( 'term_link', 'mongabay_byline_link', 10, 3 );
 
-// Router
-// RoutingWP\add_frontend_route('^list/([^/]+)/?$', function($matches) {
-//     return [
-//         'post_status'    => 'publish',
-//         'post_type'      => 'post',
-//         'tax_query'      => array(
-//             'relation'   => 'OR',
-//             array(                
-//                 'taxonomy' => 'topic',
-//                 'field' => 'slug',
-//                 'terms' => $matches[1],
-//                 'operator' => 'IN'
-//             ),
-//             array(                
-//                 'taxonomy' => 'location',
-//                 'field' => 'slug',
-//                 'terms' => $matches[1],
-//                 'operator' => 'IN'
-//             )
-//         )
-//     ];
-// });
-
-// RoutingWP\add_frontend_route('^by/([^/]+)/?$', function($matches) {
-//     return [
-//         'post_status'    => 'publish',
-//         'post_type'      => 'post',
-//         'tax_query'      => array(
-//             array(                
-//                 'taxonomy' => 'byline',
-//                 'field' => 'slug',
-//                 'terms' => $matches[1],
-//                 'operator' => 'IN'
-//             )
-//         )
-//     ];
-// });
-
-//custom nav menu
-// function mongabay_nav()
-// {
-//     wp_nav_menu(
-//     array(
-//         'theme_location'  => 'header-menu',
-//         'menu'            => '',
-//         'container'       => 'div',
-//         'container_class' => 'menu-{menu slug}-container',
-//         'container_id'    => '',
-//         'menu_class'      => 'menu',
-//         'menu_id'         => '',
-//         'echo'            => true,
-//         'fallback_cb'     => 'wp_page_menu',
-//         'before'          => '',
-//         'after'           => '',
-//         'link_before'     => '',
-//         'link_after'      => '',
-//         'items_wrap'      => '<ul class="navbar-nav mr-auto">%3$s</ul>',
-//         'depth'           => 0,
-//         'walker'          => new bootstrap_walker()
-//         )
-//     );
-// }
 
 // special series section function. Usage mongabay_series_section (array('slug1','slug2','slug3'), 3) where 3 is number of posts
 function mongabay_series_section ( $names, $number) {
     echo '<div id="special-series" class="container">';
     $count = 0;
+    if(get_current_blog_id() == 1) switch_to_blog(20);
     foreach ($names as $name) {
         $count = $count + 1;
         $title = ucfirst(str_replace('-', ' ', $name));
@@ -264,6 +241,7 @@ function mongabay_series_section ( $names, $number) {
                         ),
                     ),
                 );
+            
 
             $query = new WP_Query( $args );
 
@@ -322,6 +300,8 @@ function mongabay_layout() {
 function mongabay_sanitized_content($post_id) {
     if (get_post_meta($post_id,"mongabay_post_legacy_status",true) == 'yes') {
         $content = get_the_content();
+        $content = preg_replace('/<font.*?>/', '', $content);
+        $content = preg_replace('/<\/font>/', '', $content);
         $content = str_replace(']]>', '', $content);
         $content = str_replace(array("}","{"),'',$content);
         $content = str_replace(array('<br>','<BR>','<br/>','<BR/>'),"\n",$content);
@@ -350,7 +330,7 @@ function mongabay_header_scripts()
         wp_register_script('bootstraptabs', get_template_directory_uri() . '/js/lib/tabs.js', array('jquery'), '4.0.0', true);
         wp_enqueue_script('bootstraptabs');
 
-        wp_register_script('scripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '1.0.0');
+        wp_register_script('scripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '1.0.0', true);
         wp_enqueue_script('scripts');
     }
 }
@@ -358,79 +338,14 @@ function mongabay_header_scripts()
 // Load conditional scripts
 function mongabay_conditional_scripts()
 {
-    if ( is_front_page() ) {
-        wp_register_script('axios', get_template_directory_uri() . '/js/lib/axios-0.16.2.min.js', array(), '0.16.2');
-        wp_enqueue_script('axios');
-
-        //include react component, site dependant
-        if( get_current_blog_id() == 20 ) {
-            // general news site
-            wp_register_script('newsfetch_general', get_template_directory_uri() . '/js/lib/bundle.js', array(), '1.0.0', true);
-            wp_enqueue_script('newsfetch_general');
-        }
-
-        if( get_current_blog_id() == 21 ) {
-            // kids news site
-            wp_register_script('newsfetch_kids', get_template_directory_uri() . '/js/lib/bundle_kids.js', array(), '1.0.0', true);
-            wp_enqueue_script('newsfetch_kids');
-        }
-
-        if( get_current_blog_id() == 22 ) {
-            // wildtech news site
-            wp_register_script('newsfetch_wildtech', get_template_directory_uri() . '/js/lib/bundle_wildtech.js', array(), '1.0.0', true);
-            wp_enqueue_script('newsfetch_wildtech');
-        }
-
-        if( get_current_blog_id() == 23 ) {
-            // Chinese news site
-            wp_register_script('newsfetch_cn', get_template_directory_uri() . '/js/lib/bundle_cn.js', array(), '1.0.0', true);
-            wp_enqueue_script('newsfetch_cn');
-        }
-
-        if( get_current_blog_id() == 24 ) {
-            // German news site
-            wp_register_script('newsfetch_de', get_template_directory_uri() . '/js/lib/bundle_de.js', array(), '1.0.0', true);
-            wp_enqueue_script('newsfetch_de');
-        }
-
-        if( get_current_blog_id() == 25 ) {
-            // Spanish news site
-            wp_register_script('newsfetch_es', get_template_directory_uri() . '/js/lib/bundle_es.js', array(), '1.0.0', true);
-            wp_enqueue_script('newsfetch_es');
-        }
-
-        if( get_current_blog_id() == 26 ) {
-            // French news site
-            wp_register_script('newsfetch_fr', get_template_directory_uri() . '/js/lib/bundle_fr.js', array(), '1.0.0', true);
-            wp_enqueue_script('newsfetch_fr');
-        }
-
-        if( get_current_blog_id() == 27 ) {
-            // Italian news site
-            wp_register_script('newsfetch_it', get_template_directory_uri() . '/js/lib/bundle_it.js', array(), '1.0.0', true);
-            wp_enqueue_script('newsfetch_it');
-        }
-
-        if( get_current_blog_id() == 28 ) {
-            // Japanese news site
-            wp_register_script('newsfetch_jp', get_template_directory_uri() . '/js/lib/bundle_jp.js', array(), '1.0.0', true);
-            wp_enqueue_script('newsfetch_jp');
-        }
-
-        if( get_current_blog_id() == 29 ) {
-            // Portuguese news site
-            wp_register_script('newsfetch_pt', get_template_directory_uri() . '/js/lib/bundle_pt.js', array(), '1.0.0', true);
-            wp_enqueue_script('newsfetch_pt');
-        }
-
-    }
 
     if ( mongabay_layout() == 'container-fluid') {
-        wp_register_script('parallax', get_template_directory_uri() . '/js/lib/parallax.min.js', array(), '1.4.2');
+        wp_register_script('parallax', get_template_directory_uri() . '/js/lib/parallax.min.js', array(), '1.4.2', true);
         wp_enqueue_script('parallax');
 
     }
 }
+
 
 // Featured articles template
 
@@ -446,7 +361,7 @@ add_action('template_redirect', 'mongabay_featured');
 // Load styles
 function mongabay_styles()
 {
-    wp_register_style('normalize', get_template_directory_uri() . '/normalize.css', array(), '1.0', 'all');
+    wp_register_style('normalize', get_template_directory_uri() . '/normalize.min.css', array(), '1.0', 'all');
     wp_enqueue_style('normalize'); // Enqueue it!
 
     wp_register_style('boostrap', get_template_directory_uri() . '/css/bootstrap.min.css', array(), '4.0.0', 'all');
@@ -590,32 +505,68 @@ class mongabay_topic_location extends WP_Widget {
         
         ?>
         <?php
-            function mongabay_tabbed_content ($items) {
-                $home_url = esc_url( home_url( '/' ) );
-                foreach ($items as $item) { 
-                    $title = ucfirst(str_replace('-', ' ', $item));
+            function mongabay_tabbed_content ($home_url, $items) {
+                foreach ($items as $item) {
+                    $title = ucwords($item);
                     $slug = sanitize_title($item);?>
                     <a class="widget-term" href="<?php echo $home_url.'list/'.$slug ;?>"><?php echo $title; ?></a>
                 <?php }
         }
         ?>
         <ul class="nav nav-tabs">
-          <li><a data-toggle="tab" href="#topic"><h2><?php _e('By topic', 'mongabay'); ?></h2></a></li>
+          <li><a data-toggle="tab" href="#topic" class="active"><h2><?php _e('By topic', 'mongabay'); ?></h2></a></li>
           <li><a data-toggle="tab" href="#location"><h2><?php _e('By location', 'mongabay'); ?></h2></a></li>
       </ul>
       <div class="tab-content">
         <div id="topic" class="tab-pane fade in active show">
             <?php
             switch (get_current_blog_id()) {
+                case '1':
+                //General www
+                    mongabay_tabbed_content('http://news.mongabot.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
+                    break;
                 case '20':
-                    mongabay_tabbed_content(array('agriculture','animals','birds','climate-change','conservation','deforestation','energy','featured','forests','happy-upbeat-environmental','herps','indigenous-people','interviews','mammals','new-species','oceans','palm-oil','rainforests','technology','wildlife'));
+                //News
+                    mongabay_tabbed_content('http://news.mongabot.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
+                    break;
+                case '21':
+                //Kidsnews
+                    mongabay_tabbed_content('http://kidsnews.mongabot.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
+                    break;
+                case '22':
+                //Wildtech
+                    mongabay_tabbed_content('http://news.mongabot.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
+                    break;
+                case '23':
+                //Chinese
+                    mongabay_tabbed_content('http://cn.mongabot.com/', array('农业','动物','鸟类','气候变化','保全','森林毁坏','能量','特色','森林','乐观积极的环境（新闻）','爬虫','Indigenous people','Interviews','哺乳动物','New Species','海洋','油棕种植园','雨林','Technology','野生动物'));
+                    break;
+                case '24':
+                //German
+                    mongabay_tabbed_content('http://de.mongabot.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
                     break;
                 case '25':
-                    mongabay_tabbed_content(array('agricultura','animales','pájaros','climate-change','conservation','deforestation','energy','featured','forests','happy-upbeat-environmental','herps','indigenous-people','interviews','mammals','new-species','oceans','palm-oil','rainforests','technology','wildlife'));
+                //Spanish
+                    mongabay_tabbed_content('http://es.mongabot.com/', array('Agricultura','Animales','Pájaros','Cambio Climático','Conservación','Deforestación','Energía','Destacado','Bosques','Optimismo medioambiental','Herpetología','Indigenous people','Entrevistas','Mamíferos','Nuevas especies','Océanos','Plantaciones de aceite de palma','Selvas tropicales','Tecnología','Vida silvestre'));
                     break;
-                
+                case '26':
+                //French
+                    mongabay_tabbed_content('http://news.mongabot.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
+                    break;
+                case '27':
+                //Italian
+                    mongabay_tabbed_content('http://it.mongabot.com/', array('Agricoltura','Animali','Uccelli','Cambiamento climatico','Conservazione','Deforestazione','Energia','In primo piano','Foreste Andine','Buone notizie per lambiente','Herpetologia','Indigenous people','Interviews','Mammiferi','New species','Oceani','Piantagioni di palme da olio','Foreste pluviali','Technology','Fauna selvatica'));
+                    break;
+                case '28':
+                //Japanese
+                    mongabay_tabbed_content('http://jp.mongabot.com/', array('農業','動物','鳥類','気候変動e','保全','森林破壊','エネルギー','特集','森林','明るくポジティブな環境ニュース','両生・爬虫類','Indigenous people','Interviews','哺乳類','New species','海洋','パーム油プランテーション','熱帯雨林','Technology','野生動物'));
+                    break;
+                case '29':
+                //Portuguese
+                    mongabay_tabbed_content('http://pt.mongabot.com/', array('Agricultura','Animais','Aves','Alterações Climáticas','Conservação','Desflorestação','Energia','Destaque','Florestas','Otimismo ambiental','Herpetologia','Indigenous People','Interviews','Mamíferos','New species','Oceanos','Plantações de Óleo de Palma','Florestas Tropicais','Technology','Vida Selvagem'));
+                    break;
                 default:
-                    mongabay_tabbed_content(array('agriculture','animals','birds','climate-change','conservation','deforestation','energy','featured','forests','happy-upbeat-environmental','herps','indigenous-people','interviews','mammals','new-species','oceans','palm-oil','rainforests','technology','wildlife'));
+                    mongabay_tabbed_content('http://news.mongabot.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
                     break;
             }
                 
@@ -625,12 +576,41 @@ class mongabay_topic_location extends WP_Widget {
         <div id="location" class="tab-pane fade">
             <?php
                 switch (get_current_blog_id()) {
-                    case '20':
-                        mongabay_tabbed_content(array('africa','amazon','asia','australia','borneo','brazil','cameroon','central-america','china','colombia','congo','india','indonesia','latin-america','madagascar','malaysia','new-guinea','peru','sumatra','united-states'));
+                    case '1':
+                        mongabay_tabbed_content('http://news.mongabot.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
                         break;
-                    
+                    case '20':
+                        mongabay_tabbed_content('http://news.mongabot.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
+                        break;
+                    case '21':
+                        mongabay_tabbed_content('http://kidsnews.mongabot.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
+                        break;
+                    case '22':
+                        mongabay_tabbed_content('http://news.mongabot.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
+                        break;
+                    case '23':
+                        mongabay_tabbed_content('http://cn.mongabot.com/', array('非洲','亚马逊','亚洲','澳大利亚','婆罗洲','巴西','喀麦隆','中美洲','中国','哥伦比亚','刚果','印度尼西亚','印度尼西亚','拉丁美洲','马达加斯加','马来西亚','新几内亚','秘鲁','苏门答腊','美国'));
+                        break;
+                    case '24':
+                        mongabay_tabbed_content('http://de.mongabot.com/', array('Afrika','Amazonas','Asien','Australien','Borneo','Brasilien','Kamerun','Zentralamerika','China','Kolumbien','Kongo','Indien','Indonesien','Lateinamerika','Madagaskar','Malaysia','Neuguinea','Peru','Sumatra','Vereinigte Staaten'));
+                        break;
+                    case '25':
+                        mongabay_tabbed_content('http://es.mongabot.com/', array('Africa','Amazonas','Asia','Australia','Borneo','Brasil','Camerún','América Central','China','El Congo','Congo','India','Indonesia','América Latina','Madagascar','Malasia','Nueva Guinea','Perú','Sumatra','Estados Unidos'));
+                        break;
+                    case '26':
+                        mongabay_tabbed_content('http://news.mongabot.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
+                        break;
+                    case '27':
+                        mongabay_tabbed_content('http://it.mongabot.com/', array('Africa','Amazzonia','Asia','Australia','Borneo','Brasile','Camerun','America Centrale','Cina','Colombia','Congo','India','Indonesia','America Latina','Madagascar','Malesia','Nuova Guinea','Perù','Sumatra','Stati Uniti'));
+                        break;
+                    case '28':
+                        mongabay_tabbed_content('http://jp.mongabot.com/', array('アフリカ','アマゾン','アジア','オーストラリア','ボルネオ','ブラジル','カメルーン','中央アメリカ','中国','コロンビア','コンゴ','インド','インドネシア','ラテンアメリカ','マダガスカル','マレーシア','ニューギニア','ペルー','スマトラ','米国'));
+                        break;
+                    case '29':
+                        mongabay_tabbed_content('http://pt.mongabot.com/', array('África','Amazónia','Ásia','Austrália','Bornéu','Brasil','Camarões','América Central','China','Colômbia','Congo','Índia','Indonésia','América Latina','Madagáscar','Malásia','Nova Guiné','Peru','Sumatra','Estados Unidos'));
+                        break;
                     default:
-                        mongabay_tabbed_content(array('africa','amazon','asia','australia','borneo','brazil','cameroon','central-america','china','colombia','congo','india','indonesia','latin-america','madagascar','malaysia','new-guinea','peru','sumatra','united-states'));
+                        mongabay_tabbed_content('http://news.mongabot.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
                         break;
                 }
                 
@@ -642,7 +622,7 @@ class mongabay_topic_location extends WP_Widget {
     echo $args['after_widget'];
 }
 
-    // Widget Backend 
+// Widget Backend 
 public function form( $instance ) {
     if ( isset( $instance[ 'title' ] ) ) {
         $title = $instance[ 'title' ];
@@ -704,20 +684,18 @@ function mongabay_custom_post($length)
     return 40;
 }
 
-// Create the Custom Excerpts callback
-function mongabay_excerpt($length_callback = '', $more_callback = '')
+// Create the Custom Excerpts
+function mongabay_excerpt()
 {
     global $post;
-    if (function_exists($length_callback)) {
-        add_filter('excerpt_length', $length_callback);
+    if ( empty( $post->post_excerpt ) ) {
+        $output = strip_shortcodes(wp_trim_words( $post->post_content, 20 ));
+    } else {
+        $output = $post->post_excerpt; 
     }
-    if (function_exists($more_callback)) {
-        add_filter('excerpt_more', $more_callback);
-    }
-    $output = get_the_excerpt();
+    //$output = get_the_excerpt();
     $output = apply_filters('wptexturize', $output);
     $output = apply_filters('convert_chars', $output);
-    $output = '<p>' . $output . '</p>';
     echo $output;
 }
 
@@ -747,14 +725,148 @@ function remove_thumbnail_dimensions( $html )
     return $html;
 }
 
+// Register custom query vars
 function mongabay_query_var( $vars ) {
+
     $vars[] = 'section';
     $vars[] = 'nc1';
     $vars[] = 'nc2';
-
     return $vars;
+
 }
 add_filter( 'query_vars', 'mongabay_query_var' );
+
+// Customize RSS feed
+remove_all_actions( 'do_feed_rss2' );
+add_action( 'do_feed_rss2', 'mongabay_feed_rss2', 10, 1 );
+
+function mongabay_feed_rss2() {
+
+    $rss_template = get_template_directory() . '/custom-code/feed-rss2.php';
+    load_template( $rss_template );
+
+}
+
+/* Parallax Shortcode */
+add_shortcode('parallax-img','parallax_img');
+
+function parallax_img($atts){
+
+    extract(shortcode_atts(array('imagepath' => 'Image Needed','id' => '1', 'px_title' => 'Slide Title', 'title_color' => '#FFFFFF' , 'img_caption' => 'Your image caption'),$atts));
+    return "<div class='parallax-section full-height' data-parallax='scroll' id='".$id."' data-image-src='".$imagepath."'); background-size: cover;'><div class='featured-article-meta'><span class='subtitle' style='color:".$title_color."'>".$px_title."</span></div></div>";
+}
+
+add_shortcode('open-parallax-content','parallax_open');
+
+
+function parallax_open() {
+    
+    return "<div class='container'><div class='row justify-content-center'><div id='main' class='col-lg-8 single'><article>";
+}
+
+add_shortcode('close-parallax-content','parallax_close');
+
+function parallax_close() {
+
+    return "</article></div></div></div>";
+
+}
+
+/* Parallax Slide Shortcode Button in a text editor*/
+function px_shortcode_button() {
+
+    if(wp_script_is("quicktags"))
+    {
+        ?>
+            <script type="text/javascript">
+               
+                function getSel()
+                {
+                    var txtarea = document.getElementById("content");
+                    var start = txtarea.selectionStart;
+                    var finish = txtarea.selectionEnd;
+                    return txtarea.value.substring(start, finish);
+                }
+
+                QTags.addButton(
+                    "parallax_shortcode",
+                    "ParallaxSlide",
+                    callback
+                );
+
+                function callback()
+                {
+                    var selected_text = getSel();
+                    QTags.insertContent("[parallax-img imagepath='image_url' id='1' px_title='First Title' title_color='#333333' img_caption='Your image caption']");
+                }
+            </script>
+        <?php
+    }
+}
+add_action("admin_print_footer_scripts", "px_shortcode_button");
+
+/* Parallax Content Shortcode Button in a text editor*/
+function open_close_px_content()
+{
+    if(wp_script_is("quicktags"))
+    {
+        ?>
+            <script type="text/javascript">
+               
+                function getSel()
+                {
+                    var txtarea = document.getElementById("content");
+                    var start = txtarea.selectionStart;
+                    var finish = txtarea.selectionEnd;
+                    return txtarea.value.substring(start, finish);
+                }
+
+                QTags.addButton(
+                    "pxcontent_shortcode",
+                    "ParallaxContent",
+                    callback
+                );
+
+                function callback()
+                {
+                    var selected_text = getSel();
+                    QTags.insertContent("[open-parallax-content]" +  selected_text + "[close-parallax-content]")
+                }
+            </script>
+        <?php
+    }
+}
+add_action('admin_print_footer_scripts', 'open_close_px_content');
+
+
+// Remove meta boxes from post editing screen
+function mongabay_remove_custom_fields() {
+
+    $post_types = get_post_types( '', 'names' );
+    foreach ( $post_types as $post_type ) {
+        remove_meta_box( 'postcustom' , $post_type , 'normal' );     
+    }
+
+}
+
+add_action( 'admin_menu' , 'mongabay_remove_custom_fields' );
+
+
+// Prevent from aading new location tags
+add_action( 'pre_insert_term', 'mongabay_prevent_terms', 1, 2 );
+
+function mongabay_prevent_terms ( $term, $taxonomy ) {
+
+    if ( 'location' === $taxonomy && !current_user_can( 'activate_plugins' ) ) {
+      return new WP_Error( 'term_addition_blocked', __( 'You cannot add terms to this taxonomy' ) );
+    }
+
+    if ( 'topic' === $taxonomy && !current_user_can( 'activate_plugins' ) ) {
+      return new WP_Error( 'term_addition_blocked', __( 'You cannot add terms to this taxonomy' ) );
+    }
+
+    return $term;
+}
 
 
 /*------------------------------------*\
@@ -782,6 +894,10 @@ remove_action('wp_head', 'wp_generator'); // Display the XHTML generator that is
 remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0);
 remove_action('wp_head', 'rel_canonical');
 remove_action('wp_head', 'wp_shortlink_wp_head', 10, 0);
+remove_action('wp_head', 'print_emoji_detection_script', 7); //remove emoji script
+remove_action('admin_print_scripts', 'print_emoji_detection_script'); //remove emoji script
+remove_action('wp_print_styles', 'print_emoji_styles'); //remove emoji style
+remove_action('admin_print_styles', 'print_emoji_styles'); //remove emoji style
 
 // Add Filters
 add_filter('body_class', 'add_slug_to_body_class'); // Add slug to body class (Starkers build)
@@ -794,13 +910,12 @@ add_filter('page_css_class', 'my_css_attributes_filter', 100, 1); // Remove Navi
 add_filter('the_category', 'remove_category_rel_from_category_list'); // Remove invalid rel attribute
 add_filter('the_excerpt', 'shortcode_unautop'); // Remove auto <p> tags in Excerpt (Manual Excerpts only)
 add_filter('the_excerpt', 'do_shortcode'); // Allows Shortcodes to be executed in Excerpt (Manual Excerpts only)
-add_filter('excerpt_more', 'mongabay_blank_view_article'); // Add 'View Article' button instead of [...] for Excerpts
-add_filter('show_admin_bar', 'remove_admin_bar'); // Remove Admin bar
+//add_filter('excerpt_more', 'mongabay_blank_view_article'); // Add 'View Article' button instead of [...] for Excerpts
+//add_filter('show_admin_bar', 'remove_admin_bar'); // Remove Admin bar
 add_filter('style_loader_tag', 'mongabay_style_remove'); // Remove 'text/css' from enqueued stylesheet
 add_filter('post_thumbnail_html', 'remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to thumbnails
-add_filter('image_send_to_editor', 'remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to post images
+//add_filter('image_send_to_editor', 'remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to post images
 
 // Remove Filters
 remove_filter('the_excerpt', 'wpautop'); // Remove <p> tags from Excerpt altogether
-
 ?>

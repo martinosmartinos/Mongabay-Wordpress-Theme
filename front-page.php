@@ -1,53 +1,102 @@
 <?php get_header(); ?>
+	<?php
+		$queried_object = get_queried_object();
+		$section = get_query_var('section');
+		$firstvar = get_query_var('nc1');
+		$secondvar = get_query_var('nc2');
+
+		if($section == 'moved') {
+			$post = $wp_query -> posts[0];
+            $id = $post -> ID;
+            $permalink = get_permalink($id);
+            wp_redirect( $permalink, 301 ); 
+            exit;
+		}
+
+
+		$line_end = '';
+		if ($section == 'list' && !empty($firstvar) && empty($secondvar)) {
+			
+			$item1 = get_terms(array('topic','location'), array('slug' => $firstvar));
+			$title = $item1[0] -> name;
+			//$description = $item1[0] -> description;
+			$line_end = ' News';
+		}
+
+		if ($section == 'list' && !empty($firstvar) && !empty($secondvar)) {
+			$item1 = get_terms(array('topic','location'), array('slug' => $firstvar));
+			$item2 = get_terms(array('topic','location'), array('slug' => $secondvar));
+			$title1 = $item1[0] -> name;
+			$title2 = $item2[0] -> name;
+			$title = $title1.' and '.$title2;
+			$line_end = ' News';
+		}
+
+		if (empty($section)) {
+			$title = 'Environmental headlines';
+			$description = 'Mongabay is a non-profit provider of conservation and environmental science news.';
+		}
+	?>
 	<main role="main">
-		<!-- featured slider -->
-		<div class="row featured-slider no-gutters">
-			<?php get_template_part( section, slider ); ?>
-	    </div>
-	    <!-- featured slider end -->
-		<div class="row">
-	      	<div id="main" class="col-lg-8">
-				<div class="tag-line">
-					<h1><?php _e( 'Environmental headlines', 'mongabay' ); ?></h1>
-					<p><?php _e( 'Mongabay is a non-profit provider of conservation and environmental science news.', 'mongabay' ); ?></p>
+        <?php
+        	if(empty($section)) {
+        ?>
+        <div class="row featured-slider no-gutters">
+            <?php get_template_part( 'partials/section', 'slider' ); ?>
+        </div>
+        <?php
+        	}
+        ?>
+        <div class="row">
+            <div id="main" class="col-lg-8">
+                <div class="tag-line">
+                	<h1><?php echo _e($title, 'mongabay'); ?><?php _e( $line_end, 'mongabay');?></h1>
+					<p><?php echo _e($description, 'mongabay'); ?></p>
 				</div>
-	          <!-- section -->
-				<section>
+                <!-- section -->
+                <section>
 
-					<?php if (have_posts()): while (have_posts()) : the_post(); ?>
+                    <div class="post-wrapper-news">
+                    	<?php
+                    	
+                    		$site_id = get_current_blog_id();
+                    		$switched = FALSE;
+                    		switch ($site_id) {
+                    			case '1':
+                    				switch_to_blog(20);
+                    				$switched = TRUE;
+                    				break;
 
-					<!-- article -->
-					<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-			      		<div id="app"></div>
-			      		<div id="pager"></div>
-		      		</article>
-					<!-- /article -->
+                    			case '20':
+                    				$switched = FALSE;
+                    				break;
+                    			
+                    		}
 
-					<?php endwhile; ?>
+                    	?>
+						<?php get_template_part('loop'); ?>
+						<?php
+                    		if($switched = TRUE) {
+                    			restore_current_blog();
+                    		}
+                    	?>
+                    </div>
 
-					<?php else: ?>
+                    <div class="counter">
+                        <?php mongabay_pagination(); ?>
+                    </div>
 
-					<!-- article -->
-					<article>
-
-						<h2><?php _e( 'Sorry, nothing to display.', 'mongabay' ); ?></h2>
-
-					</article>
-					<!-- /article -->
-
-					<?php endif; ?>
-
-	        </div>
-	        <?php
+                </section>
+            </div>
+            <?php
                 if(!wp_is_mobile()) {
                     get_sidebar();
                 }
             ?>
-	    </div>
-      	
-      	<?php get_template_part( section, series ); ?>
-
-	</main>
+        </div>
+        <!-- /row -->
+        <?php get_template_part( 'partials/section', 'series' ); ?>
+    </main>
 </div>
 <!-- /container -->
 <?php get_footer(); ?>

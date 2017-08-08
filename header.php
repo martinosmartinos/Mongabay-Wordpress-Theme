@@ -33,7 +33,7 @@
 				<?php
 					if ( wp_is_mobile() ) {
 						echo '<div class="top-nav fixed-top">';
-						get_template_part( navigation, mobile );
+						get_template_part( 'partials/navigation', 'mobile' );
 						echo '<div class="logo-small" style="margin-top: 7px">';
 						echo '<a href="'.home_url().'">';
 						echo '<img src="'.get_template_directory_uri().'/img/logo/mongabay_logo_black.png" alt="Environmental headlines"/>';
@@ -58,28 +58,22 @@
 						echo '</div>';
 						echo '<div class="site-identity">';
 						echo '<div class="logo">';
-						echo '<a href="'.home_url().'">';
+						echo '<a href="https://'.mongabay_subdomain_name().'.mongabay.com">';
 						$subdomain = mongabay_subdomain_name();
-
-						switch ($subdomain) {
-							case 'es':
-								$logo = 'mongabay_logo_full_es';
-								break;
-							
-							default:
-								$logo = 'mongabay_logo_full';
-								break;
-						}
-
-						echo '<img src="'.get_template_directory_uri().'/img/logo/'.$logo.'.png" alt="Environmental headlines"/>';
+						echo '<svg width="328" height="60" aria-label="Mongabay">';
+						echo '<image xlink:href="'.get_template_directory_uri().'/img/logo/mongabay_logo_'.$subdomain.'.svg" src="'.get_template_directory_uri().'/img/logo/mongabay_logo_'.$subdomain.'.png" width="328" height="60" alt="Mongabay"/>';
+						echo '</svg>';
 						echo '</a>';
 						echo '</div>';
 						echo '</div>';
 						echo '<div class="main-menu">';
-						get_template_part( navigation, main );
+						get_template_part( 'partials/navigation', 'main' );
 						echo '</div>';
 					}
 				?>
+
 			</header>
-			<!-- /header -->
+			<div class="clearfix"></div>
+			<?php if(wp_is_mobile()) {?>
 			<div id="backdrop" class=""></div>
+			<?php }?>

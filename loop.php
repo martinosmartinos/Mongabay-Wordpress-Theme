@@ -1,43 +1,62 @@
-<?php if (have_posts()): while (have_posts()) : the_post(); ?>
+<?php
+	if(get_current_blog_id() == 1) switch_to_blog(20);
+	if (have_posts()): while (have_posts()) : the_post();
+	$post_id = get_the_ID();
+	$subdomain = mongabay_subdomain_name();
+?>
 
-	<!-- article -->
-	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<article id="post-<?php the_ID(); ?>" class="post-news">
+	<?php if ( has_post_thumbnail()) : ?>
+		<div class="hidden-md-up">
+		<?php echo get_the_post_thumbnail($post_id, 'medium')?>
+		</div>
+	<?php endif; ?>
+		<h2 class="post-title-news"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+		<div class="entry-meta-news">
+			<?php
+				switch ($subdomain) {
+					case 'www':
+						echo '';
+						break;
 
-		<!-- post thumbnail -->
-		<?php if ( has_post_thumbnail()) : // Check if thumbnail exists ?>
-			<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-				<?php the_post_thumbnail(array(120,120)); // Declare pixel size you need inside the array ?>
-			</a>
-		<?php endif; ?>
-		<!-- /post thumbnail -->
+					case 'wildtech':
+						echo '';
+						break;
+					
+					case 'kidsnews':
+						echo '';
+						break;
 
-		<!-- post title -->
-		<h2>
-			<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a>
-		</h2>
-		<!-- /post title -->
+					default:
+						_e('by ', 'mongabay');
+						echo get_the_term_list( $post_id, 'byline', '', ', ', '' );
+						echo ' ';
+						break;
+				}
 
-		<!-- post details -->
-		<span class="date"><?php the_time('F j, Y'); ?> <?php the_time('g:i a'); ?></span>
-		<span class="author"><?php _e( 'Published by', 'mongabay' ); ?> <?php the_author_posts_link(); ?></span>
-		<span class="comments"><?php if (comments_open( get_the_ID() ) ) comments_popup_link( __( 'Leave your thoughts', 'mongabay' ), __( '1 Comment', 'mongabay' ), __( '% Comments', 'mongabay' )); ?></span>
-		<!-- /post details -->
+				the_time('j F Y');
+			?>
+		</div>
+	<div class="excerpt-news">
+			<?php mongabay_excerpt('mongabay_index'); ?>
+		</div>
+		<?php if ( has_post_thumbnail()) : ?>
+		<div class="thumbnail-news hidden-xs-down">
+		<?php echo get_the_post_thumbnail($post_id, 'thumbnail')?>
+		</div>
+	<?php endif; ?>
 
-		<?php mongabay_excerpt('mongabay_index'); // Build your custom callback length in functions.php ?>
+</article>
 
-		<?php edit_post_link(); ?>
-
-	</article>
-	<!-- /article -->
 
 <?php endwhile; ?>
-
 <?php else: ?>
 
-	<!-- article -->
-	<article>
-		<h2><?php _e( 'Sorry, nothing to display.', 'mongabay' ); ?></h2>
-	</article>
-	<!-- /article -->
+<article>
 
-<?php endif; ?>
+	<h2><?php _e( 'Sorry, nothing to display.', 'mongabay' ); ?></h2>
+
+</article>
+
+
+<?php endif;?>

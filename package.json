@@ -1,0 +1,28 @@
+{
+  "name": "mongabay",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martinosmartinos/Mongabay-Wordpress-Theme.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/martinosmartinos/Mongabay-Wordpress-Theme/issues"
+  },
+  "homepage": "https://github.com/martinosmartinos/Mongabay-Wordpress-Theme#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-pot": "^0.3.0",
+    "grunt-uncss": "^0.6.2"
+  },
+  "dependencies": {
+    "grunt": "^1.0.1",
+    "grunt-pot": "^0.3.0"
+  },
+  "description": ""
+}

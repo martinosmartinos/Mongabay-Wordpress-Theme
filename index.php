@@ -1,75 +1,45 @@
 <?php get_header(); ?>
 
 	<main role="main">
-		<!-- featured slider -->
 		<?php
-			$queried_object = get_queried_object();
-			$title = $queried_object -> name;
-			$description = $queried_object -> description;
-			$tax = $queried_object -> taxonomy;
-			$line_start = '';
+			$section = get_query_var('section');
+			$firstvar = get_query_var('nc1');
+			$secondvar = get_query_var('nc2');
+
 			$line_end = '';
-			if ($tax == 'byline') {
-				$line_start = 'Articles by';
+			if ($section == 'list' && !empty($firstvar) && empty($secondvar)) {
+				
+				$item1 = get_terms(array('topic','location'), array('slug' => $firstvar));
+				$title = $item1[0] -> name;
+				//$description = $item1[0] -> description;
+				$line_end = ' News';
 			}
-			if ($tax == 'serial') {
-				$line_start = 'Mongabay series: ';
-			}
-			if ($tax == 'topic' || $tax == 'location') {
+
+			if ($section == 'list' && !empty($firstvar) && !empty($secondvar)) {
+				$item1 = get_terms(array('topic','location'), array('slug' => $firstvar));
+				$item2 = get_terms(array('topic','location'), array('slug' => $secondvar));
+				$title1 = $item1[0] -> name;
+				$title2 = $item2[0] -> name;
+				$title = $title1.' and '.$title2;
 				$line_end = ' News';
 			}
 		?>
+		<!-- featured slider -->
 		<div class="row featured-slider no-gutters">
-			<?php get_template_part( section, slider ); ?>
+			<?php get_template_part( 'partials/section', 'slider' ); ?>
 	    </div>
 	    <!-- featured slider end -->
 		<div class="row">
 	      	<div id="main" class="col-lg-8">
 				<div class="tag-line">
-					<h1><?php _e( $line_start, 'mongabay');?> <?php echo $title; ?><?php _e( $line_end, 'mongabay');?></h1>
+					<h1><?php echo $title; ?><?php _e( $line_end, 'mongabay');?></h1>
 					<p><?php echo $description; ?></p>
 				</div>
 	          	<!-- section -->
 				<section>
 
 					<div class="post-wrapper-news">
-						<?php if (have_posts()): while (have_posts()) : the_post(); ?>
-
-						<!-- article -->
-						<article id="post-<?php the_ID(); ?>" class="post-news">
-							<?php if ( has_post_thumbnail()) : ?>
-								<div class="hidden-md-up">
-								<?php echo get_the_post_thumbnail($post_id, 'medium')?>
-								</div>
-							<?php endif; ?>
-				      		<h2 class="post-title-news"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-				      		<div class="entry-meta-news">
-				      			<?php _e('by ', 'mongabay'); ?><?php echo get_the_term_list( $post_id, 'byline', '', ', ' ); ?> <?php the_time('j F Y'); ?>
-				      		</div>
-							<div class="excerpt-news">
-				      			<?php mongabay_excerpt('mongabay_index'); ?>
-				      		</div>
-				      		<?php if ( has_post_thumbnail()) : ?>
-								<div class="thumbnail-news hidden-xs-down">
-								<?php echo get_the_post_thumbnail($post_id, 'thumbnail')?>
-								</div>
-							<?php endif; ?>
-			      		</article>
-						<!-- /article -->
-
-						<?php endwhile; ?>
-
-						<?php else: ?>
-
-						<!-- article -->
-						<article>
-
-							<h2><?php _e( 'Sorry, nothing to display.', 'mongabay' ); ?></h2>
-
-						</article>
-						<!-- /article -->
-
-						<?php endif;?>
+						<?php get_template_part('loop'); ?>
 					</div>
 					<div class="counter">
 						<?php mongabay_pagination(); ?>
@@ -82,7 +52,7 @@
                 }
             ?>
 		</div>
-		<?php get_template_part( section, series ); ?>
+		<?php get_template_part( 'partials/section', 'series' ); ?>
 	</main>
 </div>
 <!-- /container -->

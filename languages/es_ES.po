@@ -1,193 +1,385 @@
+# Copyright (C) 2017 Martin Krasilnikov
+# This file is distributed under the MIT.
 msgid ""
 msgstr ""
-"Project-Id-Version: HTML5 Blank WordPress Theme\n"
-"POT-Creation-Date: 2012-10-18 00:53+0100\n"
-"PO-Revision-Date: \n"
-"Last-Translator: Fabián Núñez <fanuneza@gmail.com>\n"
-"Language-Team: Ioan Virag | www.ioanvirag.com <ioan@ioanvirag.com>\n"
-"Language: es_ES\n"
+"Project-Id-Version: Mongabay Environmental News 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/mongabay_prod\n"
+"POT-Creation-Date: 2017-07-28 20:40-0700\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.4\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: _e;__\n"
-"X-Poedit-Basepath: .\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPath-1: ..\n"
+"PO-Revision-Date: 2017-07-28 21:03-0700\n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.7\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_PE\n"
 
-#: ../404.php:9
+#: 404.php:7
 msgid "Page not found"
-msgstr "Página no encontrada"
+msgstr "No se encontró la página"
 
-#: ../404.php:10
+#: 404.php:9
 msgid "Return home?"
-msgstr "¿Regresar al Inicio?"
+msgstr "¿Volver al inicio?"
 
-#: ../archive.php:6
-msgid "Archives"
-msgstr "Archivos"
+#: author.php:9
+msgid "Articles by "
+msgstr "Artículos de"
 
-#: ../author.php:8
-msgid "Author Archives for "
-msgstr "Archivos de autor de"
+#: custom-code/meta.php:67
+msgid ""
+"Mongabay seeks to raise interest in and appreciation of wild lands and "
+"wildlife, while examining the impact of emerging trends in climate, "
+"technology, economics,and finance on conservation and development."
+msgstr ""
+"Mongabay pretende aumentar el interés y la apreciación por la tierra "
+"salvaje y la vida silvestre a la vez que examina los efectos de las "
+"tendencias emergentes en el clima, la tecnología, la economía y las "
+"finanzas en la conservación y el desarrollo"
 
-#: ../author.php:41 ../loop.php:22 ../single.php:27
-msgid "Published by"
-msgstr "Publicado por"
+#: custom-code/taxonomy-location.php:6
+msgctxt "taxonomy general name"
+msgid "Locations"
+msgstr "Regiones"
 
-#: ../author.php:42 ../loop.php:23 ../single.php:28
-msgid "Leave your thoughts"
-msgstr "Deja tus comentarios"
+#: custom-code/taxonomy-location.php:7
+msgctxt "taxonomy singular name"
+msgid "Location"
+msgstr "Región"
 
-#: ../author.php:42 ../loop.php:23 ../single.php:28
-msgid "1 Comment"
-msgstr "1 Comentario"
+#: custom-code/taxonomy-location.php:8
+msgid "Search Locations"
+msgstr "Buscar regiones"
 
-#: ../author.php:42 ../loop.php:23 ../single.php:28
-msgid "% Comments"
-msgstr "% Comentarios"
+#: custom-code/taxonomy-location.php:9
+msgid "Popular Locations"
+msgstr "Regiones populares"
 
-#: ../author.php:61 ../loop.php:41 ../page.php:31 ../single.php:55
-#: ../template-demo.php:33
-msgid "Sorry, nothing to display."
-msgstr "Disculpa, nada para mostrar."
+#: custom-code/taxonomy-location.php:10
+msgid "All Locations"
+msgstr "Todas las regiones"
 
-#: ../category.php:6
-msgid "Categories for"
-msgstr "Categorías para"
+#: custom-code/taxonomy-location.php:13
+msgid "Edit Location"
+msgstr "Editar región"
 
-#: ../comments.php:3
-msgid "Post is password protected. Enter the password to view any comments."
-msgstr "Entrada protegida. Introduzca la contraseña para ver los comentarios."
+#: custom-code/taxonomy-location.php:14
+msgid "Update Location"
+msgstr "Actualizar región"
 
-#: ../comments.php:18
-msgid "Comments are closed here."
-msgstr "Los comentarios están cerrados."
+#: custom-code/taxonomy-location.php:15
+msgid "Add New Location"
+msgstr "Añadir nueva región"
 
-#: ../footer.php:6
-msgid "Powered by"
-msgstr "Desarrollado con"
+#: custom-code/taxonomy-location.php:16
+msgid "New Location Name"
+msgstr "Nombre de la nueva región"
 
-#: ../functions.php:174
-#, php-format
-msgid "<span class=\"fn\">%s</span> <span class=\"says\">says:</span>"
-msgstr "<cite class=\"fn\">%s</cite> <span class=\"says\">dice:</span>"
+#: custom-code/taxonomy-location.php:17
+msgid "Separate locations with commas"
+msgstr "Separar regiones con comas"
 
-#: ../functions.php:177
-msgid "Your comment is awaiting moderation."
-msgstr "Su comentario espera moderación."
+#: custom-code/taxonomy-location.php:18
+msgid "Add or remove locations"
+msgstr "Añadir o eliminar región"
 
-#: ../functions.php:184
-#, php-format
-msgid "%1$s at %2$s"
-msgstr "%1$s en %2$s"
+#: custom-code/taxonomy-location.php:19
+msgid "Choose from the most used locations"
+msgstr "Elegir entre las regiones más utilizadas"
 
-#: ../functions.php:184
-msgid "(Edit)"
-msgstr "(Editar)"
+#: custom-code/taxonomy-location.php:20
+msgid "No locations found."
+msgstr "No se han encontrado regiones."
 
-#: ../functions.php:209
+#: custom-code/taxonomy-location.php:21
+msgid "Location"
+msgstr "Región"
+
+#: custom-code/taxonomy-serial.php:6
+msgctxt "taxonomy general name"
+msgid "Serials"
+msgstr "Series"
+
+#: custom-code/taxonomy-serial.php:7
+msgctxt "taxonomy singular name"
+msgid "Serial"
+msgstr "Serie"
+
+#: custom-code/taxonomy-serial.php:8
+msgid "Search Serials"
+msgstr "Buscar series"
+
+#: custom-code/taxonomy-serial.php:9
+msgid "Popular Serials"
+msgstr "Series populares"
+
+#: custom-code/taxonomy-serial.php:10
+msgid "All Serials"
+msgstr "Todas las series"
+
+#: custom-code/taxonomy-serial.php:13
+msgid "Edit Serial"
+msgstr "Editar serie"
+
+#: custom-code/taxonomy-serial.php:14
+msgid "Update Serial"
+msgstr "Actualizar serie"
+
+#: custom-code/taxonomy-serial.php:15
+msgid "Add New Serial"
+msgstr "Añadir nueva serie"
+
+#: custom-code/taxonomy-serial.php:16
+msgid "New Serial Name"
+msgstr "Nombre de la nueva serie"
+
+#: custom-code/taxonomy-serial.php:17
+msgid "Separate serials with commas"
+msgstr "Separar series con comas"
+
+#: custom-code/taxonomy-serial.php:18
+msgid "Add or remove serials"
+msgstr "Añadir o eliminar series"
+
+#: custom-code/taxonomy-serial.php:19
+msgid "Choose from the most used serials"
+msgstr "Elegir entre las series más utilizadas"
+
+#: custom-code/taxonomy-serial.php:20
+msgid "No serials found."
+msgstr "No se han encontrado series."
+
+#: custom-code/taxonomy-serial.php:21
+msgid "Serial"
+msgstr "Serie"
+
+#: custom-code/taxonomy-topic.php:6
+msgctxt "taxonomy general name"
+msgid "Topics"
+msgstr "Temas"
+
+#: custom-code/taxonomy-topic.php:7
+msgctxt "taxonomy singular name"
+msgid "Topic"
+msgstr "Tema"
+
+#: custom-code/taxonomy-topic.php:8
+msgid "Search Topics"
+msgstr "Buscar temas"
+
+#: custom-code/taxonomy-topic.php:9
+msgid "Popular Topics"
+msgstr "Temas populares"
+
+#: custom-code/taxonomy-topic.php:10
+msgid "All Topics"
+msgstr "Todos los temas"
+
+#: custom-code/taxonomy-topic.php:13
+msgid "Edit Topic"
+msgstr "Editar tema"
+
+#: custom-code/taxonomy-topic.php:14
+msgid "Update Topic"
+msgstr "Actualizar tema"
+
+#: custom-code/taxonomy-topic.php:15
+msgid "Add New Topic"
+msgstr "Añadir nuevo tema"
+
+#: custom-code/taxonomy-topic.php:16
+msgid "New Topic Name"
+msgstr "Nombre del nuevo tema"
+
+#: custom-code/taxonomy-topic.php:17
+msgid "Separate topics with commas"
+msgstr "Separar temas con comas"
+
+#: custom-code/taxonomy-topic.php:18
+msgid "Add or remove topics"
+msgstr "Añadir o eliminar temas"
+
+#: custom-code/taxonomy-topic.php:19
+msgid "Choose from the most used topics"
+msgstr "Elegir entre los temas más utilizados"
+
+#: custom-code/taxonomy-topic.php:20
+msgid "No topics found."
+msgstr "No se han encontrado temas"
+
+#: custom-code/taxonomy-topic.php:21
+msgid "Topic"
+msgstr "Tema"
+
+#: custom-code/thumbnailed-recent-posts.php:16
+msgid "Most Recent"
+msgstr "Más reciente"
+
+#: front-page.php:53
+msgid "Environmental headlines"
+msgstr "Titulares ambientales"
+
+#: front-page.php:54
+msgid ""
+"Mongabay is a non-profit provider of conservation and environmental science "
+"news."
+msgstr ""
+"Mongabay es un proveedor sin fines de lucro de noticias sobre conservación "
+"y ciencia ambiental. Nuestro objetivo es inspirar, educar e informar."
+
+#: functions.php:216
+msgid "Special series"
+msgstr "Series especiales"
+
+#: functions.php:261
+msgid "More articles"
+msgstr "Más artículos"
+
+#: functions.php:368
 msgid "Header Menu"
-msgstr "Menú de la cabecera"
+msgstr "Menú superior"
 
-#: ../functions.php:210
+#: functions.php:369
 msgid "Sidebar Menu"
-msgstr "Menú de la barra lateral"
+msgstr "Menú lateral"
 
-#: ../functions.php:211
+#: functions.php:370
 msgid "Extra Menu"
 msgstr "Menú extra"
 
-#: ../functions.php:257
-msgid "Widget Area 1"
-msgstr "Zona 1 de widgets"
+#: functions.php:416
+msgid "Sidebar Widget"
+msgstr "Widget de la barra lateral"
 
-#: ../functions.php:258 ../functions.php:269
-msgid "Description for this widget-area..."
-msgstr "Descripción para esta zona..."
+#: functions.php:417
+msgid "All sidebar widgets should be placed here."
+msgstr "Todos los widgets de la barra lateral deberían situarse aquí"
 
-#: ../functions.php:268
-msgid "Widget Area 2"
-msgstr "Zona 2 de widgets"
+#: functions.php:427
+msgid "Footer Widget 1/4"
+msgstr "Widget inferior 1/4"
 
-#: ../functions.php:333
+#: functions.php:428
+msgid "First column widget"
+msgstr "Widget de la primera columnna"
+
+#: functions.php:438
+msgid "Footer Widget 2/4"
+msgstr "Widget inferior 2/4"
+
+#: functions.php:439
+msgid "Second column widget"
+msgstr "Widget de la segunda columna"
+
+#: functions.php:449
+msgid "Footer Widget 3/4"
+msgstr "Widget inferior 3/4"
+
+#: functions.php:450
+msgid "Third column widget"
+msgstr "Widget de la tercera columna"
+
+#: functions.php:460
+msgid "Footer Widget 4/4"
+msgstr "Widget inferior 4/4"
+
+#: functions.php:461
+msgid "Forth column widget"
+msgstr "Widget de la cuarta columna"
+
+#: functions.php:484
+msgid "Topic and location tabs"
+msgstr "Pestañas de temas y regiones"
+
+#: functions.php:485
+msgid "Listing topics and locations as tabbed content"
+msgstr "Listar temas y regiones como contenido tabulado"
+
+#: functions.php:507
+msgid "By topic"
+msgstr "Por tema"
+
+#: functions.php:508
+msgid "By location"
+msgstr "Por región"
+
+#: functions.php:564
+msgid "Many more topics"
+msgstr "Muchos más temas"
+
+#: functions.php:608
+msgid "Browse more locations"
+msgstr "Ver más regiones"
+
+#: functions.php:621
+msgid "New title"
+msgstr "Nuevo título"
+
+#: functions.php:625
+msgid "Title:"
+msgstr "Título:"
+
+#: functions.php:698
 msgid "View Article"
 msgstr "Ver artículo"
 
-#: ../functions.php:438 ../functions.php:439
-msgid "HTML5 Blank Custom Post"
-msgstr "Entradas personalizadas de HTML5 Blank"
+#: functions.php:853 functions.php:857
+msgid "You cannot add terms to this taxonomy"
+msgstr "No puede añadir términos a esta taxonomía"
 
-#: ../functions.php:440
-msgid "Add New"
-msgstr "Añadir nuevo"
+#: loop.php:30 single.php:37
+msgid "by "
+msgstr "por "
 
-#: ../functions.php:441
-msgid "Add New HTML5 Blank Custom Post"
-msgstr "Añadir entrada personalizada de HTML5 Blank"
+#: loop.php:56 page.php:16 single-featured.php:78 single.php:92
+msgid "Sorry, nothing to display."
+msgstr "Lo sentimos, no hay nada que mostrar"
 
-#: ../functions.php:442
-msgid "Edit"
-msgstr "Editar"
+#: partials/navigation-featured.php:9 partials/navigation-mobile.php:9
+msgid "News sections"
+msgstr "Secciones de noticias"
 
-#: ../functions.php:443
-msgid "Edit HTML5 Blank Custom Post"
-msgstr "Editar entrada personalizada de HTML5 Blank"
+#: partials/navigation-featured.php:13 partials/navigation-mobile.php:15
+msgid "Language"
+msgstr "Idioma"
 
-#: ../functions.php:444
-msgid "New HTML5 Blank Custom Post"
-msgstr "Nueva entrada personalizada de HTML5 Blank"
-
-#: ../functions.php:445 ../functions.php:446
-msgid "View HTML5 Blank Custom Post"
-msgstr "Ver entrada personalizada de HTML5 Blank"
-
-#: ../functions.php:447
-msgid "Search HTML5 Blank Custom Post"
-msgstr "Buscar entrada personalizada de HTML5 Blank"
-
-#: ../functions.php:448
-msgid "No HTML5 Blank Custom Posts found"
-msgstr "No se han encontrado entradas personalizadas de HTML5 Blank"
-
-#: ../functions.php:449
-msgid "No HTML5 Blank Custom Posts found in Trash"
-msgstr ""
-"No se han encontrado entradas personalizadas de HTML5 Blank en la papelera"
-
-#: ../index.php:6
-msgid "Latest Posts"
-msgstr "Últimas entradas"
-
-#: ../search.php:6
-#, php-format
+#: search.php:6
 msgid "%s Search Results for "
-msgstr "%s resultados resultados para"
+msgstr "%s Buscar resultados para "
 
-#: ../searchform.php:5
+#: searchform.php:3
+msgid "To search, type and hit enter."
+msgstr "Para buscar, teclee y haga clic en intro"
+
+#: searchform.php:4
 msgid "Search"
 msgstr "Buscar"
 
-#: ../single.php:35
-msgid "Tags: "
-msgstr "Etiquetas: "
+#: single-featured.php:26 single.php:22
+msgid "Mongabay Series: "
+msgstr "Series de Mongabay: "
 
-#: ../single.php:37
-msgid "Categorised in: "
-msgstr "Categorizado en: "
+#: single-featured.php:65 single.php:79
+msgid "Article published by "
+msgstr "Artículo publicado por "
 
-#: ../single.php:39
-msgid "This post was written by "
-msgstr "Esta entrada fue escrita por"
+#: single.php:37
+msgid " on "
+msgstr " en "
 
-#: ../tag.php:6
-msgid "Tag Archive: "
-msgstr "Archivo de etiquetas: "
+#. Theme Name of the plugin/theme
+msgid "Mongabay Environmental News"
+msgstr "Noticias Ambientales de Mongabay"
 
-#: ../searchform.php:3
-msgid "To search, type and hit enter."
-msgstr "Para buscar, escribe y presiona Enter"
+#. Description of the plugin/theme
+msgid "Mongabay WordPress Theme"
+msgstr "Tema de Mongabay en Wordpress"
 
-#~ msgid "%s results for "
-#~ msgstr "%s Ergebnisse für "
+#. Author of the plugin/theme
+msgid "Martin Krasilnikov"
+msgstr "Martin Krasilnikov"
+
+#. Author URI of the plugin/theme
+msgid "www.mkras.com"
+msgstr "www.mkras.com"

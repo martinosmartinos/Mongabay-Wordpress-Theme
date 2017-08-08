@@ -2,6 +2,7 @@
     
     <?php
         $post_id = get_the_ID();
+        $tagline = get_post_meta($post_id,"mog_tagline",true);
         $translator = get_post_meta($post_id,"translated_by",true);
         $adaptor = get_post_meta($post_id,"adapted_by",true);
         $translated_adapted = get_post_meta($post_id,"translated_adapted",true);
@@ -15,11 +16,16 @@
         <div class="col-lg-12 parallax-section full-height article-cover" data-parallax="scroll" data-image-src="<?php echo get_the_post_thumbnail_url($post_id, 'large')?>">
             <div class="featured-article-meta">
                 <h1 class="title"><?php the_title(); ?></h1>
-                <span class="subtitle">More than 29,000 hectares have been lost, a new report says.</span>
+                <span class="subtitle">
+                    <?php echo $tagline; ?>
+                </span>
                 <span class="featured-article-publish">by <?php echo get_the_term_list( $post_id, 'byline', '', ', ' ); ?> on <?php the_time('j F Y'); ?></span>
                 <?php
                     if ($serial) {
-                        echo '<p>'.get_the_term_list( $post_id, 'serial', __('Mongabay Series: ', 'mongabay'), ', ' ).'</p>';
+                        echo '<p>';
+                        _e('Mongabay Series: ', 'mongabay');
+                        echo get_the_term_list( $post_id, 'serial', '', ', ', '' );
+                        echo '</p>';
                     }
                 ?>
             </div>
@@ -28,7 +34,7 @@
     </div>
     <?php endif; ?>
     <!-- /post thumbnail -->
-    
+
     <main role="main">
         <div class="container">
             <div class="row justify-content-center">
@@ -57,7 +63,7 @@
                         <div id="single-article-footer">
                             <div id="single-article-meta">
                                 <span><?php _e( 'Article published by ', 'mongabay' ); the_author(); ?></span>
-                                <span class="article-comments"><a href="">11 comments</a></span>
+                                <span class="article-comments"><a href=""></a></span>
                             </div>
                             <div id="single-article-tags">
                                 <?php echo get_the_term_list( $post_id, 'topic', '', ', ' ); ?>
@@ -78,6 +84,6 @@
             <!-- /row -->
         </div>
         <!-- /container -->
-        <?php get_template_part( section, series ); ?>
+        <?php get_template_part( 'partials/section', 'series' ); ?>
     </main>
 <?php get_footer(); ?>
