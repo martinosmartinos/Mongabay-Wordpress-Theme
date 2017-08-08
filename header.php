@@ -10,7 +10,7 @@
 <!--<![endif]-->
 	<head>
 		<meta charset="<?php bloginfo('charset'); ?>">
-		<title><?php wp_title(''); ?><?php if(wp_title('', false)) { echo ' :'; } ?> <?php bloginfo('name'); ?></title>
+		<title><?php wp_title(''); ?></title>
 
 		<link href="//www.google-analytics.com" rel="dns-prefetch">
 		<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/img/icons/favicon.png" type="image/x-icon"/>
@@ -27,6 +27,18 @@
 
 	</head>
 	<body <?php body_class(); ?>>
+		
+		<!-- FB-added 2017-08-01 -->
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=139042016164873";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+		<!-- //FB-added 2017-08-01 -->
+		
 		<!-- container -->
 		<div class="container">
 			<header class="header" role="banner">
@@ -60,8 +72,8 @@
 						echo '<div class="logo">';
 						echo '<a href="https://'.mongabay_subdomain_name().'.mongabay.com">';
 						$subdomain = mongabay_subdomain_name();
-						echo '<svg width="328" height="60" aria-label="Mongabay">';
-						echo '<image xlink:href="'.get_template_directory_uri().'/img/logo/mongabay_logo_'.$subdomain.'.svg" src="'.get_template_directory_uri().'/img/logo/mongabay_logo_'.$subdomain.'.png" width="328" height="60" alt="Mongabay"/>';
+						echo '<svg width="410" height="75" aria-label="Mongabay">';
+						echo '<image xlink:href="'.get_template_directory_uri().'/img/logo/mongabay_logo_'.$subdomain.'.svg" src="'.get_template_directory_uri().'/img/logo/mongabay_logo_'.$subdomain.'.png" width="410" height="75" alt="Mongabay"/>';
 						echo '</svg>';
 						echo '</a>';
 						echo '</div>';
