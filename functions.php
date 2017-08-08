@@ -321,16 +321,16 @@ function mongabay_header_scripts()
 {
     if ($GLOBALS['pagenow'] != 'wp-login.php' && !is_admin()) {
 
-        wp_register_script('fittext', get_template_directory_uri() . '/js/lib/jquery.fittext.js', array('jquery'), '1.2', true);
+        wp_register_script('fittext', get_template_directory_uri() . '/js/lib/jquery.fittext.js#async', array('jquery'), '1.2', true);
         wp_enqueue_script('fittext');
 
-        wp_register_script('bootstraputils', get_template_directory_uri() . '/js/lib/util.js', array('jquery'), '4.0.0', true);
+        wp_register_script('bootstraputils', get_template_directory_uri() . '/js/lib/util.js#async', array('jquery'), '4.0.0', true);
         wp_enqueue_script('bootstraputils');
 
-        wp_register_script('bootstraptabs', get_template_directory_uri() . '/js/lib/tabs.js', array('jquery'), '4.0.0', true);
+        wp_register_script('bootstraptabs', get_template_directory_uri() . '/js/lib/tabs.js#async.', array('jquery'), '4.0.0', true);
         wp_enqueue_script('bootstraptabs');
 
-        wp_register_script('scripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '1.0.0', true);
+        wp_register_script('scripts', get_template_directory_uri() . '/js/scripts.js#async.', array('jquery'), '1.0.0', true);
         wp_enqueue_script('scripts');
     }
 }
@@ -340,11 +340,25 @@ function mongabay_conditional_scripts()
 {
 
     if ( mongabay_layout() == 'container-fluid') {
-        wp_register_script('parallax', get_template_directory_uri() . '/js/lib/parallax.min.js', array(), '1.4.2', true);
+        wp_register_script('parallax', get_template_directory_uri() . '/js/lib/parallax.min.js#async', array(), '1.4.2');
         wp_enqueue_script('parallax');
 
     }
 }
+
+
+// Async load
+function mongabay_async_scripts($url)
+{
+    if ( strpos( $url, '#async') === false )
+        return $url;
+    else if ( is_admin() )
+        return str_replace( '#async', '', $url );
+    else
+    return str_replace( '#async', '', $url )."' async='async"; 
+    }
+add_filter( 'clean_url', 'mongabay_async_scripts', 11, 1 );
+
 
 
 // Featured articles template
@@ -361,13 +375,13 @@ add_action('template_redirect', 'mongabay_featured');
 // Load styles
 function mongabay_styles()
 {
-    wp_register_style('normalize', get_template_directory_uri() . '/normalize.min.css', array(), '1.0', 'all');
+    wp_register_style('normalize', get_template_directory_uri() . '/normalize.css', array(), '1.0', 'all');
     wp_enqueue_style('normalize'); // Enqueue it!
 
     wp_register_style('boostrap', get_template_directory_uri() . '/css/bootstrap.min.css', array(), '4.0.0', 'all');
     wp_enqueue_style('boostrap'); // Enqueue it!
 
-    wp_register_style('main', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
+    wp_register_style('main', get_template_directory_uri() . '/mongabay17.css', array(), '1.0', 'all');
     wp_enqueue_style('main'); // Enqueue it!
 }
 
@@ -523,50 +537,50 @@ class mongabay_topic_location extends WP_Widget {
             switch (get_current_blog_id()) {
                 case '1':
                 //General www
-                    mongabay_tabbed_content('http://news.mongabot.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
+                    mongabay_tabbed_content('http://news.mongabay.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
                     break;
                 case '20':
                 //News
-                    mongabay_tabbed_content('http://news.mongabot.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
+                    mongabay_tabbed_content('http://news.mongabay.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
                     break;
                 case '21':
                 //Kidsnews
-                    mongabay_tabbed_content('http://kidsnews.mongabot.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
+                    mongabay_tabbed_content('http://kidsnews.mongabay.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
                     break;
                 case '22':
                 //Wildtech
-                    mongabay_tabbed_content('http://news.mongabot.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
+                    mongabay_tabbed_content('http://wildtech.mongabay.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
                     break;
                 case '23':
                 //Chinese
-                    mongabay_tabbed_content('http://cn.mongabot.com/', array('农业','动物','鸟类','气候变化','保全','森林毁坏','能量','特色','森林','乐观积极的环境（新闻）','爬虫','Indigenous people','Interviews','哺乳动物','New Species','海洋','油棕种植园','雨林','Technology','野生动物'));
+                    mongabay_tabbed_content('http://cn.mongabay.com/', array('农业','动物','鸟类','气候变化','保全','森林毁坏','能量','特色','森林','乐观积极的环境（新闻）','爬虫','Indigenous people','Interviews','哺乳动物','New Species','海洋','油棕种植园','雨林','Technology','野生动物'));
                     break;
                 case '24':
                 //German
-                    mongabay_tabbed_content('http://de.mongabot.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
+                    mongabay_tabbed_content('http://de.mongabay.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
                     break;
                 case '25':
                 //Spanish
-                    mongabay_tabbed_content('http://es.mongabot.com/', array('Agricultura','Animales','Pájaros','Cambio Climático','Conservación','Deforestación','Energía','Destacado','Bosques','Optimismo medioambiental','Herpetología','Indigenous people','Entrevistas','Mamíferos','Nuevas especies','Océanos','Plantaciones de aceite de palma','Selvas tropicales','Tecnología','Vida silvestre'));
+                    mongabay_tabbed_content('http://es.mongabay.com/', array('Agricultura','Animales','Pájaros','Cambio Climático','Conservación','Deforestación','Energía','Destacado','Bosques','Optimismo medioambiental','Herpetología','Indigenous people','Entrevistas','Mamíferos','Nuevas especies','Océanos','Plantaciones de aceite de palma','Selvas tropicales','Tecnología','Vida silvestre'));
                     break;
                 case '26':
                 //French
-                    mongabay_tabbed_content('http://news.mongabot.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
+                    mongabay_tabbed_content('http://news.mongabay.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
                     break;
                 case '27':
                 //Italian
-                    mongabay_tabbed_content('http://it.mongabot.com/', array('Agricoltura','Animali','Uccelli','Cambiamento climatico','Conservazione','Deforestazione','Energia','In primo piano','Foreste Andine','Buone notizie per lambiente','Herpetologia','Indigenous people','Interviews','Mammiferi','New species','Oceani','Piantagioni di palme da olio','Foreste pluviali','Technology','Fauna selvatica'));
+                    mongabay_tabbed_content('http://it.mongabay.com/', array('Agricoltura','Animali','Uccelli','Cambiamento climatico','Conservazione','Deforestazione','Energia','In primo piano','Foreste Andine','Buone notizie per lambiente','Herpetologia','Indigenous people','Interviews','Mammiferi','New species','Oceani','Piantagioni di palme da olio','Foreste pluviali','Technology','Fauna selvatica'));
                     break;
                 case '28':
                 //Japanese
-                    mongabay_tabbed_content('http://jp.mongabot.com/', array('農業','動物','鳥類','気候変動e','保全','森林破壊','エネルギー','特集','森林','明るくポジティブな環境ニュース','両生・爬虫類','Indigenous people','Interviews','哺乳類','New species','海洋','パーム油プランテーション','熱帯雨林','Technology','野生動物'));
+                    mongabay_tabbed_content('http://jp.mongabay.com/', array('農業','動物','鳥類','気候変動e','保全','森林破壊','エネルギー','特集','森林','明るくポジティブな環境ニュース','両生・爬虫類','Indigenous people','Interviews','哺乳類','New species','海洋','パーム油プランテーション','熱帯雨林','Technology','野生動物'));
                     break;
                 case '29':
                 //Portuguese
-                    mongabay_tabbed_content('http://pt.mongabot.com/', array('Agricultura','Animais','Aves','Alterações Climáticas','Conservação','Desflorestação','Energia','Destaque','Florestas','Otimismo ambiental','Herpetologia','Indigenous People','Interviews','Mamíferos','New species','Oceanos','Plantações de Óleo de Palma','Florestas Tropicais','Technology','Vida Selvagem'));
+                    mongabay_tabbed_content('http://pt.mongabay.com/', array('Agricultura','Animais','Aves','Alterações Climáticas','Conservação','Desflorestação','Energia','Destaque','Florestas','Otimismo ambiental','Herpetologia','Indigenous People','Interviews','Mamíferos','New species','Oceanos','Plantações de Óleo de Palma','Florestas Tropicais','Technology','Vida Selvagem'));
                     break;
                 default:
-                    mongabay_tabbed_content('http://news.mongabot.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
+                    mongabay_tabbed_content('http://news.mongabay.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
                     break;
             }
                 
@@ -577,40 +591,40 @@ class mongabay_topic_location extends WP_Widget {
             <?php
                 switch (get_current_blog_id()) {
                     case '1':
-                        mongabay_tabbed_content('http://news.mongabot.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
+                        mongabay_tabbed_content('http://news.mongabay.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
                         break;
                     case '20':
-                        mongabay_tabbed_content('http://news.mongabot.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
+                        mongabay_tabbed_content('http://news.mongabay.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
                         break;
                     case '21':
-                        mongabay_tabbed_content('http://kidsnews.mongabot.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
+                        mongabay_tabbed_content('http://kidsnews.mongabay.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
                         break;
                     case '22':
-                        mongabay_tabbed_content('http://news.mongabot.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
+                        mongabay_tabbed_content('http://news.mongabay.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
                         break;
                     case '23':
-                        mongabay_tabbed_content('http://cn.mongabot.com/', array('非洲','亚马逊','亚洲','澳大利亚','婆罗洲','巴西','喀麦隆','中美洲','中国','哥伦比亚','刚果','印度尼西亚','印度尼西亚','拉丁美洲','马达加斯加','马来西亚','新几内亚','秘鲁','苏门答腊','美国'));
+                        mongabay_tabbed_content('http://cn.mongabay.com/', array('非洲','亚马逊','亚洲','澳大利亚','婆罗洲','巴西','喀麦隆','中美洲','中国','哥伦比亚','刚果','印度尼西亚','印度尼西亚','拉丁美洲','马达加斯加','马来西亚','新几内亚','秘鲁','苏门答腊','美国'));
                         break;
                     case '24':
-                        mongabay_tabbed_content('http://de.mongabot.com/', array('Afrika','Amazonas','Asien','Australien','Borneo','Brasilien','Kamerun','Zentralamerika','China','Kolumbien','Kongo','Indien','Indonesien','Lateinamerika','Madagaskar','Malaysia','Neuguinea','Peru','Sumatra','Vereinigte Staaten'));
+                        mongabay_tabbed_content('http://de.mongabay.com/', array('Afrika','Amazonas','Asien','Australien','Borneo','Brasilien','Kamerun','Zentralamerika','China','Kolumbien','Kongo','Indien','Indonesien','Lateinamerika','Madagaskar','Malaysia','Neuguinea','Peru','Sumatra','Vereinigte Staaten'));
                         break;
                     case '25':
-                        mongabay_tabbed_content('http://es.mongabot.com/', array('Africa','Amazonas','Asia','Australia','Borneo','Brasil','Camerún','América Central','China','El Congo','Congo','India','Indonesia','América Latina','Madagascar','Malasia','Nueva Guinea','Perú','Sumatra','Estados Unidos'));
+                        mongabay_tabbed_content('http://es.mongabay.com/', array('Africa','Amazonas','Asia','Australia','Borneo','Brasil','Camerún','América Central','China','El Congo','Congo','India','Indonesia','América Latina','Madagascar','Malasia','Nueva Guinea','Perú','Sumatra','Estados Unidos'));
                         break;
                     case '26':
-                        mongabay_tabbed_content('http://news.mongabot.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
+                        mongabay_tabbed_content('http://news.mongabay.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
                         break;
                     case '27':
-                        mongabay_tabbed_content('http://it.mongabot.com/', array('Africa','Amazzonia','Asia','Australia','Borneo','Brasile','Camerun','America Centrale','Cina','Colombia','Congo','India','Indonesia','America Latina','Madagascar','Malesia','Nuova Guinea','Perù','Sumatra','Stati Uniti'));
+                        mongabay_tabbed_content('http://it.mongabay.com/', array('Africa','Amazzonia','Asia','Australia','Borneo','Brasile','Camerun','America Centrale','Cina','Colombia','Congo','India','Indonesia','America Latina','Madagascar','Malesia','Nuova Guinea','Perù','Sumatra','Stati Uniti'));
                         break;
                     case '28':
-                        mongabay_tabbed_content('http://jp.mongabot.com/', array('アフリカ','アマゾン','アジア','オーストラリア','ボルネオ','ブラジル','カメルーン','中央アメリカ','中国','コロンビア','コンゴ','インド','インドネシア','ラテンアメリカ','マダガスカル','マレーシア','ニューギニア','ペルー','スマトラ','米国'));
+                        mongabay_tabbed_content('http://jp.mongabay.com/', array('アフリカ','アマゾン','アジア','オーストラリア','ボルネオ','ブラジル','カメルーン','中央アメリカ','中国','コロンビア','コンゴ','インド','インドネシア','ラテンアメリカ','マダガスカル','マレーシア','ニューギニア','ペルー','スマトラ','米国'));
                         break;
                     case '29':
-                        mongabay_tabbed_content('http://pt.mongabot.com/', array('África','Amazónia','Ásia','Austrália','Bornéu','Brasil','Camarões','América Central','China','Colômbia','Congo','Índia','Indonésia','América Latina','Madagáscar','Malásia','Nova Guiné','Peru','Sumatra','Estados Unidos'));
+                        mongabay_tabbed_content('http://pt.mongabay.com/', array('África','Amazónia','Ásia','Austrália','Bornéu','Brasil','Camarões','América Central','China','Colômbia','Congo','Índia','Indonésia','América Latina','Madagáscar','Malásia','Nova Guiné','Peru','Sumatra','Estados Unidos'));
                         break;
                     default:
-                        mongabay_tabbed_content('http://news.mongabot.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
+                        mongabay_tabbed_content('http://news.mongabay.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
                         break;
                 }
                 
@@ -753,7 +767,7 @@ add_shortcode('parallax-img','parallax_img');
 function parallax_img($atts){
 
     extract(shortcode_atts(array('imagepath' => 'Image Needed','id' => '1', 'px_title' => 'Slide Title', 'title_color' => '#FFFFFF' , 'img_caption' => 'Your image caption'),$atts));
-    return "<div class='parallax-section full-height' data-parallax='scroll' id='".$id."' data-image-src='".$imagepath."'); background-size: cover;'><div class='featured-article-meta'><span class='subtitle' style='color:".$title_color."'>".$px_title."</span></div></div>";
+    return "<div class='parallax-section full-height' data-parallax='scroll' id='".$id."' data-image-src='".$imagepath."'); background-size: cover;'><div class='featured-article-meta'><span class='subtitle' style='color:".$title_color."'></span></div></div><span class='postparallaximagecaption'>".$img_caption."</span>";
 }
 
 add_shortcode('open-parallax-content','parallax_open');

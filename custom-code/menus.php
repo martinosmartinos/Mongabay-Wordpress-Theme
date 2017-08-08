@@ -3,7 +3,7 @@
 
         //set up the list of names for menu items
         $items_en = array('Rainforests','Oceans','Animals & Environment','For Kids','Photography','WildTech','More');
-        $items_es = array('Rainforests','Oceans','Animals & Environment','For Kids','Photography','WildTech','Más');
+        $items_es = array('BOSQUES','OCÉANOS','ANIMALES','CONSERVACIÓN','MEDIOAMBIENTE','OPORTUNIDADES','ORGANIZACIÓN');
         $items_de = array('Regenwälder','Meere','Tiere und Umwelt','Für Kinder','Fotografie','WildTech','Mehr');
         $items_cn = array('雨林','海洋','动物和环境','少儿版块','摄影','WildTech','更多');
         $items_jp = array('熱帯雨林','海洋','動物・環境','キッズ向け','写真','WildTech','その他');
@@ -12,16 +12,16 @@
         $items_fr = array('Forêts équatoriales','Océans','Animaux et environnement','Pour les enfants','Photographie','WildTech','Plus');
         $items_www = $items_en;
         $items_news = $items_en;
-        $items_wildtech = $items_en;
+        $items_wildtech = array('Mobile','Conservation Drones','Monitoring','Satellite imagery','Tracking','Human-wildlife Conflict','More');
         $items_kidsnews = $items_en;
 
         //set up arrays for menu item's links
         $url_base = esc_url( home_url( '/', 'http' ) );
         $urls_kidsnews = array($url_base.'list/rainforests',$url_base.'list/oceans',$url_base.'list/environment','http://kids.mongabay.com/','https://travel.mongabay.com/',$url_base,$url_base);
 
-        $urls_en = array('https://news.mongabay.com/list/rainforests','https://news.mongabay.com/list/oceans','https://news.mongabay.com/list/environment','http://kids.mongabay.com/','https://travel.mongabay.com/','https://wildtech.mongabay.com/',$url_base);
+        $urls_en = array('https://news.mongabay.com/list/rainforests','https://news.mongabay.com/list/oceans','https://news.mongabay.com/list/environment','http://kids.mongabay.com/','https://travel.mongabay.com/','https://wildtech.mongabay.com/','https://www.mongabay.com/about/',$url_base);
 
-        $urls_es = array('https://news.mongabay.com/list/rainforests','https://news.mongabay.com/list/oceans','https://news.mongabay.com/list/environment','http://kids.mongabay.com/','https://travel.mongabay.com/','https://wildtech.mongabay.com/',$url_base);
+        $urls_es = array('https://es.mongabay.com/list/bosques','https://es.mongabay.com/list/oceanos','https://es.mongabay.com/list/animales','https://es.mongabay.com/list/conservacion','https://es.mongabay.com/medioambiente/','https://es.mongabay.com/oportunidades/','https://es.mongabay.com/acerca-de-mongabay/',$url_base);
 
         $urls_de = array($url_base.'list/regenwalder',$url_base.'list/meere',$url_base.'list/umwelt','http://kids.mongabay.com/','https://travel.mongabay.com/','https://wildtech.mongabay.com/',$url_base);
 
@@ -37,7 +37,7 @@
 
         $urls_www = $urls_en;
         $urls_news = $urls_en;
-        $urls_wildtech = $urls_en;
+        $urls_wildtech = array('https://news.mongabay.com/list/mobile','https://news.mongabay.com/list/conservation-drones','https://news.mongabay.com/list/monitoring','http://news.mongabay.com/list/satellite-imagery','http://news.mongabay.com/list/tracking','https://news.mongabay.com/list/human-wildlife-conflict','https://news.mongabay.com/about-wildtech/',$url_base);
 
         //get current site host name
         $site = mongabay_subdomain_name();

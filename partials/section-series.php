@@ -1,8 +1,8 @@
 <?php
 $blogid = get_current_blog_id();
-if ($blogid == 20 || $blogid == 1) {
+if ($blogid == 20) {
     //News Mongabay
-    mongabay_series_section (array('endangered-environmentalists','global-forest-reporting-network','almost-famous-animals','latin-american-wildlife-trade','amazon-infrastructure','great-apes','indonesian-fisheries','para-penjaga-hutan'), 3);
+    mongabay_series_section (array('endangered-environmentalists','global-forest-reporting-network','indonesian-coal','southeast-asian-infrastructure','amazon-infrastructure','asian-rhinos','indonesian-fisheries','global-environmental-impacts-of-u-s-policy'), 3);
 }
 if ($blogid == 25) {
     //Mongabay Spanish

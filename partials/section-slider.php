@@ -7,14 +7,6 @@
                'value' => 'featured',
                'compare' => '='
             )
-        ),
-        'tax_query' => array(
-            array(                
-                'taxonomy' => 'post_format',
-                'field' => 'slug',
-                'terms' => array('post-format-aside'),
-                'operator'  => 'IN'
-            )
         )
     );
     $query = new WP_Query( $args );
