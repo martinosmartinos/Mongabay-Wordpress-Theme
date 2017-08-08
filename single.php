@@ -117,8 +117,9 @@
         ?>
     </div>
     <!-- /row -->
-    </div>
-    <!-- /container -->
+
     <?php get_template_part( 'partials/section', 'series' ); ?>
 </main>
+</div>
+<!-- /container -->
 <?php get_footer(); ?>
