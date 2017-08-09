@@ -210,7 +210,8 @@ add_filter( 'term_link', 'mongabay_byline_link', 10, 3 );
 
 // special series section function. Usage mongabay_series_section (array('slug1','slug2','slug3'), 3) where 3 is number of posts
 function mongabay_series_section ( $names, $number) {
-    echo '<div id="special-series" class="container">';
+    echo '<div id="special-series">';
+    if(mongabay_layout() == 'container-fluid') echo '<div class="container">';
     $count = 0;
     if(get_current_blog_id() == 1) switch_to_blog(20);
     foreach ($names as $name) {
@@ -272,6 +273,7 @@ function mongabay_series_section ( $names, $number) {
             </div>
         <?php }
     } ?>
+    <?php if(mongabay_layout() == 'container-fluid') echo '</div>';?>
     </div>
 
 <?php }
@@ -348,16 +350,16 @@ function mongabay_conditional_scripts()
 
 
 // Async load
-function mongabay_async_scripts($url)
-{
-    if ( strpos( $url, '#async') === false )
-        return $url;
-    else if ( is_admin() )
-        return str_replace( '#async', '', $url );
-    else
-    return str_replace( '#async', '', $url )."' async='async"; 
-    }
-add_filter( 'clean_url', 'mongabay_async_scripts', 11, 1 );
+// function mongabay_async_scripts($url)
+// {
+//     if ( strpos( $url, '#async') === false )
+//         return $url;
+//     else if ( is_admin() )
+//         return str_replace( '#async', '', $url );
+//     else
+//     return str_replace( '#async', '', $url )."' async='async"; 
+//     }
+// add_filter( 'clean_url', 'mongabay_async_scripts', 11, 1 );
 
 
 
