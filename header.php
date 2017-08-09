@@ -58,6 +58,7 @@
 					if ( !wp_is_mobile() ) {
 						echo '<div id="language-bar">';
 						echo '<ul>';
+						echo '<li><a href="https://www.mongabay.com/">English</a></li>';
 						echo '<li><a href="https://cn.mongabay.com/">中文 (Chinese)</a></li>';
 						echo '<li><a href="https://de.mongabay.com/">Deutsch (German)</a></li>';
 						echo '<li><a href="https://es.mongabay.com/">Español (Spanish)</a></li>';
