@@ -638,7 +638,6 @@ ol.gtc-list li:before {
 	font-weight: 300;
 	border-bottom: 1px solid #999;
 	padding: 1em 0;
-	float: left;
 	-webkit-column-break-inside: avoid;
 	page-break-inside: avoid;
 	break-inside: avoid
