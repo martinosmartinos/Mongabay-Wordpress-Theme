@@ -19,7 +19,26 @@
                 <span class="subtitle">
                     <?php echo $tagline; ?>
                 </span>
-                <span class="featured-article-publish">by <?php echo get_the_term_list( $post_id, 'byline', '', ', ' ); ?> on <?php the_time('j F Y'); ?></span>
+                <span class="featured-article-publish">
+                    <?php _e('by ', 'mongabay'); ?><?php echo get_the_term_list( $post_id, 'byline', '', ', ', '' ); ?><?php _e(' on ', 'mongabay'); ?><?php the_time('j F Y');?>
+                    <?php
+                        if (!empty($translator)) {
+
+                                if ($translated_adapted == 'adapted' && !empty($adaptor)) {
+                                    $string_title = 'Adapted by';
+                                    $translator_adaptor = $adaptor;
+                                }
+                                elseif (!empty($translator)) {
+                                    $string_title = 'Translated by';
+                                    $translator_adaptor = $translator;
+                                }
+                                echo '| ';
+                                _e( $string_title ,'mongabay');
+                                echo ' ';
+                                echo '<a href="'.home_url( '/' ).'by/'.$translator_adaptor[slug].'">'.$translator_adaptor[name].'</a>';
+                        }
+                    ?>
+                </span>
                 <?php
                     if ($serial) {
                         echo '<p>';
