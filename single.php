@@ -62,7 +62,15 @@
     </div>
     <?php if ( has_post_thumbnail() && $legacy !== 'yes' )  : ?>
         <div class="row article-cover-image no-gutters">
-            <div class="col-lg-12" style="background: url('<?php echo get_the_post_thumbnail_url($post_id, 'large')?>');background-size: cover; background-position: center"></div>
+            <?php
+                if(wp_is_mobile()) {
+                    $coversize = 'medium';
+                }
+                else {
+                    $coversize = 'large';
+                }
+            ?>
+            <div class="col-lg-12" style="background: url('<?php echo get_the_post_thumbnail_url($post_id, $coversize)?>');background-size: cover; background-position: center"></div>
             
         </div>
     <?php endif; ?>
