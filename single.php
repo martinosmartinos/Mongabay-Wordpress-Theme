@@ -117,7 +117,6 @@
         ?>
     </div>
     <!-- /row -->
-
     <?php get_template_part( 'partials/section', 'series' ); ?>
 </main>
 </div>
