@@ -107,6 +107,9 @@
                             <?php echo get_the_term_list( $post_id, 'topic', '', ', ' ); ?>
                         </div>
                     </div>
+
+                    <?php comments_template(); ?>
+                    
                 </article>
                 <!-- /article -->
             <?php endwhile; ?>
