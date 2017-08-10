@@ -37,8 +37,16 @@
 				the_time('j F Y');
 			?>
 		</div>
-	<div class="excerpt-news">
-			<?php mongabay_excerpt('mongabay_index'); ?>
+		<div class="excerpt-news">
+			<?php
+				if ( $post->post_excerpt ) {
+					the_excerpt();
+
+				}
+				else {
+					mongabay_excerpt('mongabay_index');
+				}
+			?>
 		</div>
 		<?php if ( has_post_thumbnail()) : ?>
 		<div class="thumbnail-news hidden-xs-down">
