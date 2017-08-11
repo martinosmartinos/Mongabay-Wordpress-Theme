@@ -19,18 +19,22 @@
 
     		for (var i = 0; i < figure.length; i++) {
     			var figchildren = figure[i].childNodes;
+    			console.log(figchildren);
     				for (var n = 0; n < figchildren.length; n++) {
+    					if(figchildren[n].nodeName == 'A') {
+    						var image = figchildren[n].firstChild;
+    						var imgwidth = image.width;
+    					}
     					if(figchildren[n].nodeName == 'IMG') {
     						var imgwidth = figchildren[n].width;
     					}
     					var ratio = mainwidth/imgwidth;
-    					if(figchildren[n].nodeName == 'FIGCAPTION' && ratio > 1.1) {
+    					if(figchildren[n].nodeName == 'FIGCAPTION' && ratio > 1.3) {
     						var figwidth = mainwidth-imgwidth;
     						figchildren[n].setAttribute("style","position:absolute;bottom:0;right:0;padding:0 1em");
     						figchildren[n].style.width = figwidth + "px";
     						console.log('Figwidth:', figwidth);
     					}
-
     				}
 
     		}
