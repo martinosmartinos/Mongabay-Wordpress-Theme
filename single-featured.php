@@ -1,15 +1,15 @@
 <?php get_header( 'featured' ); ?>
-    
     <?php
         $post_id = get_the_ID();
         $tagline = get_post_meta($post_id,"mog_tagline",true);
         $translator = get_post_meta($post_id,"translated_by",true);
         $adaptor = get_post_meta($post_id,"adapted_by",true);
         $translated_adapted = get_post_meta($post_id,"translated_adapted",true);
+        $commentary = get_post_meta($post_id,"commentary",true);
+        $analysis = get_post_meta($post_id,"analysis_by",true);
         $topics = wp_get_post_terms($post_id, 'topic');
         $serial = wp_get_post_terms($post_id, 'serial');
     ?>
-        
     <!-- post thumbnail -->
     <?php if ( has_post_thumbnail()) : ?>
     <div class="row no-gutters">
@@ -20,7 +20,7 @@
                     <?php echo $tagline; ?>
                 </span>
                 <span class="featured-article-publish">
-                    <?php _e('by ', 'mongabay'); ?><?php echo get_the_term_list( $post_id, 'byline', '', ', ', '' ); ?><?php _e(' on ', 'mongabay'); ?><?php the_time('j F Y');?>
+                    <?php if($commentary == '1' || $commentary == 'yes') _e('Commentary ', 'mongabay'); if($analysis == '1' || $analysis == 'yes') _e('Analysis ', 'mongabay'); _e('by ', 'mongabay'); ?><?php echo get_the_term_list( $post_id, 'byline', '', ', ', '' ); ?><?php _e(' on ', 'mongabay'); ?><?php the_time('j F Y'); ?>
                     <?php
                         if (!empty($translator)) {
 
