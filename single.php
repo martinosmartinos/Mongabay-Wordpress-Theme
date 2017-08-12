@@ -1,13 +1,13 @@
 <?php get_header(); ?>
 
 <main role="main">
-
-
     <?php
         $post_id = get_the_ID();
         $translator = get_post_meta($post_id,"translated_by",true);
         $adaptor = get_post_meta($post_id,"adapted_by",true);
         $translated_adapted = get_post_meta($post_id,"translated_adapted",true);
+        $commentary = get_post_meta($post_id,"commentary",true);
+        $analysis = get_post_meta($post_id,"analysis_by",true);
         $topics = wp_get_post_terms($post_id, 'topic');
         $serial = wp_get_post_terms($post_id, 'serial');
         $legacy = get_post_meta($post_id, 'mongabay_post_legacy_status',true);
@@ -33,7 +33,7 @@
             ?>
         </div>
         <div class="single-article-meta">
-            <?php _e('by ', 'mongabay'); ?><?php echo get_the_term_list( $post_id, 'byline', '', ', ', '' ); ?><?php _e(' on ', 'mongabay'); ?><?php the_time('j F Y');?>
+            <?php if($commentary == '1') _e('Commentary ', 'mongabay'); if($analysis == '1') _e('Analysis ', 'mongabay'); _e('by ', 'mongabay'); ?><?php echo get_the_term_list( $post_id, 'byline', '', ', ', '' ); ?><?php _e(' on ', 'mongabay'); ?><?php the_time('j F Y'); ?>
             <?php
                 if (!empty($translator)) {
 
