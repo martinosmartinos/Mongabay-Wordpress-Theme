@@ -33,7 +33,7 @@
             ?>
         </div>
         <div class="single-article-meta">
-            <?php if($commentary == '1') _e('Commentary ', 'mongabay'); if($analysis == '1') _e('Analysis ', 'mongabay'); _e('by ', 'mongabay'); ?><?php echo get_the_term_list( $post_id, 'byline', '', ', ', '' ); ?><?php _e(' on ', 'mongabay'); ?><?php the_time('j F Y'); ?>
+            <?php if($commentary == '1' || $commentary == 'yes') _e('Commentary ', 'mongabay'); if($analysis == '1' || $analysis == 'yes') _e('Analysis ', 'mongabay'); _e('by ', 'mongabay'); ?><?php echo get_the_term_list( $post_id, 'byline', '', ', ', '' ); ?><?php _e(' on ', 'mongabay'); ?><?php the_time('j F Y'); ?>
             <?php
                 if (!empty($translator)) {
 
