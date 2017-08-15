@@ -48,7 +48,9 @@
 						get_template_part( 'partials/navigation', 'mobile' );
 						echo '<div class="logo-small" style="margin-top: 7px">';
 						echo '<a href="'.home_url().'">';
-						echo '<img src="'.get_template_directory_uri().'/img/logo/mongabay_logo_black.png" alt="Environmental headlines"/>';
+						echo '<svg width="120" height="26" aria-label="Mongabay">';
+						echp '<image xlink:href="'.get_template_directory_uri().'/img/logo/mongabay_logo_black.svg" src="'.get_template_directory_uri().'/img/logo/mongabay_logo_black.png" width="120" height="26" alt="Mongabay"/>';
+						echo '</svg>';
 						echo '</a>';
 						echo '</div>';
 						echo '</div>';
