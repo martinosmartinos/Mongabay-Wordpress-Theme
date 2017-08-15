@@ -30,7 +30,6 @@
 	<header class="header fixed-top header-small" role="banner">
 		<?php get_template_part( 'partials/navigation', 'featured' ); ?>
 		<div class="logo-small" style="">
-			echo '<svg width="120" height="26" aria-label="Mongabay">';
 			<a href="<?php echo home_url(); ?>"><svg width="120" height="26" aria-label="Mongabay"><img xlink:href="<?php echo get_template_directory_uri(); ?>/img/logo/mongabay_logo_black.svg" src="<?php echo get_template_directory_uri(); ?>/img/logo/mongabay_logo_black.png" class="mongabay-logo" width="120" height="26" alt="Mongabay"></svg></a>
 		</div>
 		<div class="social">
