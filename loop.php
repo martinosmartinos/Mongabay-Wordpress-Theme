@@ -39,13 +39,7 @@
 		</div>
 		<div class="excerpt-news">
 			<?php
-				if ( $post->post_excerpt ) {
-					the_excerpt();
-
-				}
-				else {
-					mongabay_excerpt('mongabay_index');
-				}
+				mongabay_excerpt();
 			?>
 		</div>
 		<?php if ( has_post_thumbnail()) : ?>

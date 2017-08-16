@@ -332,7 +332,7 @@ function mongabay_header_scripts()
         wp_register_script('bootstraptabs', get_template_directory_uri() . '/js/lib/tabs.js', array('jquery'), '4.0.0', true);
         wp_enqueue_script('bootstraptabs');
 
-        wp_register_script('scripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '1.0.0', true);
+        wp_register_script('scripts', get_template_directory_uri() . '/js/scripts_main.js', array('jquery'), '1.0.0', true);
         wp_enqueue_script('scripts');
     }
 }
@@ -383,7 +383,7 @@ function mongabay_styles()
     wp_register_style('boostrap', get_template_directory_uri() . '/css/bootstrap.min.css', array(), '4.0.0', 'all');
     wp_enqueue_style('boostrap'); // Enqueue it!
 
-    wp_register_style('main', get_template_directory_uri() . '/mongabay17.css', array(), '1.0', 'all');
+    wp_register_style('main', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
     wp_enqueue_style('main'); // Enqueue it!
 }
 
@@ -664,7 +664,6 @@ public function update( $new_instance, $old_instance ) {
 }
 
 
-
 // Remove wp_head() injected Recent Comment styles
 function my_remove_recent_comments_style()
 {
@@ -705,11 +704,12 @@ function mongabay_excerpt()
 {
     global $post;
     if ( empty( $post->post_excerpt ) ) {
-        $output = strip_shortcodes(wp_trim_words( $post->post_content, 20 ));
+        $output_1 = strip_shortcodes ($post->post_content);
+        $output_2 = wp_strip_all_tags($output_1);
+        $output = wp_trim_words( $output_2, 30 );
     } else {
         $output = $post->post_excerpt; 
     }
-    //$output = get_the_excerpt();
     $output = apply_filters('wptexturize', $output);
     $output = apply_filters('convert_chars', $output);
     echo $output;
