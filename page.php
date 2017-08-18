@@ -19,9 +19,17 @@
 	        <?php endif; ?>
 	    	</div>
 		    <?php
-		    if(!wp_is_mobile()) {
-		        get_sidebar();
-		    }
+			    if(!wp_is_mobile()) {
+			    	global $post;
+			    	if(($post->post_parent=='186085') || is_page('statistics')) {
+						echo '<aside class="sidebar col-lg-4" role="complementary"><div class="sidebar-widget">';
+						dynamic_sidebar('stats-widget');
+						echo '</div></aside>';
+			    	}
+			        else {
+			        	get_sidebar();
+			        }
+			    }
 		    ?>
 		</div>
 		<?php get_template_part( section, series ); ?>

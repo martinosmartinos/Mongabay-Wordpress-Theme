@@ -383,7 +383,7 @@ function mongabay_styles()
     wp_register_style('boostrap', get_template_directory_uri() . '/css/bootstrap.min.css', array(), '4.0.0', 'all');
     wp_enqueue_style('boostrap'); // Enqueue it!
 
-    wp_register_style('main', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
+    wp_register_style('main', get_template_directory_uri() . '/mongabay17.css', array(), '1.0', 'all');
     wp_enqueue_style('main'); // Enqueue it!
 }
 
@@ -587,7 +587,7 @@ class mongabay_topic_location extends WP_Widget {
             }
                 
             ?>
-            <a href="<?php echo $home_url ;?>topics" class="plus-link"><?php _e('Many more topics', 'mongabay'); ?></a>
+            <a href="<?php echo esc_url( home_url( '/' ) ); ?>topics" class="plus-link"><?php _e('Many more topics', 'mongabay'); ?></a>
         </div>
         <div id="location" class="tab-pane fade">
             <?php
@@ -631,7 +631,7 @@ class mongabay_topic_location extends WP_Widget {
                 }
                 
             ?>
-            <a href="<?php echo $home_url ;?>locations" class="plus-link"><?php _e('Browse more locations', 'mongabay'); ?></a>
+            <a href="<?php echo esc_url( home_url( '/' ) ); ?>locations" class="plus-link"><?php _e('Browse more locations', 'mongabay'); ?></a>
         </div>
     </div>
     <?php
@@ -936,6 +936,20 @@ function mongabaycomments($comment, $args, $depth)
     </div>
     <?php endif; ?>
 <?php }
+
+// Stats pages dynamic sidebar
+if (function_exists('register_sidebar'))
+{
+    register_sidebar(array(
+        'name' => __('Stats Widget', 'mongabay'),
+        'description' => __('Stats page sidebar widgets should be placed here.', 'mongabay'),
+        'id' => 'stats-widget',
+        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'after_widget' => '</div>',
+        'before_title' => '<h2>',
+        'after_title' => '</h2>'
+        ));
+}
 
 /*------------------------------------*\
     Actions + Filters

@@ -53,7 +53,6 @@
     </div>
     <?php endif; ?>
     <!-- /post thumbnail -->
-
     <main role="main">
         <div class="container">
             <div class="row justify-content-center">
@@ -88,6 +87,7 @@
                                 <?php echo get_the_term_list( $post_id, 'topic', '', ', ' ); ?>
                             </div>
                         </div>
+                        <?php comments_template(); ?>
                     </article>
                     <!-- /article -->
                     <?php endwhile; ?>

@@ -42,7 +42,8 @@ body {
 }
 img {
     max-width: 100%;
-    vertical-align: bottom
+    vertical-align: bottom;
+    height: auto;
 }
 a {
     color: #444;
