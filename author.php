@@ -7,7 +7,7 @@
 					<?php echo wpautop( get_the_author_meta('description') ); ?>
 	    		</div>
 				<section>
-					<div class="post-wrapper-news">
+					<div id="post-wrapper-news" class="row" data-columns>
 						<?php get_template_part('loop'); ?>
 					</div>
 					<div class="counter">

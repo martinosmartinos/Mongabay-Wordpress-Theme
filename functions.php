@@ -1,8 +1,4 @@
 <?php
-
-/*------------------------------------*\
-    External Modules/Files
-    \*------------------------------------*/
     include (get_template_directory().'/custom-code/url-rewrites.php');
     include (get_template_directory().'/custom-code/figure-caption.php');
     include (get_template_directory().'/custom-code/taxonomy-location.php');
@@ -13,55 +9,54 @@
     include (get_template_directory().'/custom-code/meta.php');
     include (get_template_directory().'/custom-code/menus.php');
     include (get_template_directory().'/custom-code/analytics.php');
-
-/*------------------------------------*\
-    Theme Support
-    \*------------------------------------*/
-
     if (function_exists('add_theme_support'))
     {
-    // Add Menu Support
         add_theme_support('menus');
-
-    // Add aside post format
         add_theme_support( 'post-formats', array( 'aside' ) );
-
-    // Add Thumbnail Theme Support
-    add_theme_support('post-thumbnails');
-    add_image_size('large', 1200, 800, true); // Large Thumbnail
-    add_image_size('medium', 768, 512, true); // Medium Thumbnail
-    add_image_size('thumbnail', 100, 100, true); // Small Thumbnail
-    //add_image_size('custom-size', 700, 200, true); // Custom Thumbnail Size call using the_post_thumbnail('custom-size');
-
-    // Add Support for Custom Backgrounds - Uncomment below if you're going to use
-    /*add_theme_support('custom-background', array(
-    'default-color' => 'FFF',
-    'default-image' => get_template_directory_uri() . '/img/bg.jpg'
-    ));*/
-
-    // Add Support for Custom Header - Uncomment below if you're going to use
-    /*add_theme_support('custom-header', array(
-    'default-image'         => get_template_directory_uri() . '/img/headers/default.jpg',
-    'header-text'           => false,
-    'default-text-color'        => '000',
-    'width'             => 1000,
-    'height'            => 198,
-    'random-default'        => false,
-    'wp-head-callback'      => $wphead_cb,
-    'admin-head-callback'       => $adminhead_cb,
-    'admin-preview-callback'    => $adminpreview_cb
-    ));*/
-
-    // Enables post and comment RSS feed links to head
-    //add_theme_support('automatic-feed-links');
-
-    // Localisation Support
-    load_theme_textdomain('mongabay', get_template_directory() . '/languages');
-}
+        add_theme_support('post-thumbnails');
+        add_image_size('large', 1200, 800, true); // Large Thumbnail
+        add_image_size('medium', 768, 512, true); // Medium Thumbnail
+        add_image_size('thumbnail', 100, 100, true); // Small Thumbnail
+        load_theme_textdomain('mongabay', get_template_directory() . '/languages');
+    }
 
 /*------------------------------------*\
     Functions
-    \*------------------------------------*/
+\*------------------------------------*/
+//Spot.im script function
+    function mongabay_comments() {
+        $site_id = get_current_blog_id();
+        $post_id = get_the_ID();
+        $spot_id = '';
+        switch ($site_id) {
+            case '20':
+                $spot_id = 'sp_8TLFqmLV';
+                break;
+            case '23':
+                $spot_id = 'sp_A3SnHcgH';
+                break;
+            case '24':
+                $spot_id = 'sp_ZwMqGXOu';
+                break;
+            case '25':
+                $spot_id = 'sp_1xRecNST';
+                break;
+            case '26':
+                $spot_id = 'sp_sbJbR9zO';
+                break;
+            case '27':
+                $spot_id = 'sp_NNvA5Ksj';
+                break;
+            case '28':
+                $spot_id = 'sp_elj4Klyl';
+                break;
+            case '29':
+                $spot_id = 'sp_yZlmuqld';
+                break;
+        };
+        print '<script async data-spotim-module="spotim-launcher" src="https://launcher.spot.im/spot/'.$spot_id.'" data-post-id="'.$post_id.'"></script>';
+    }
+
 // Get current host
     function mongabay_subdomain_name() {
         $parsedUrl = parse_url($_SERVER['SERVER_NAME']);
@@ -75,7 +70,6 @@
     function mongabay_mega_query($query) {
 
         if ($query->is_home() && $query->is_main_query() && ! is_admin()) {
-
 
             $home_url = esc_url( home_url( '/' ) );
             $section = get_query_var('section');
@@ -163,10 +157,8 @@
                 $query->set('tax_query', $tax_query);
 
                 if($item1[0]->taxonomy=='location' && $item2[0]->taxonomy=='topic') {
-
                     wp_redirect( $home_url.'list/'.$secondvar.'/'.$firstvar );
                     exit;
-
                 }
             }
 
@@ -186,7 +178,6 @@ function mongabay_topic_link( $link, $term, $taxonomy )
 }
 add_filter( 'term_link', 'mongabay_topic_link', 10, 3 );
 
-
 //fix locations links
 function mongabay_location_link( $link, $term, $taxonomy )
 {
@@ -197,6 +188,7 @@ function mongabay_location_link( $link, $term, $taxonomy )
 }
 add_filter( 'term_link', 'mongabay_location_link', 10, 3 );
 
+
 //fix byline links
 function mongabay_byline_link( $link, $term, $taxonomy )
 {
@@ -206,6 +198,7 @@ function mongabay_byline_link( $link, $term, $taxonomy )
     return str_replace( 'byline/', 'by/', $link );
 }
 add_filter( 'term_link', 'mongabay_byline_link', 10, 3 );
+
 
 
 // special series section function. Usage mongabay_series_section (array('slug1','slug2','slug3'), 3) where 3 is number of posts
@@ -278,7 +271,6 @@ function mongabay_series_section ( $names, $number) {
 
 <?php }
 
-
 // Function to detect if we are dealing with featured aside article
 function mongabay_layout() {
     if ( is_single() ) {
@@ -309,14 +301,12 @@ function mongabay_sanitized_content($post_id) {
         $content = str_replace(array('<br>','<BR>','<br/>','<BR/>'),"\n",$content);
         $content = apply_filters('the_content', $content);
         $content = str_replace('<p></p>', '', $content);
-        /*if (strpos($content,'<br>') == FALSE) $content = nl2br($content); */
         echo $content;
     }
     else {
         the_content();
     }
 }
-
 
 // Load scripts
 function mongabay_header_scripts()
@@ -340,31 +330,18 @@ function mongabay_header_scripts()
 // Load conditional scripts
 function mongabay_conditional_scripts()
 {
-
     if ( mongabay_layout() == 'container-fluid') {
         wp_register_script('parallax', get_template_directory_uri() . '/js/lib/parallax.min.js', array(), '1.4.2');
         wp_enqueue_script('parallax');
 
     }
+    if (!is_singular() || is_home()) {
+        wp_register_script('salvattore', get_template_directory_uri() . '/js/lib/salvattore.min.js', array(), '1.0.9', true);
+        wp_enqueue_script('salvattore');
+    }
 }
 
-
-// Async load
-// function mongabay_async_scripts($url)
-// {
-//     if ( strpos( $url, '#async') === false )
-//         return $url;
-//     else if ( is_admin() )
-//         return str_replace( '#async', '', $url );
-//     else
-//     return str_replace( '#async', '', $url )."' async='async"; 
-//     }
-// add_filter( 'clean_url', 'mongabay_async_scripts', 11, 1 );
-
-
-
 // Featured articles template
-
 function mongabay_featured() {
     if ( mongabay_layout() == "container-fluid" ) {
         include (TEMPLATEPATH . '/single-featured.php');
@@ -373,18 +350,15 @@ function mongabay_featured() {
 }
 add_action('template_redirect', 'mongabay_featured');
 
-
 // Load styles
 function mongabay_styles()
 {
     wp_register_style('normalize', get_template_directory_uri() . '/normalize.css', array(), '1.0', 'all');
-    wp_enqueue_style('normalize'); // Enqueue it!
-
+    wp_enqueue_style('normalize');
     wp_register_style('boostrap', get_template_directory_uri() . '/css/bootstrap.min.css', array(), '4.0.0', 'all');
-    wp_enqueue_style('boostrap'); // Enqueue it!
-
-    wp_register_style('main', get_template_directory_uri() . '/mongabay17.css', array(), '1.0', 'all');
-    wp_enqueue_style('main'); // Enqueue it!
+    wp_enqueue_style('boostrap');
+    wp_register_style('main', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
+    wp_enqueue_style('main');
 }
 
 // Register Navigation
@@ -715,6 +689,8 @@ function mongabay_excerpt()
     echo $output;
 }
 
+
+
 // Custom View Article link to Post
 function mongabay_blank_view_article($more)
 {
@@ -788,6 +764,7 @@ function parallax_close() {
 
 }
 
+
 /* Parallax Slide Shortcode Button in a text editor*/
 function px_shortcode_button() {
 
@@ -820,6 +797,7 @@ function px_shortcode_button() {
     }
 }
 add_action("admin_print_footer_scripts", "px_shortcode_button");
+
 
 /* Parallax Content Shortcode Button in a text editor*/
 function open_close_px_content()
@@ -855,6 +833,7 @@ function open_close_px_content()
 add_action('admin_print_footer_scripts', 'open_close_px_content');
 
 
+
 // Remove meta boxes from post editing screen
 function mongabay_remove_custom_fields() {
 
@@ -866,6 +845,7 @@ function mongabay_remove_custom_fields() {
 }
 
 add_action( 'admin_menu' , 'mongabay_remove_custom_fields' );
+
 
 
 // Prevent from aading new location tags
@@ -884,58 +864,6 @@ function mongabay_prevent_terms ( $term, $taxonomy ) {
     return $term;
 }
 
-// Threaded Comments
-function enable_threaded_comments()
-{
-    if (!is_admin()) {
-        if (is_singular() AND comments_open() AND (get_option('thread_comments') == 1)) {
-            wp_enqueue_script('comment-reply');
-        }
-    }
-}
-
-// Custom Comments Callback
-function mongabaycomments($comment, $args, $depth)
-{
-    $GLOBALS['comment'] = $comment;
-    extract($args, EXTR_SKIP);
-    if ( 'div' == $args['style'] ) {
-        $tag = 'div';
-        $add_below = 'comment';
-    } else {
-        $tag = 'li';
-        $add_below = 'div-comment';
-    }
-?>
-    <!-- heads up: starting < for the html tag (li or div) in the next line: -->
-    <<?php echo $tag ?> <?php comment_class(empty( $args['has_children'] ) ? '' : 'parent') ?> id="comment-<?php comment_ID() ?>">
-    <?php if ( 'div' != $args['style'] ) : ?>
-    <div id="div-comment-<?php comment_ID() ?>" class="comment-body">
-    <?php endif; ?>
-    <div class="comment-author vcard">
-    <?php if ($args['avatar_size'] != 0) echo get_avatar( $comment, $args['avatar_size'] ); ?>
-    <?php printf(__('<cite class="fn">%s</cite> <span class="says">says:</span>'), get_comment_author_link()) ?>
-    </div>
-<?php if ($comment->comment_approved == '0') : ?>
-    <em class="comment-awaiting-moderation"><?php _e('Your comment is awaiting moderation.') ?></em>
-    <br />
-<?php endif; ?>
-
-    <div class="comment-meta commentmetadata"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>">
-        <?php
-            printf( __('%1$s at %2$s'), get_comment_date(),  get_comment_time()) ?></a><?php edit_comment_link(__('(Edit)'),'  ','' );
-        ?>
-    </div>
-
-    <?php comment_text() ?>
-
-    <div class="reply">
-    <?php comment_reply_link(array_merge( $args, array('add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
-    </div>
-    <?php if ( 'div' != $args['style'] ) : ?>
-    </div>
-    <?php endif; ?>
-<?php }
 
 // Stats pages dynamic sidebar
 if (function_exists('register_sidebar'))
@@ -960,9 +888,8 @@ add_action('init', 'mongabay_header_scripts'); // Add Custom Scripts to wp_head
 add_action('wp_enqueue_scripts', 'mongabay_conditional_scripts'); // Add Conditional Page Scripts
 add_action('wp_enqueue_scripts', 'mongabay_styles'); // Add Theme Stylesheet
 add_action('init', 'register_mongabay_menu'); // Add Blank Menu
-add_action('get_header', 'enable_threaded_comments'); // Enable Threaded Comments
 add_action('widgets_init', 'my_remove_recent_comments_style'); // Remove inline Recent Comment Styles from wp_head()
-//add_action('init', 'mongabay_pagination'); // Add our HTML5 Pagination
+add_action('init', 'mongabay_pagination'); // Add our Pagination
 
 // Remove Actions
 remove_action('wp_head', 'feed_links_extra', 3); // Display the links to the extra feeds such as category feeds

@@ -31,7 +31,7 @@
                 <!-- section -->
                 <section>
 
-                    <div class="post-wrapper-news">
+                    <div id="post-wrapper-news" class="row" data-columns>
                         <?php get_template_part('loop'); ?>
                     </div>
                     <div class="counter">

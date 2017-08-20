@@ -56,7 +56,7 @@
                 <!-- section -->
                 <section>
 
-                    <div class="post-wrapper-news">
+                    <div id="post-wrapper-news" class="row" data-columns>
                     	<?php
                     	
                     		$site_id = get_current_blog_id();

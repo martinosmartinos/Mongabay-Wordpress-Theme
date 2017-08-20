@@ -108,7 +108,7 @@
                         </div>
                     </div>
 
-                    <?php comments_template(); ?>
+                    <?php mongabay_comments(); ?>
                     
                 </article>
                 <!-- /article -->

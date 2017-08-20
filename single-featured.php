@@ -87,7 +87,7 @@
                                 <?php echo get_the_term_list( $post_id, 'topic', '', ', ' ); ?>
                             </div>
                         </div>
-                        <?php comments_template(); ?>
+                        <?php mongabay_comments(); ?>
                     </article>
                     <!-- /article -->
                     <?php endwhile; ?>
