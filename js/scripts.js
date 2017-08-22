@@ -19,7 +19,6 @@
 
             for (var i = 0; i < figure.length; i++) {
                 var figchildren = figure[i].childNodes;
-                console.log(figchildren);
                     for (var n = 0; n < figchildren.length; n++) {
                         if(figchildren[n].nodeName == 'A') {
                             var image = figchildren[n].firstChild;
