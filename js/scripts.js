@@ -11,7 +11,7 @@
             jQuery("#backdrop").toggleClass("show");
         })
 
-        function imageCaption() {
+        jQuery(window).bind("load resize", function () {
             
             var figure = jQuery("figure");
             var main = jQuery("div#main.col-lg-8");
@@ -19,7 +19,6 @@
 
             for (var i = 0; i < figure.length; i++) {
                 var figchildren = figure[i].childNodes;
-                console.log(figchildren);
                     for (var n = 0; n < figchildren.length; n++) {
                         if(figchildren[n].nodeName == 'A') {
                             var image = figchildren[n].firstChild;
@@ -33,12 +32,10 @@
                             var figwidth = mainwidth-imgwidth;
                             figchildren[n].setAttribute("style","position:absolute;bottom:0;right:0;padding:0 1em;text-align:left");
                             figchildren[n].style.width = figwidth + "px";
-                            console.log('Figwidth:', figwidth);
                         }
                     }
             }
 
-        }
-        imageCaption();
+        });
     });
 })(jQuery, this);
