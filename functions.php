@@ -314,7 +314,7 @@ function mongabay_header_scripts()
 {
     if ($GLOBALS['pagenow'] != 'wp-login.php' && !is_admin()) {
 
-        wp_register_script('fittext', get_template_directory_uri() . '/js/lib/jquery.fittext.min.js', array('jquery'), '1.2', true);
+        wp_register_script('fittext', get_template_directory_uri() . '/js/lib/jq.fittext.min.js', array('jquery'), '1.2', true);
         wp_enqueue_script('fittext');
 
         wp_register_script('bootstraputils', get_template_directory_uri() . '/js/lib/util.min.js', array('jquery'), '4.0.0', true);
@@ -323,7 +323,7 @@ function mongabay_header_scripts()
         wp_register_script('bootstraptabs', get_template_directory_uri() . '/js/lib/tabs.min.js', array('jquery'), '4.0.0', true);
         wp_enqueue_script('bootstraptabs');
 
-        wp_register_script('scripts', get_template_directory_uri() . '/js/scripts_main.js', array('jquery'), '1.0.0', true);
+        wp_register_script('scripts', get_template_directory_uri() . '/js/scripts.min.js', array('jquery'), '1.0.0', true);
         wp_enqueue_script('scripts');
     }
 }
@@ -354,12 +354,12 @@ add_action('template_redirect', 'mongabay_featured');
 // Load styles
 function mongabay_styles()
 {
-    //wp_register_style('normalize', get_template_directory_uri() . '/normalize.css', array(), '1.0', 'all');
-    //wp_enqueue_style('normalize');
+    wp_register_style('main', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
+    wp_enqueue_style('main');
+    wp_register_style('framework', get_template_directory_uri() . '/css/framework.min.css', array(), '1.0', 'all');
+    wp_enqueue_style('framework');
     wp_register_style('boostrap', get_template_directory_uri() . '/css/bootstrap.min.css', array(), '4.0.0', 'all');
     wp_enqueue_style('boostrap');
-    wp_register_style('main', get_template_directory_uri() . '/style.min.css', array(), '1.0', 'all');
-    wp_enqueue_style('main');
 }
 
 // Register Navigation
@@ -879,6 +879,18 @@ if (function_exists('register_sidebar'))
         'after_title' => '</h2>'
         ));
 }
+
+// Remove query strings from scripts and css
+function remove_query_string( $src ){   
+    $parts = explode( '?ver', $src );
+    return $parts[0];
+}
+
+if ( !is_admin() ) {
+    add_filter( 'script_loader_src', 'remove_query_string', 15, 1 );
+    add_filter( 'style_loader_src', 'remove_query_string', 15, 1 );
+}
+
 
 /*------------------------------------*\
     Actions + Filters

@@ -4,7 +4,6 @@
 		$section = get_query_var('section');
 		$firstvar = get_query_var('nc1');
 		$secondvar = get_query_var('nc2');
-
 		if($section == 'moved') {
 			$post = $wp_query -> posts[0];
             $id = $post -> ID;
@@ -12,14 +11,10 @@
             wp_redirect( $permalink, 301 ); 
             exit;
 		}
-
-
 		$line_end = '';
 		if ($section == 'list' && !empty($firstvar) && empty($secondvar)) {
-			
 			$item1 = get_terms(array('topic','location'), array('slug' => $firstvar));
 			$title = $item1[0] -> name;
-			//$description = $item1[0] -> description;
 			$line_end = ' News';
 		}
 
@@ -32,10 +27,15 @@
 			$line_end = ' News';
 		}
 
-		if (empty($section)) {
+		if (empty($section) && mongabay_subdomain_name() !== 'wildtech') {
 			$title = 'Environmental headlines';
 			$description = 'Mongabay is a non-profit provider of conservation and environmental science news.';
 		}
+
+        if ( mongabay_subdomain_name() == 'wildtech' && empty($section)) {
+            $title = 'Conservation Technology News';
+            $description = 'Wildtech provides news and information on how the conservation community can better leverage technology. We are a non-profit initiative.';
+        }
 	?>
 	<main role="main">
         <?php

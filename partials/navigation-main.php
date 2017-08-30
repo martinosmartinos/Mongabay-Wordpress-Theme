@@ -2,6 +2,7 @@
 	<div id="navbarMainMenu">
 		<ul class="navbar-nav mr-auto">
 			<?php mongabay_menu_items(); ?>
+			<li class="menu-search"><?php echo get_search_form(); ?></li>
 		</ul>
 	</div>
 </nav>
