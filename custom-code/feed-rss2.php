@@ -120,7 +120,7 @@ do_action( 'rss_tag_pre', 'rss2' );
 				for ($n=0;$n < 4;$n++){
 					$single_bullet=get_post_meta(get_the_ID(),"mog_bullet_".$n."_mog_bulletpoint",true);
 					if(!empty($single_bullet)) {
-						echo "- ".get_post_meta(get_the_ID(),"mog_bullet_".$n."_mog_bulletpoint",true)."<br / >";				
+						echo "- ".get_post_meta(get_the_ID(),"mog_bullet_".$n."_mog_bulletpoint",true)."<br />";				
 					}
 				} ?>]]></description>		
 		<?php else: ?>

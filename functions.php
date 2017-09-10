@@ -16,10 +16,10 @@
         add_theme_support('post-thumbnails');
         add_image_size('large', 1200, 800, true); // Large Thumbnail
         add_image_size('medium', 768, 512, true); // Medium Thumbnail
+        add_image_size('cover-image', 1280, 450, true); // Cover Thumbnail
         add_image_size('thumbnail', 100, 100, true); // Small Thumbnail
         load_theme_textdomain('mongabay', get_template_directory() . '/languages');
     }
-
 /*------------------------------------*\
     Functions
 \*------------------------------------*/
@@ -167,7 +167,7 @@
 
     }
 
-add_filter( 'pre_get_posts', 'mongabay_mega_query' );
+add_filter( 'pre_get_posts', 'mongabay_mega_query', 10, 1 );
 
 //fix topics links
 function mongabay_topic_link( $link, $term, $taxonomy )
