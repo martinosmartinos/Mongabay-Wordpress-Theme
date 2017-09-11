@@ -167,7 +167,7 @@
 
     }
 
-add_filter( 'pre_get_posts', 'mongabay_mega_query', 10, 1 );
+add_filter( 'pre_get_posts', 'mongabay_mega_query' );
 
 //fix topics links
 function mongabay_topic_link( $link, $term, $taxonomy )
@@ -891,6 +891,16 @@ if ( !is_admin() ) {
     add_filter( 'style_loader_src', 'remove_query_string', 15, 1 );
 }
 
+//Custom rewrite rule for wildtech posts
+add_filter( 'post_link', 'mongabay_wildtech_post_link', 10, 3 );
+function mongabay_wildtech_post_link( $url, $post, $leavename ) {
+	$parsed = parse_url($url);
+	if ( $post->post_type == 'post') {
+		$cat = get_post_meta( $post->ID, 'news_category', true );
+		if ( $cat == 'wildtech' ) $url = get_home_url().'/wildtech'.$parsed['path'];
+	}
+	return $url;
+}
 
 /*------------------------------------*\
     Actions + Filters

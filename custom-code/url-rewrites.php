@@ -42,4 +42,7 @@ add_rewrite_rule( '([0-9]{4})/([^/]*).html$', 'index.php?section=moved&nc1=$matc
 add_rewrite_rule( 'news/([0-9]{4})/([^/]*).html$', 'index.php?section=moved&nc1=$matches[1]&nc2=$matches[2]', 'top' );
 add_rewrite_rule( '([^/]*)/images/([^/]*).html$', 'index.php?section=moved&nc1=$matches[1]&nc2=$matches[2]', 'top' );
 add_rewrite_rule( '([^/]*)/images/([^/]*)/([^/]*).html$', 'index.php?section=moved&nc1=$matches[1]&nc2=$matches[2]', 'top' );
+
+//wildtech posts
+add_rewrite_rule( 'wildtech/([0-9]{4})/([0-9]{1,2})/([^/]*)/?$', 'index.php?year=$matches[1]&monthnum=$matches[2]&name=$matches[3]', 'top' );
 }
