@@ -10,8 +10,7 @@
 <!--<![endif]-->
 	<head>
 		<meta charset="<?php bloginfo('charset'); ?>">
-		<title><?php wp_title(''); ?></title>
-
+		<title><?php mongabay_custom_title(); ?></title>
 		<link href="//www.google-analytics.com" rel="dns-prefetch">
 		<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/img/icons/favicon.png" type="image/x-icon"/>
 		<link rel="apple-touch-icon-precomposed" href="<?php echo get_template_directory_uri(); ?>/img/icons/ico-s2.jpg">

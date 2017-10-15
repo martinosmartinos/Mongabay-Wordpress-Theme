@@ -902,6 +902,37 @@ function mongabay_wildtech_post_link( $url, $post, $leavename ) {
 	return $url;
 }
 
+//Listings proper page title
+function mongabay_custom_title() {
+
+    $firstvar = get_query_var('nc1');
+    $secondvar = get_query_var('nc2');
+
+    if (get_query_var('section')=='list') {
+
+        if (!empty($firstvar) && empty($secondvar)) {
+            $item1 = get_terms(array('topic','location'), array('slug' => $firstvar));
+            $title = $item1[0] -> name;
+            _e( 'Conservation news on', 'mongabay' );
+            echo ' '.$title;
+        }
+
+        if (!empty($firstvar) && !empty($secondvar)) {
+            $item1 = get_terms(array('topic','location'), array('slug' => $firstvar));
+            $item2 = get_terms(array('topic','location'), array('slug' => $secondvar));
+            $title1 = $item1[0] -> name;
+            $title2 = $item2[0] -> name;
+            $title = $title1.' and '.$title2;
+            _e( 'Conservation news on', 'mongabay' );
+            echo ' '.$title;
+        }
+    }
+    else {
+        wp_title('');
+    }
+
+}
+
 /*------------------------------------*\
     Actions + Filters
 \*------------------------------------*/

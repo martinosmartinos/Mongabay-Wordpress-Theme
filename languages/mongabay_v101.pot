@@ -314,6 +314,10 @@ msgstr ""
 msgid "You cannot add terms to this taxonomy"
 msgstr ""
 
+#: functions.php:916 functions.php:926
+msgid "Conservation news on"
+msgstr ""
+
 #: loop.php:30 single.php:37
 msgid "by "
 msgstr ""
