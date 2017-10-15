@@ -327,14 +327,14 @@ function mongabay_header_scripts()
         wp_enqueue_script('scripts');
     }
 }
-
 // Load conditional scripts
 function mongabay_conditional_scripts()
 {
     if ( mongabay_layout() == 'container-fluid') {
-        wp_register_script('parallax', get_template_directory_uri() . '/js/lib/parallax.min.js', array(), '1.4.2');
+        wp_register_script('parallax', get_template_directory_uri() . '/js/lib/parallax.min.js', array(), '1.4.2', true);
         wp_enqueue_script('parallax');
-
+        wp_register_script('iframeresize', 'https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.14/iframeResizer.min.js', array(), '3.5.14', true);
+        wp_enqueue_script('iframeresize');
     }
     if (!is_singular() || is_home()) {
         wp_register_script('salvattore', get_template_directory_uri() . '/js/lib/salvattore.min.js', array(), '1.0.9', true);

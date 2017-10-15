@@ -10,7 +10,7 @@
 <!--<![endif]-->
 <head>
 	<meta charset="<?php bloginfo('charset'); ?>">
-	<title><?php wp_title(''); ?><?php if(wp_title('', false)) { echo ' :'; } ?> <?php bloginfo('name'); ?></title>
+	<title><?php wp_title(''); ?></title>
 
 	<link href="//www.google-analytics.com" rel="dns-prefetch">
 	<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/img/icons/favicon.png" type="image/x-icon"/>
