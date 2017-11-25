@@ -25,7 +25,7 @@
             ?>
             <h1><?php the_title(); ?></h1>
             <?php
-            if(wp_is_mobile()) {
+            if(mongabay_wp_is_mobile()) {
                 echo '<div class="social">';
                 get_template_part( 'partials/section', 'social' );
                 echo '</div>';
@@ -52,7 +52,7 @@
                 }
             ?>
             <?php
-                if(!wp_is_mobile()) {
+                if(!mongabay_wp_is_mobile()) {
                     echo '<div class="social">';
                     get_template_part( 'partials/section', 'social' );
                     echo '</div>';

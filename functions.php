@@ -336,7 +336,7 @@ function mongabay_conditional_scripts()
         wp_register_script('iframeresize', 'https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.14/iframeResizer.min.js', array(), '3.5.14', true);
         wp_enqueue_script('iframeresize');
     }
-    if (!is_singular() || is_home()) {
+    if (!is_singular() || is_home() || is_page(__('series', 'mongabay'))) {
         wp_register_script('salvattore', get_template_directory_uri() . '/js/lib/salvattore.min.js', array(), '1.0.9', true);
         wp_enqueue_script('salvattore');
     }
@@ -354,8 +354,8 @@ add_action('template_redirect', 'mongabay_featured');
 // Load styles
 function mongabay_styles()
 {
-    wp_register_style('main', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
-    wp_enqueue_style('main');
+    //wp_register_style('main', get_template_directory_uri() . '/style2017.css', array(), '1.0', 'all');
+    //wp_enqueue_style('main');
     wp_register_style('framework', get_template_directory_uri() . '/css/framework.min.css', array(), '1.0', 'all');
     wp_enqueue_style('framework');
     wp_register_style('boostrap', get_template_directory_uri() . '/css/bootstrap.min.css', array(), '4.0.0', 'all');
@@ -514,11 +514,11 @@ class mongabay_topic_location extends WP_Widget {
             switch (get_current_blog_id()) {
                 case '1':
                 //General www
-                    mongabay_tabbed_content('http://news.mongabay.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
+                    mongabay_tabbed_content('http://news.mongabay.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous peoples','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
                     break;
                 case '20':
                 //News
-                    mongabay_tabbed_content('http://news.mongabay.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
+                    mongabay_tabbed_content('http://news.mongabay.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous peoples','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
                     break;
                 case '21':
                 //Kidsnews
@@ -557,7 +557,7 @@ class mongabay_topic_location extends WP_Widget {
                     mongabay_tabbed_content('http://pt.mongabay.com/', array('Agricultura','Animais','Aves','Alterações Climáticas','Conservação','Desflorestação','Energia','Destaque','Florestas','Otimismo ambiental','Herpetologia','Indigenous People','Interviews','Mamíferos','New species','Oceanos','Plantações de Óleo de Palma','Florestas Tropicais','Technology','Vida Selvagem'));
                     break;
                 default:
-                    mongabay_tabbed_content('http://news.mongabay.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous people','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
+                    mongabay_tabbed_content('http://news.mongabay.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous peoples','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
                     break;
             }
                 
@@ -932,6 +932,35 @@ function mongabay_custom_title() {
     }
 
 }
+
+//Customized mobile detection function
+function mongabay_wp_is_mobile() {
+    
+    static $is_mobile;
+
+    if ( isset($is_mobile) )
+        return $is_mobile;
+
+    if ( empty($_SERVER['HTTP_USER_AGENT']) ) {
+        $is_mobile = false;
+    } elseif (
+        strpos($_SERVER['HTTP_USER_AGENT'], 'Android') !== false
+        || strpos($_SERVER['HTTP_USER_AGENT'], 'Silk/') !== false
+        || strpos($_SERVER['HTTP_USER_AGENT'], 'Kindle') !== false
+        || strpos($_SERVER['HTTP_USER_AGENT'], 'BlackBerry') !== false
+        || strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mini') !== false ) {
+            $is_mobile = true;
+    } elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Mobile') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'iPad') == false) {
+            $is_mobile = true;
+    } elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'iPad') !== false) {
+        $is_mobile = false;
+    } else {
+        $is_mobile = false;
+    }
+
+    return $is_mobile;
+}
+
 
 /*------------------------------------*\
     Actions + Filters

@@ -105,4 +105,5 @@
         <!-- /container -->
         <?php get_template_part( 'partials/section', 'series' ); ?>
     </main>
+
 <?php get_footer(); ?>
