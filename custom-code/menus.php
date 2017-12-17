@@ -12,28 +12,32 @@
         $items_fr = array('Forêts équatoriales','Océans','Animaux et environnement','Pour les enfants','Photographie','WildTech','Plus');
         $items_www = $items_en;
         $items_news = $items_en;
+        $items_india = array('Forests','Animals','Oceans','People','Rivers','For Kids','Photography','WildTech','About');
         $items_wildtech = array('Mobile','Conservation Drones','Monitoring','Satellite imagery','Tracking','Human-wildlife Conflict','More');
-        $items_kidsnews = $items_en;
+        $items_kidsnews = array('Kindergarten','Grade 1','Grade 2','Grade 3');
 
         //set up arrays for menu item's links
         $url_base = esc_url( home_url( '/', 'http' ) );
-        $urls_kidsnews = array($url_base.'list/rainforests',$url_base.'list/oceans',$url_base.'list/environment','http://kids.mongabay.com/','https://travel.mongabay.com/',$url_base,$url_base);
 
-        $urls_en = array('https://news.mongabay.com/list/rainforests','https://news.mongabay.com/list/oceans','https://news.mongabay.com/list/environment','http://kids.mongabay.com/','https://travel.mongabay.com/','https://wildtech.mongabay.com/','https://www.mongabay.com/about/',$url_base);
+        $urls_kidsnews = array('https://kids.mongabay.com/kindergarten-books/','https://kids.mongabay.com/1st-grade-books/',$url_base.'series/grade-3/',$url_base.'series/grade-3/');
 
-        $urls_es = array('https://es.mongabay.com/list/bosques','https://es.mongabay.com/list/oceanos','https://es.mongabay.com/list/animales','https://es.mongabay.com/list/conservacion','https://es.mongabay.com/medioambiente/','https://es.mongabay.com/oportunidades/','https://es.mongabay.com/acerca-de-mongabay/',$url_base);
+        $urls_en = array('https://news.mongabay.com/list/rainforests','https://news.mongabay.com/list/oceans','https://news.mongabay.com/list/environment','http://kidsnews.mongabay.com/','https://travel.mongabay.com/','https://wildtech.mongabay.com/','https://www.mongabay.com/about/',$url_base);
 
-        $urls_de = array($url_base.'list/regenwalder',$url_base.'list/meere',$url_base.'list/umwelt','http://kids.mongabay.com/','https://travel.mongabay.com/','https://wildtech.mongabay.com/',$url_base);
+        $urls_es = array($url_base.'list/bosques',$url_base.'list/oceanos',$url_base.'list/animales',$url_base.'list/conservacion',$url_base.'medioambiente/',$url_base.'oportunidades/',$url_base.'acerca-de-mongabay/',$url_base);
 
-        $urls_cn = array($url_base.'list/雨林',$url_base.'list/海洋',$url_base.'list/动物和环境','http://kids.mongabay.com/','https://travel.mongabay.com/','https://wildtech.mongabay.com/',$url_base);
+        $urls_de = array($url_base.'list/regenwalder',$url_base.'list/meere',$url_base.'list/umwelt','http://global.mongabay.com/de/','https://travel.mongabay.com/','https://wildtech.mongabay.com/',$url_base);
 
-        $urls_jp = array($url_base.'list/熱帯雨林',$url_base.'list/海洋',$url_base.'list/環境','http://kids.mongabay.com/','https://travel.mongabay.com/','https://wildtech.mongabay.com/',$url_base);
+        $urls_cn = array($url_base.'list/雨林',$url_base.'list/海洋',$url_base.'list/动物和环境','https://global.mongabay.com/cn/kids/rainforests','https://travel.mongabay.com/','https://wildtech.mongabay.com/',$url_base);
 
-        $urls_it = array($url_base.'list/rainforests',$url_base.'list/oceani',$url_base.'list/ambiente','http://kids.mongabay.com/','https://wildtech.mongabay.com/',$url_base);
+        $urls_jp = array($url_base.'list/熱帯雨林',$url_base.'list/海洋',$url_base.'list/環境','http://global.mongabay.com/jp/','https://travel.mongabay.com/','https://wildtech.mongabay.com/',$url_base);
 
-        $urls_pt = array($url_base.'list/florestas-tropicais',$url_base.'list/oceanos',$url_base.'list/ambiente','http://kids.mongabay.com/','https://wildtech.mongabay.com/',$url_base);
+        $urls_it = array($url_base.'list/rainforests',$url_base.'list/oceani',$url_base.'list/ambiente','http://global.mongabay.com/it/','https://wildtech.mongabay.com/',$url_base);
 
-        $urls_fr = array($url_base.'list/forets-equatoriales',$url_base.'list/oceans',$url_base.'list/environnement','http://kids.mongabay.com/','https://travel.mongabay.com/','https://wildtech.mongabay.com/',$url_base);
+        $urls_india = array($url_base.'list/forests',$url_base.'list/animals', $url_base.'list/oceans',$url_base.'list/people',$url_base.'list/rivers','http://kidsnews.mongabay.com/','https://travel.mongabay.com/','https://wildtech.mongabay.com/',$url_base.'about/',$url_base);
+
+        $urls_pt = array($url_base.'list/florestas-tropicais',$url_base.'list/oceanos',$url_base.'list/ambiente','http://global.mongabay.com/pt/','https://wildtech.mongabay.com/',$url_base);
+
+        $urls_fr = array($url_base.'list/forets-equatoriales',$url_base.'list/oceans',$url_base.'list/environnement','http://global.mongabay.com/fr/','https://travel.mongabay.com/','https://wildtech.mongabay.com/',$url_base);
 
         $urls_www = $urls_en;
         $urls_news = $urls_en;
