@@ -33,7 +33,7 @@
 
         $urls_it = array($url_base.'list/rainforests',$url_base.'list/oceani',$url_base.'list/ambiente','http://global.mongabay.com/it/','https://wildtech.mongabay.com/',$url_base);
 
-        $urls_india = array($url_base.'list/forests',$url_base.'list/animals', $url_base.'list/oceans',$url_base.'list/people',$url_base.'list/rivers','https://.mongabay.org/programs/news/opportunities/','https://news.mongabay.com/','https://wildtech.mongabay.com/',$url_base.'about/',$url_base);
+        $urls_india = array($url_base.'list/forests',$url_base.'list/animals', $url_base.'list/oceans',$url_base.'list/people',$url_base.'list/rivers','https://www.mongabay.org/programs/news/opportunities/','https://news.mongabay.com/','https://wildtech.mongabay.com/',$url_base.'about/',$url_base);
 
         $urls_pt = array($url_base.'list/florestas-tropicais',$url_base.'list/oceanos',$url_base.'list/ambiente','http://global.mongabay.com/pt/','https://wildtech.mongabay.com/',$url_base);
 
