@@ -12,7 +12,7 @@
         $items_fr = array('Forêts équatoriales','Océans','Animaux et environnement','Pour les enfants','Photographie','WildTech','Plus');
         $items_www = $items_en;
         $items_news = $items_en;
-        $items_india = array('Forests','Animals','Oceans','People','Rivers','For Kids','Photography','WildTech','About');
+        $items_india = array('Forests','Animals','Oceans','People','Rivers','Opportunities','Mongabay Global','WildTech','About');
         $items_wildtech = array('Mobile','Conservation Drones','Monitoring','Satellite imagery','Tracking','Human-wildlife Conflict','More');
         $items_kidsnews = array('Kindergarten','Grade 1','Grade 2','Grade 3');
 
@@ -33,7 +33,7 @@
 
         $urls_it = array($url_base.'list/rainforests',$url_base.'list/oceani',$url_base.'list/ambiente','http://global.mongabay.com/it/','https://wildtech.mongabay.com/',$url_base);
 
-        $urls_india = array($url_base.'list/forests',$url_base.'list/animals', $url_base.'list/oceans',$url_base.'list/people',$url_base.'list/rivers','http://kidsnews.mongabay.com/','https://travel.mongabay.com/','https://wildtech.mongabay.com/',$url_base.'about/',$url_base);
+        $urls_india = array($url_base.'list/forests',$url_base.'list/animals', $url_base.'list/oceans',$url_base.'list/people',$url_base.'list/rivers','https://.mongabay.org/programs/news/opportunities/','https://news.mongabay.com/','https://wildtech.mongabay.com/',$url_base.'about/',$url_base);
 
         $urls_pt = array($url_base.'list/florestas-tropicais',$url_base.'list/oceanos',$url_base.'list/ambiente','http://global.mongabay.com/pt/','https://wildtech.mongabay.com/',$url_base);
 
