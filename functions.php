@@ -76,7 +76,7 @@
             $section = get_query_var('section');
             $firstvar = get_query_var('nc1');
             $secondvar = get_query_var('nc2');
-            
+
             if(get_current_blog_id() == 1) {
                 switch_to_blog(20);
                 $query->set('post_type', 'post');
@@ -236,7 +236,7 @@ function mongabay_series_section ( $names, $number) {
                         ),
                     ),
                 );
-            
+
 
             $query = new WP_Query( $args );
 
@@ -481,9 +481,9 @@ class mongabay_topic_location extends WP_Widget {
 
     function __construct() {
         parent::__construct(
-            'mongabay_topic_location', 
-            __('Topic and location tabs', 'mongabay'), 
-            array( 'description' => __( 'Listing topics and locations as tabbed content', 'mongabay' ), ) 
+            'mongabay_topic_location',
+            __('Topic and location tabs', 'mongabay'),
+            array( 'description' => __( 'Listing topics and locations as tabbed content', 'mongabay' ), )
             );
     }
 
@@ -493,7 +493,7 @@ class mongabay_topic_location extends WP_Widget {
         echo $args['before_widget'];
         if ( ! empty( $title ) )
             echo '<p>' . $title . '</p>';
-        
+
         ?>
         <?php
             function mongabay_tabbed_content ($home_url, $items) {
@@ -558,13 +558,13 @@ class mongabay_topic_location extends WP_Widget {
                     break;
                 case '30':
                 //India
-                    mongabay_tabbed_content('https://india.mongabay.com/', array('Animals','Biodiversity','Climate change','Conservation','Deforestation','Energy','Environment','Featured','Forests','Positive environmental','Himalayas','Indigenous peoples','Interviews','Mammals','New species','Oceans','Pollution','Rainforests','Technology','Wildlife'));
+                    mongabay_tabbed_content('https://india.mongabay.com/', array('Animals','Biodiversity','Climate change','Conservation','Deforestation','Energy','Environment','Featured','Forests','Positive environmental','Indigenous peoples','Interviews','Mammals','New species','Oceans','Pollution','Rainforests','Technology','Wildlife'));
                     break;
                 default:
                     mongabay_tabbed_content('https://news.mongabay.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous peoples','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
                     break;
             }
-                
+
             ?>
             <a href="<?php echo esc_url( home_url( '/' ) ); ?>topics" class="plus-link"><?php _e('Many more topics', 'mongabay'); ?></a>
         </div>
@@ -605,13 +605,13 @@ class mongabay_topic_location extends WP_Widget {
                         mongabay_tabbed_content('https://pt.mongabay.com/', array('África','Amazónia','Ásia','Austrália','Bornéu','Brasil','Camarões','América Central','China','Colômbia','Congo','Índia','Indonésia','América Latina','Madagáscar','Malásia','Nova Guiné','Peru','Sumatra','Estados Unidos'));
                         break;
                     case '30':
-                        mongabay_tabbed_content('https://india.mongabay.com/', array('Andhra Pradesh','Assam','Arunachal Pradesh','Andaman and Nicobar Islands','Bihar','Chhattisgarh','Dadra and Nagar Haveli','Daman and Diu','Delhi','Goa','Gujarat','Haryana','Himachal Pradesh','Jammu and Kashmir','Jharkhand','Karnataka','Kerala'));
+                        mongabay_tabbed_content('https://india.mongabay.com/', array('Deccan Plateau','Himalayas','Eastern Ghats','Western Ghats','Thar Desert ','Sundarbans','Andhra Pradesh','Assam','Arunachal Pradesh','Andaman and Nicobar Islands','Bihar','Chhattisgarh','Dadra and Nagar Haveli','Daman and Diu','Delhi','Goa','Gujarat','Haryana','Himachal Pradesh','Jammu and Kashmir','Jharkhand','Karnataka','Kerala'));
                         break;
                     default:
                         mongabay_tabbed_content('https://news.mongabay.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
                         break;
                 }
-                
+
             ?>
             <a href="<?php echo esc_url( home_url( '/' ) ); ?>locations" class="plus-link"><?php _e('Browse more locations', 'mongabay'); ?></a>
         </div>
@@ -620,7 +620,7 @@ class mongabay_topic_location extends WP_Widget {
     echo $args['after_widget'];
 }
 
-// Widget Backend 
+// Widget Backend
 public function form( $instance ) {
     if ( isset( $instance[ 'title' ] ) ) {
         $title = $instance[ 'title' ];
@@ -630,10 +630,10 @@ public function form( $instance ) {
     }
     ?>
     <p>
-        <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
+        <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
         <input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
     </p>
-    <?php 
+    <?php
 }
 
 
@@ -690,7 +690,7 @@ function mongabay_excerpt()
         $output_2 = wp_strip_all_tags($output_1);
         $output = wp_trim_words( $output_2, 30 );
     } else {
-        $output = $post->post_excerpt; 
+        $output = $post->post_excerpt;
     }
     $output = apply_filters('wptexturize', $output);
     $output = apply_filters('convert_chars', $output);
@@ -760,7 +760,7 @@ add_shortcode('open-parallax-content','parallax_open');
 
 
 function parallax_open() {
-    
+
     return "<div class='container'><div class='row justify-content-center'><div id='main' class='col-lg-8 single'><article>";
 }
 
@@ -780,7 +780,7 @@ function px_shortcode_button() {
     {
         ?>
             <script type="text/javascript">
-               
+
                 function getSel()
                 {
                     var txtarea = document.getElementById("content");
@@ -814,7 +814,7 @@ function open_close_px_content()
     {
         ?>
             <script type="text/javascript">
-               
+
                 function getSel()
                 {
                     var txtarea = document.getElementById("content");
@@ -847,7 +847,7 @@ function mongabay_remove_custom_fields() {
 
     $post_types = get_post_types( '', 'names' );
     foreach ( $post_types as $post_type ) {
-        remove_meta_box( 'postcustom' , $post_type , 'normal' );     
+        remove_meta_box( 'postcustom' , $post_type , 'normal' );
     }
 
 }
@@ -888,7 +888,7 @@ if (function_exists('register_sidebar'))
 }
 
 // Remove query strings from scripts and css
-function remove_query_string( $src ){   
+function remove_query_string( $src ){
     $parts = explode( '?ver', $src );
     return $parts[0];
 }
@@ -901,12 +901,12 @@ if ( !is_admin() ) {
 //Custom rewrite rule for wildtech posts
 add_filter( 'post_link', 'mongabay_wildtech_post_link', 10, 3 );
 function mongabay_wildtech_post_link( $url, $post, $leavename ) {
-	$parsed = parse_url($url);
-	if ( $post->post_type == 'post') {
-		$cat = get_post_meta( $post->ID, 'news_category', true );
-		if ( $cat == 'wildtech' ) $url = get_home_url().'/wildtech'.$parsed['path'];
-	}
-	return $url;
+    $parsed = parse_url($url);
+    if ( $post->post_type == 'post') {
+        $cat = get_post_meta( $post->ID, 'news_category', true );
+        if ( $cat == 'wildtech' ) $url = get_home_url().'/wildtech'.$parsed['path'];
+    }
+    return $url;
 }
 
 //Listings proper page title
@@ -942,7 +942,7 @@ function mongabay_custom_title() {
 
 //Customized mobile detection function
 function mongabay_wp_is_mobile() {
-    
+
     static $is_mobile;
 
     if ( isset($is_mobile) )
@@ -979,7 +979,7 @@ function rest_api_filter_add_filters() {
 }
 
 function rest_api_filter_add_filter_param( $args, $request ) {
-    
+
     if ( empty( $request['filter'] ) || ! is_array( $request['filter'] ) ) {
         return $args;
     }
