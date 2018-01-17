@@ -901,12 +901,12 @@ if ( !is_admin() ) {
 //Custom rewrite rule for wildtech posts
 add_filter( 'post_link', 'mongabay_wildtech_post_link', 10, 3 );
 function mongabay_wildtech_post_link( $url, $post, $leavename ) {
-    $parsed = parse_url($url);
-    if ( $post->post_type == 'post') {
-        $cat = get_post_meta( $post->ID, 'news_category', true );
-        if ( $cat == 'wildtech' ) $url = get_home_url().'/wildtech'.$parsed['path'];
-    }
-    return $url;
+	$parsed = parse_url($url);
+	if ( $post->post_type == 'post') {
+		$cat = get_post_meta( $post->ID, 'news_category', true );
+		if ( $cat == 'wildtech' ) $url = get_home_url().'/wildtech'.$parsed['path'];
+	}
+	return $url;
 }
 
 //Listings proper page title
@@ -996,6 +996,24 @@ function rest_api_filter_add_filter_param( $args, $request ) {
     }
     return $args;
 }
+
+function mongabay_rss_pre_get_posts( $query ) 
+{
+    if( $query->is_feed && $query->is_main_query() ) 
+    { 
+        if( isset( $query->query_vars['grant'] ) && ! empty( $query->query_vars['grant'] ) )
+        {
+
+            // if you only want to allow 'alpha-numerics':
+            $grant =  preg_replace( "/[^a-zA-Z0-9]/", "", $query->query_vars['grant'] ); 
+            $query->set( 'meta_key', 'grant' );
+            $query->set( 'meta_value', $grant );
+        }
+
+    } 
+}
+
+add_action( 'pre_get_posts', 'mongabay_rss_pre_get_posts' );
 
 /*------------------------------------*\
     Actions + Filters
