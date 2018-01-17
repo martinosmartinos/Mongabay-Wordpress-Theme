@@ -7,6 +7,7 @@
 header('Content-Type: ' . feed_content_type('rss-http') . '; charset=' . get_option('blog_charset'), true);
 $more = 1;
 $type = get_query_var('feedtype');
+$grant = get_query_var('grant');
 
 
 echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
