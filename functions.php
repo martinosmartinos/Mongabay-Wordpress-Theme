@@ -1015,6 +1015,13 @@ function mongabay_rss_pre_get_posts( $query )
 
 add_action( 'pre_get_posts', 'mongabay_rss_pre_get_posts' );
 
+// Remove p tags from images, scripts, and iframes.
+function mongabay_remove_iframe_ptags( $content ) {
+  $content = preg_replace('/<p>\s*(<iframe.*>*.<\/iframe>)\s*<\/p>/iU', '\1', $content);
+  return $content;
+}
+add_filter( 'the_content', 'mongabay_remove_iframe_ptags', 10 );
+
 /*------------------------------------*\
     Actions + Filters
 \*------------------------------------*/
@@ -1065,5 +1072,5 @@ add_filter('post_thumbnail_html', 'remove_thumbnail_dimensions', 10); // Remove 
 // Remove Filters
 remove_filter('the_excerpt', 'wpautop'); // Remove <p> tags from Excerpt altogether
 remove_filter( 'the_content', 'wpautop' );
-add_filter( 'the_content', 'wpautop' , 12); //Remove <p> and <br> from shortcodes
+add_filter( 'the_content', 'wpautop' , 1); //Remove <p> and <br> from shortcodes
 ?>
