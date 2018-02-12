@@ -753,7 +753,7 @@ add_shortcode('parallax-img','parallax_img');
 function parallax_img($atts){
 
     extract(shortcode_atts(array('imagepath' => 'Image Needed','id' => '1', 'px_title' => 'Slide Title', 'title_color' => '#FFFFFF' , 'img_caption' => 'Your image caption'),$atts));
-    return "<div class='clearfix'></div><div class='parallax-section full-height' data-parallax='scroll' id='".$id."' data-image-src='".$imagepath."'); background-size: cover;'><div class='featured-article-meta'><span class='subtitle' style='color:".$title_color."'>".$img_caption."</span></div></div><div class='clearfix'></div>";
+    return "<div class='clearfix'></div><div class='parallax-section full-height' data-parallax='scroll' id='".$id."' data-image-src='".$imagepath."' style='background-size: cover'><div class='featured-article-meta'><span class='subtitle' style='color:".$title_color."'>".$img_caption."</span></div></div><div class='clearfix'></div>";
 }
 
 add_shortcode('open-parallax-content','parallax_open');
@@ -761,14 +761,14 @@ add_shortcode('open-parallax-content','parallax_open');
 
 function parallax_open() {
 
-    return "<div class='container'><div class='row justify-content-center'><div id='main' class='col-lg-8 single'><article>";
+    return "<div class='container'><div class='row justify-content-center'><div id='main' class='col-lg-8 single'>";
 }
 
 add_shortcode('close-parallax-content','parallax_close');
 
 function parallax_close() {
 
-    return "</article></div></div></div>";
+    return "</div></div></div>";
 
 }
 
@@ -1020,7 +1020,7 @@ function mongabay_remove_iframe_ptags( $content ) {
   $content = preg_replace('/<p>\s*(<iframe.*>*.<\/iframe>)\s*<\/p>/iU', '\1', $content);
   return $content;
 }
-add_filter( 'the_content', 'mongabay_remove_iframe_ptags', 10 );
+add_filter( 'the_content', 'mongabay_remove_iframe_ptags', 13 );
 
 /*------------------------------------*\
     Actions + Filters
@@ -1072,5 +1072,5 @@ add_filter('post_thumbnail_html', 'remove_thumbnail_dimensions', 10); // Remove 
 // Remove Filters
 remove_filter('the_excerpt', 'wpautop'); // Remove <p> tags from Excerpt altogether
 remove_filter( 'the_content', 'wpautop' );
-add_filter( 'the_content', 'wpautop' , 1); //Remove <p> and <br> from shortcodes
+add_filter( 'the_content', 'wpautop' , 12); //Remove <p> and <br> from shortcodes
 ?>
