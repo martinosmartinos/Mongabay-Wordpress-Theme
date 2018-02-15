@@ -1022,6 +1022,54 @@ function mongabay_remove_iframe_ptags( $content ) {
 }
 add_filter( 'the_content', 'mongabay_remove_iframe_ptags', 13 );
 
+// Sanitize json output for content. Consumed by APP.
+function mongabay_sanitize_json( $data, $post, $context ) {
+    $allowtags = array(
+        'a' => array(),
+        'p' => array(),
+        'b' => array(),
+        'strong' => array(),
+        'h1' => array(),
+        'h2' => array(),
+        'h3' => array(),
+        'h4' => array(),
+        'h5' => array(),
+        'h6' => array(),
+        'br' => array(),
+        'em' => array(),
+        'li' => array(
+            'class' => array()
+        ),
+        'img' => array(
+            'alt' => array(),
+            'width' => array(),
+            'height' => array(),
+            'src' => array(),
+            'srcset' => array()
+        ),
+        'span' => array(
+            'class' => array()
+        ),
+        'figure' => array(),
+        'figcaption' => array(),
+        'iframe' => array(
+            'width' => array(),
+            'height'=> array(),
+            'src' => array()
+        ),
+        'div' => array(
+            'data-image-src' => array()
+        )
+    );
+    $data->data['content'] = wp_kses($data->data['content'], $allowtags);
+    $data->data['content'] = preg_replace('/\\n<div><\/div>\\n/', '', $data->data['content']);
+    $data->data['content'] = preg_replace('/<div>\\n<div>\\n<div>\\n/', '', $data->data['content']);
+    $data->data['content'] = preg_replace('/<\/p>\\n<\/div>\\n<\/div>\\n<\/div>/', '</p>', $data->data['content']);
+    $data->data['content'] = preg_replace('/\\n#soliloquy.+\\n/', '', $data->data['content']);
+    return $data;
+}
+add_filter( 'rest_prepare_post', 'mongabay_sanitize_json', 100, 3 );
+
 /*------------------------------------*\
     Actions + Filters
 \*------------------------------------*/
