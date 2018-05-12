@@ -53,6 +53,9 @@
             case '29':
                 $spot_id = 'sp_yZlmuqld';
                 break;
+            case '30':
+                $spot_id = 'sp_uf34MHbE';
+                break;
         };
         print '<script async src="https://recirculation.spot.im/spot/'.$spot_id.'"></script>
         <div data-spotim-module="recirculation" data-spot-id="'.$spot_id.'"></div><script async data-spotim-module="spotim-launcher" src="https://launcher.spot.im/spot/'.$spot_id.'" data-post-id="'.$post_id.'"></script>';
