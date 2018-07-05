@@ -60,7 +60,7 @@
             ?>
         </div>
     </div>
-    <?php if ( has_post_thumbnail() && $legacy !== 'yes' )  : ?>
+    <?php if ( has_post_thumbnail() )  : ?>
         <div class="row article-cover-image no-gutters">
             <?php
                 if(wp_is_mobile()) {
