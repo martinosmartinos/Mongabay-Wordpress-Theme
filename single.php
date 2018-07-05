@@ -11,6 +11,7 @@
         $topics = wp_get_post_terms($post_id, 'topic');
         $serial = wp_get_post_terms($post_id, 'serial');
         $legacy = get_post_meta($post_id, 'mongabay_post_legacy_status',true);
+        $img_url = wp_get_attachment_url( get_post_thumbnail_id() );
     ?>
 
     <div id="headline">
@@ -60,7 +61,7 @@
             ?>
         </div>
     </div>
-    <?php if ( has_post_thumbnail() )  : ?>
+    <?php if ( !empty($img_url) )  : ?>
         <div class="row article-cover-image no-gutters">
             <?php
                 if(wp_is_mobile()) {
