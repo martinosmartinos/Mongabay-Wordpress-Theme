@@ -170,7 +170,7 @@
 
     }
 
-add_filter( 'pre_get_posts', 'mongabay_mega_query' );
+
 
 //fix topics links
 function mongabay_topic_link( $link, $term, $taxonomy )
@@ -180,7 +180,7 @@ function mongabay_topic_link( $link, $term, $taxonomy )
 
     return str_replace( 'topic/', 'list/', $link );
 }
-add_filter( 'term_link', 'mongabay_topic_link', 10, 3 );
+
 
 //fix locations links
 function mongabay_location_link( $link, $term, $taxonomy )
@@ -190,7 +190,7 @@ function mongabay_location_link( $link, $term, $taxonomy )
 
     return str_replace( 'location/', 'list/', $link );
 }
-add_filter( 'term_link', 'mongabay_location_link', 10, 3 );
+
 
 
 //fix byline links
@@ -201,7 +201,7 @@ function mongabay_byline_link( $link, $term, $taxonomy )
 
     return str_replace( 'byline/', 'by/', $link );
 }
-add_filter( 'term_link', 'mongabay_byline_link', 10, 3 );
+
 
 
 
@@ -352,7 +352,7 @@ function mongabay_featured() {
         exit;
     }
 }
-add_action('template_redirect', 'mongabay_featured');
+
 
 // Load styles
 function mongabay_styles()
@@ -1163,14 +1163,15 @@ add_action('wp_enqueue_scripts', 'mongabay_styles'); // Add Theme Stylesheet
 add_action('init', 'register_mongabay_menu'); // Add Blank Menu
 add_action('widgets_init', 'my_remove_recent_comments_style'); // Remove inline Recent Comment Styles from wp_head()
 add_action('init', 'mongabay_pagination'); // Add our Pagination
-add_action( 'rest_api_init', 'rest_api_filter_add_filters' );
-add_action( 'pre_get_posts', 'mongabay_rss_pre_get_posts' );
+add_action( 'rest_api_init', 'rest_api_filter_add_filters' ); // Add the filter parameter for API
+add_action( 'pre_get_posts', 'mongabay_rss_pre_get_posts' ); // Add 'grant' to meta query
 add_action('admin_head', 'trada_conditional_logic'); // Add conditional show or hide for translator/adaptor
 add_action( 'pre_insert_term', 'mongabay_prevent_terms', 1, 2 ); // Prevent new terms to be added
 add_action( 'admin_menu' , 'mongabay_remove_custom_fields' ); // Remove custom fields from post editing screen
 add_action('admin_print_footer_scripts', 'px_shortcode_button'); // Add parallax button
 add_action('admin_print_footer_scripts', 'open_close_px_content'); // Add parallax button
 add_action( 'widgets_init', 'mongabay_tabs' ); // Tabbed content widget
+add_action('template_redirect', 'mongabay_featured'); // Redirect template if content is Featured
 
 // Remove Actions
 remove_action('wp_head', 'feed_links_extra', 3); // Display the links to the extra feeds such as category feeds
@@ -1201,13 +1202,17 @@ add_filter('the_excerpt', 'shortcode_unautop'); // Remove auto <p> tags in Excer
 add_filter('the_excerpt', 'do_shortcode'); // Allows Shortcodes to be executed in Excerpt (Manual Excerpts only)
 add_filter('style_loader_tag', 'mongabay_style_remove'); // Remove 'text/css' from enqueued stylesheet
 add_filter('post_thumbnail_html', 'remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to thumbnails
-add_filter( 'the_content', 'mongabay_remove_iframe_ptags', 13 );
-add_filter( 'post_link', 'mongabay_wildtech_post_link', 10, 3 );
+add_filter( 'the_content', 'mongabay_remove_iframe_ptags', 13 ); // Remove paragraphs from iframe
+add_filter( 'post_link', 'mongabay_wildtech_post_link', 10, 3 ); // Fix post links for wildtech category
 add_filter( 'query_vars', 'mongabay_query_var' ); // Register custom query vars
+add_filter( 'term_link', 'mongabay_byline_link', 10, 3 ); // Fix byline taxonomy link
+add_filter( 'pre_get_posts', 'mongabay_mega_query' ); // Main query modifier
+add_filter( 'term_link', 'mongabay_location_link', 10, 3 ); // Fix location taxonomy link
+add_filter( 'term_link', 'mongabay_topic_link', 10, 3 ); // Fix topic taxonomy link
 //add_filter('image_send_to_editor', 'remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to post images
 add_filter('onesignal_send_notification', 'onesignal_send_notification_filter', 10, 4); // Add Onesignal notifications filter
-add_filter( 'rest_prepare_post', 'mongabay_sanitize_json', 100, 3 );
-add_filter( 'rest_prepare_page', 'mongabay_sanitize_page_json', 100, 3 );
+add_filter( 'rest_prepare_post', 'mongabay_sanitize_json', 100, 3 ); // Get content ready for App
+add_filter( 'rest_prepare_page', 'mongabay_sanitize_page_json', 100, 3 ); //Get content ready for App
 
 
 // Remove Filters
