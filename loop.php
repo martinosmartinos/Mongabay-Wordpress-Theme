@@ -1,5 +1,5 @@
 <?php
-	if(get_current_blog_id() == 1) switch_to_blog(20);
+	//if(get_current_blog_id() == 1) switch_to_blog(20);
 	if (have_posts()): while (have_posts()) : the_post();
 	$post_id = get_the_ID();
 	$subdomain = mongabay_subdomain_name();
@@ -15,17 +15,17 @@
 		<div class="entry-meta-news">
 			<?php
 				switch ($subdomain) {
-					case 'www':
-						echo '';
-						break;
+					// case 'www':
+					// 	echo '';
+					// 	break;
 
-					case 'wildtech':
-						echo '';
-						break;
+					// case 'wildtech':
+					// 	echo '';
+					// 	break;
 					
-					case 'kidsnews':
-						echo '';
-						break;
+					// case 'kidsnews':
+					// 	echo '';
+					// 	break;
 
 					default:
 						_e('by ', 'mongabay');
