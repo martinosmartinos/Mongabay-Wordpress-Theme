@@ -1113,38 +1113,14 @@ function mongabay_sanitize_page_json( $data, $post, $context ) {
 }
 
 // Conditional logic to show or hide translated_by/ adapted_by POD fields
-function trada_conditional_logic() {
-?>  
-    <style type='text/css'>
-        .pods-form-ui-row-name-translated-by, 
-        .pods-form-ui-row-name-adapted-by {
-            display: none;
-        }
-    </style>
-    <script type="text/javascript">
-        var $ = jQuery;
-        $(document).ready(function(){
-            $('select#pods-form-ui-pods-meta-translated-adapted').change(function(){
-                $(this).find('option:selected').each(function(){
-                    if($(this).attr("value")=="translated"){
-                        $('.pods-form-ui-row-name-adapted-by').hide();
-                        $('.pods-form-ui-row-name-translated-by').show();
-                    }
-                    else if($(this).attr("value")=="adapted"){
-                        $('.pods-form-ui-row-name-translated-by').hide();
-                        $('.pods-form-ui-row-name-adapted-by').show();
-                        
-                    }
-                    else{
-                        $('.pods-form-ui-row-name-adapted-by').hide();
-                        $('.pods-form-ui-row-name-adapted-by').hide();
-                    }
-                });
-            }).change();
-        });
-    </script>
-    
-<?php
+function post_edit_screen() {
+    $current_screen = get_current_screen();
+    if($current_screen ->id === 'post') {
+        //var_dump($current_screen);
+        wp_register_script('trada', get_template_directory_uri() . '/js/lib/translated_adopted.min.js', array('jquery'), '1.0', true);
+        wp_enqueue_script('trada');
+    }
+
 }
 
 /*------------------------------------*\
@@ -1165,7 +1141,7 @@ add_action('widgets_init', 'my_remove_recent_comments_style'); // Remove inline 
 add_action('init', 'mongabay_pagination'); // Add our Pagination
 add_action( 'rest_api_init', 'rest_api_filter_add_filters' ); // Add the filter parameter for API
 add_action( 'pre_get_posts', 'mongabay_rss_pre_get_posts' ); // Add 'grant' to meta query
-add_action('admin_head', 'trada_conditional_logic'); // Add conditional show or hide for translator/adaptor
+add_action( 'current_screen', 'post_edit_screen' ); // Determine post editing screen to load conditional script
 add_action( 'pre_insert_term', 'mongabay_prevent_terms', 1, 2 ); // Prevent new terms to be added
 add_action( 'admin_menu' , 'mongabay_remove_custom_fields' ); // Remove custom fields from post editing screen
 add_action('admin_print_footer_scripts', 'px_shortcode_button'); // Add parallax button
