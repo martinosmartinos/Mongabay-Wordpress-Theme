@@ -6,22 +6,22 @@
     $facebookURL = 'https://www.facebook.com/sharer/sharer.php?u='.$postURL;
     //$googleURL = 'https://plus.google.com/share?url='.$postURL;
     $linkedInURL = 'https://www.linkedin.com/shareArticle?mini=true&url='.$postURL.'&amp;title='.$postTitle;
-
+    $whatsappURL = 'whatsapp://send?text='.$postURL.'&amp;title='.$postTitle;
     $facebook = '<a class="facebook" href="'.$facebookURL.'" target="_blank"></a>';
     $google = '<a class="google" href="'.$googleURL.'" target="_blank"></a>';
     $twitter = '<a class="twitter" href="'. $twitterURL .'" target="_blank"></a>';
     $linkedin = '<a class="linkedin" href="'.$linkedInURL.'" target="_blank"></a>';
+    $whatsapp = '<a class="whatsapp" href="'.$whatsappURL.'" target="_blank"></a>';
     $email = '<a class="email" href="javascript:emailArticle()"></a>';
     $bookmark = '<a class="bookmark" id="bookmark" href="#" title="'.$postTitle.'" rel="sidebar"></a>';
-
     echo $facebook;
     //echo $google;
     echo $twitter;
     echo $linkedin;
+    echo $whatsapp;
     echo $email;
     echo $bookmark;
     echo '<script>';?>
-    
         jQuery(function() {
           jQuery('#bookmark').click(function() {
             if (window.sidebar && window.sidebar.addPanel) { // Mozilla Firefox Bookmark
