@@ -1123,6 +1123,31 @@ function post_edit_screen() {
 
 }
 
+// Require featured image before publishing an article
+add_filter( 'wp_insert_post_data', function ( $data, $postarr ) {
+    $post_id              = $postarr['ID'];
+    $post_status          = $data['post_status'];
+    $original_post_status = $postarr['original_post_status'];
+    if ( $post_id && 'publish' === $post_status && 'publish' !== $original_post_status ) {
+        $post_type = get_post_type( $post_id );
+        if ( post_type_supports( $post_type, 'thumbnail' ) && ! has_post_thumbnail( $post_id ) ) {
+            $data['post_status'] = 'draft';
+        }
+    }
+    return $data;
+}, 10, 2 );
+add_action( 'admin_notices', function () {
+    $post = get_post();
+    if ( 'publish' !== get_post_status( $post->ID ) && ! has_post_thumbnail( $post->ID ) ) { ?>
+        <div id="message" class="error">
+            <p>
+                <strong><?php _e( 'Please set Featured Image. Article cannot be published without one.' ); ?></strong>
+            </p>
+        </div>
+    <?php
+    }
+} );
+
 /*------------------------------------*\
     Actions + Filters
 \*------------------------------------*/
@@ -1189,7 +1214,6 @@ add_filter( 'term_link', 'mongabay_topic_link', 10, 3 ); // Fix topic taxonomy l
 add_filter('onesignal_send_notification', 'onesignal_send_notification_filter', 10, 4); // Add Onesignal notifications filter
 add_filter( 'rest_prepare_post', 'mongabay_sanitize_json', 100, 3 ); // Get content ready for App
 add_filter( 'rest_prepare_page', 'mongabay_sanitize_page_json', 100, 3 ); //Get content ready for App
-
 
 // Remove Filters
 remove_filter('the_excerpt', 'wpautop'); // Remove <p> tags from Excerpt altogether
