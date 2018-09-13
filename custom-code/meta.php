@@ -7,7 +7,7 @@ function mongabay_meta() {
 	global $post;
 	// article
 	if ( is_single() && !is_front_page() && !is_home() ) {
-;
+		$byline = get_post_taxonomies( 'byline' );
 		echo '<meta name="description" content="' .get_the_excerpt($post->ID). '" />'."\n";
 		echo '<meta name="Tags" content="Mongabay, Mongabay Environmental News, Environmental News, Conservation News" />'."\n";
 		echo '<meta property="keywords" content="Mongabay, Mongabay Environmental News, Environmental News, Conservation News" />'."\n";
@@ -20,16 +20,11 @@ function mongabay_meta() {
 		echo '<meta property="og:type" content="article" />'."\n";
 					
 		$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
-		//if (!$thumbnail_src && function_exists('nelioefi_get_thumbnail_src'))  $thumbnail_src[0] = nelioefi_get_thumbnail_src( $post->ID );
-		
+
 		if(!empty($thumbnail_src[0])) {
 			echo '<meta property="og:image" content="' . esc_url($thumbnail_src[0] ) . '"/>'."\n";
 		}
-		// else {
-		// 	if (first_content_image()){
-		// 		echo '<meta property="og:image" content="' . esc_attr(first_content_image() ) . '"/>';
-		// 	}
-		// }
+
 		echo '<meta property="og:description" content="' .get_the_excerpt($post->ID). '"/>'."\n";
 		
 		$format = 'c';
@@ -44,12 +39,14 @@ function mongabay_meta() {
 		echo '<meta name="twitter:description" content="'.get_the_excerpt($post->ID).'"/>'."\n";
 		echo '<meta name="twitter:title" content="' . esc_attr(get_the_title()) . '"/>'."\n";
 		echo '<meta name="twitter:site" content="@mongabay"/>';
+
 		if(!empty($thumbnail_src[0])) {
 			echo '<meta name="twitter:image" content="' . esc_url($thumbnail_src[0] ) . '"/>'."\n";
 		}
-		echo '<meta name="twitter:creator" content="@mongabay"/>'."\n";
+		echo '<meta name="twitter:creator" content="'.get_the_term_list(($post->ID), 'byline', '', ', ', '' ).'"/>'."\n";
 		
 		$coords = get_post_meta( get_the_ID(), 'coordinates', true );
+
 		if (!empty($coords['lat']) && !empty($coords['lng'])) {
 			$coords['lat'] = intval($coords['lat']);
 			$coords['lng'] = intval($coords['lng']);
@@ -73,4 +70,3 @@ function mongabay_meta() {
 	}
 		
 }
-
