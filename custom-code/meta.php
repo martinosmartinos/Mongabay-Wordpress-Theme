@@ -7,7 +7,11 @@ function mongabay_meta() {
 	global $post;
 	// article
 	if ( is_single() && !is_front_page() && !is_home() ) {
-		$byline = get_post_taxonomies( 'byline' );
+
+		$byline_term = get_the_terms( $post->ID, 'byline' );
+		$byline_term_id = $byline_term[0]->term_id;
+		$byline_twitter = get_term_meta( $byline_term_id, 'authors_twitter_account', false )[0];
+
 		echo '<meta name="description" content="' .get_the_excerpt($post->ID). '" />'."\n";
 		echo '<meta name="Tags" content="Mongabay, Mongabay Environmental News, Environmental News, Conservation News" />'."\n";
 		echo '<meta property="keywords" content="Mongabay, Mongabay Environmental News, Environmental News, Conservation News" />'."\n";
@@ -43,7 +47,11 @@ function mongabay_meta() {
 		if(!empty($thumbnail_src[0])) {
 			echo '<meta name="twitter:image" content="' . esc_url($thumbnail_src[0] ) . '"/>'."\n";
 		}
-		echo '<meta name="twitter:creator" content="'.get_the_term_list(($post->ID), 'byline', '', ', ', '' ).'"/>'."\n";
+		if(!empty($byline_twitter)) {
+			echo '<meta name="twitter:creator" content="'.$byline_twitter.'"/>'."\n";
+		} else {
+			echo '<meta name="twitter:creator" content="@mongabay"/>'."\n";
+		}
 		
 		$coords = get_post_meta( get_the_ID(), 'coordinates', true );
 
