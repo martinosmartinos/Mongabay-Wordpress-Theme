@@ -87,15 +87,15 @@
 
             if(get_current_blog_id() == 22) {
 
-                $meta_query = array(
+                $tax_query = array(
                     array(
-                        'key' => 'news_category',
-                        'value' => 'wildtech',
+                        'key' => 'topic',
+                        'value' => 'technology',
                         'compare' => '='
                         )
                     );
                 switch_to_blog(20);
-                $query->set('meta_query', $meta_query);
+                $query->set('tax_query', $tax_query);
 
             }
 
@@ -889,8 +889,8 @@ if ( !is_admin() ) {
 function mongabay_wildtech_post_link( $url, $post, $leavename ) {
 	$parsed = parse_url($url);
 	if ( $post->post_type == 'post') {
-		$cat = get_post_meta( $post->ID, 'news_category', true );
-		if ( $cat == 'wildtech' ) $url = get_home_url().'/wildtech'.$parsed['path'];
+		$tech = has_terms('technology', 'topic');
+		if ( $tech ) $url = get_home_url().'/wildtech'.$parsed['path'];
 	}
 	return $url;
 }
@@ -1204,7 +1204,7 @@ add_filter('the_excerpt', 'do_shortcode'); // Allows Shortcodes to be executed i
 add_filter('style_loader_tag', 'mongabay_style_remove'); // Remove 'text/css' from enqueued stylesheet
 add_filter('post_thumbnail_html', 'remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to thumbnails
 add_filter( 'the_content', 'mongabay_remove_iframe_ptags', 13 ); // Remove paragraphs from iframe
-add_filter( 'post_link', 'mongabay_wildtech_post_link', 10, 3 ); // Fix post links for wildtech category
+add_filter( 'post_link', 'mongabay_wildtech_post_link', 10, 3 ); // Fix post links for wildtech posts
 add_filter( 'query_vars', 'mongabay_query_var' ); // Register custom query vars
 add_filter( 'term_link', 'mongabay_byline_link', 10, 3 ); // Fix byline taxonomy link
 add_filter( 'pre_get_posts', 'mongabay_mega_query' ); // Main query modifier
