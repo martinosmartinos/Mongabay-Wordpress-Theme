@@ -7,7 +7,7 @@
     include (get_template_directory().'/custom-code/thumbnailed-recent-posts.php');
     include (get_template_directory().'/custom-code/feed-query.php');
     include (get_template_directory().'/custom-code/meta.php');
-    include (get_template_directory().'/custom-code/menus.php');
+    //include (get_template_directory().'/custom-code/menus.php');
     include (get_template_directory().'/custom-code/analytics.php');
     if (function_exists('add_theme_support'))
     {
@@ -89,9 +89,9 @@
 
                 $tax_query = array(
                     array(
-                        'key' => 'topic',
-                        'value' => 'technology',
-                        'compare' => '='
+                        'taxonomy' => 'topic',
+                        'field' => 'slug',
+                        'terms' => 'technology'
                         )
                     );
                 switch_to_blog(20);
@@ -889,7 +889,7 @@ if ( !is_admin() ) {
 function mongabay_wildtech_post_link( $url, $post, $leavename ) {
 	$parsed = parse_url($url);
 	if ( $post->post_type == 'post') {
-		$tech = has_terms('technology', 'topic');
+		$tech = has_term('technology', 'topic');
 		if ( $tech ) $url = get_home_url().'/wildtech'.$parsed['path'];
 	}
 	return $url;
