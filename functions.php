@@ -7,7 +7,7 @@
     include (get_template_directory().'/custom-code/thumbnailed-recent-posts.php');
     include (get_template_directory().'/custom-code/feed-query.php');
     include (get_template_directory().'/custom-code/meta.php');
-    //include (get_template_directory().'/custom-code/menus.php');
+    include (get_template_directory().'/custom-code/menus.php');
     include (get_template_directory().'/custom-code/analytics.php');
     if (function_exists('add_theme_support'))
     {
@@ -887,12 +887,12 @@ if ( !is_admin() ) {
 
 // Custom rewrite rule for wildtech posts
 function mongabay_wildtech_post_link( $url, $post, $leavename ) {
-	$parsed = parse_url($url);
-	if ( $post->post_type == 'post') {
-		$tech = has_term('technology', 'topic');
-		if ( $tech ) $url = get_home_url().'/wildtech'.$parsed['path'];
-	}
-	return $url;
+    $parsed = parse_url($url);
+    if ( $post->post_type == 'post') {
+        $tech = has_term('technology', 'topic');
+        if ( $tech ) $url = get_home_url().'/wildtech'.$parsed['path'];
+    }
+    return $url;
 }
 
 // Listings proper page title
@@ -978,19 +978,14 @@ function rest_api_filter_add_filter_param( $args, $request ) {
     return $args;
 }
 
-function mongabay_rss_pre_get_posts( $query )
-{
-    if( $query->is_feed && $query->is_main_query() )
-    {
-        if( isset( $query->query_vars['grant'] ) && ! empty( $query->query_vars['grant'] ) )
-        {
-
+function mongabay_rss_pre_get_posts( $query ) {
+    if( $query->is_feed && $query->is_main_query() ) {
+        if( isset( $query->query_vars['grant'] ) && ! empty( $query->query_vars['grant'] ) ) {
             // if you only want to allow 'alpha-numerics':
             $grant =  preg_replace( "/[^a-zA-Z0-9]/", "", $query->query_vars['grant'] );
             $query->set( 'meta_key', 'grant' );
             $query->set( 'meta_value', $grant );
         }
-
     }
 }
 
@@ -1002,11 +997,11 @@ function mongabay_remove_iframe_ptags( $content ) {
 
 // Detect Android Mobile phone
 function is_android_mobile() { // detect only Android phones
-	$is_android   = (bool) strpos($_SERVER['HTTP_USER_AGENT'],'Android');
-	$is_android_m = (bool) strpos($_SERVER['HTTP_USER_AGENT'],'Mobile');
-	if ($is_android && $is_android_m)
-		return true;
-	else return false;
+    $is_android   = (bool) strpos($_SERVER['HTTP_USER_AGENT'],'Android');
+    $is_android_m = (bool) strpos($_SERVER['HTTP_USER_AGENT'],'Mobile');
+    if ($is_android && $is_android_m)
+        return true;
+    else return false;
 }
 
 // Onesignal notification filter
@@ -1124,9 +1119,10 @@ function post_edit_screen() {
 }
 
 // Require featured image before publishing an article
-add_filter( 'wp_insert_post_data', function ( $data, $postarr ) {
-    $post_id              = $postarr['ID'];
-    $post_status          = $data['post_status'];
+if ($GLOBALS['pagenow'] == 'post-new.php' || $pagenow == 'post.php') :
+    add_filter( 'wp_insert_post_data', function ( $data, $postarr ) {
+    $post_id = $postarr['ID'];
+    $post_status = $data['post_status'];
     $original_post_status = $postarr['original_post_status'];
     if ( $post_id && 'publish' === $post_status && 'publish' !== $original_post_status ) {
         $post_type = get_post_type( $post_id );
@@ -1135,18 +1131,22 @@ add_filter( 'wp_insert_post_data', function ( $data, $postarr ) {
         }
     }
     return $data;
-}, 10, 2 );
-add_action( 'admin_notices', function () {
-    $post = get_post();
-    if ( 'publish' !== get_post_status( $post->ID ) && ! has_post_thumbnail( $post->ID ) ) { ?>
-        <div id="message" class="error">
-            <p>
-                <strong><?php _e( 'Please set Featured Image. Article cannot be published without one.' ); ?></strong>
-            </p>
-        </div>
-    <?php
-    }
-} );
+    }, 10, 2 );
+endif;
+
+if ($GLOBALS['pagenow'] == 'post-new.php' || $pagenow == 'post.php') :
+    add_action( 'admin_notices', function () {
+        $post = get_post();
+        if ( 'publish' !== get_post_status( $post->ID ) && ! has_post_thumbnail( $post->ID ) ) { ?>
+            <div id="message" class="error">
+                <p>
+                    <strong><?php _e( 'Please set Featured Image. Article cannot be published without one.' ); ?></strong>
+                </p>
+            </div>
+        <?php
+        }
+    });
+endif;
 
 /*------------------------------------*\
     Actions + Filters
