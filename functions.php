@@ -7,7 +7,7 @@
     include (get_template_directory().'/custom-code/thumbnailed-recent-posts.php');
     include (get_template_directory().'/custom-code/feed-query.php');
     include (get_template_directory().'/custom-code/meta.php');
-    //include (get_template_directory().'/custom-code/menus.php');
+    include (get_template_directory().'/custom-code/menus.php');
     include (get_template_directory().'/custom-code/analytics.php');
     if (function_exists('add_theme_support'))
     {
