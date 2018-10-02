@@ -1210,7 +1210,7 @@ add_filter( 'term_link', 'mongabay_byline_link', 10, 3 ); // Fix byline taxonomy
 add_filter( 'pre_get_posts', 'mongabay_mega_query' ); // Main query modifier
 add_filter( 'term_link', 'mongabay_location_link', 10, 3 ); // Fix location taxonomy link
 add_filter( 'term_link', 'mongabay_topic_link', 10, 3 ); // Fix topic taxonomy link
-add_filter('image_send_to_editor', 'remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to post images
+//add_filter('image_send_to_editor', 'remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to post images
 add_filter('onesignal_send_notification', 'onesignal_send_notification_filter', 10, 4); // Add Onesignal notifications filter
 add_filter( 'rest_prepare_post', 'mongabay_sanitize_json', 100, 3 ); // Get content ready for App
 add_filter( 'rest_prepare_page', 'mongabay_sanitize_page_json', 100, 3 ); //Get content ready for App
