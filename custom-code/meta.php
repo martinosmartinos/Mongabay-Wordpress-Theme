@@ -50,7 +50,29 @@ function mongabay_meta() {
 		if(!empty($byline_twitter)) {
 			echo '<meta name="twitter:creator" content="'.$byline_twitter.'"/>'."\n";
 		} else {
-			echo '<meta name="twitter:creator" content="@mongabay"/>'."\n";
+			$site_id = get_current_blog_id();
+		    $twitter_account = '';
+		    switch ($site_id) {
+		        case '25':
+		            $twitter_account = 'mongabaylatam';
+		            break;
+		        case '26':
+		            $twitter_account = 'mongabay_fr';
+		            break;
+		        case '28':
+		            $twitter_account = 'mongabay_japan';
+		            break;
+		        case '29':
+		            $twitter_account = 'mongabay_brasil';
+		            break;
+		        case '30':
+		            $twitter_account = 'mongabayindia';
+		            break;
+		        default:
+		            $twitter_account = 'Mongabay';
+		            break;
+		    };
+			echo '<meta name="twitter:creator" content="@'.$twitter_account.'"/>'."\n";
 		}
 		
 		$coords = get_post_meta( get_the_ID(), 'coordinates', true );
