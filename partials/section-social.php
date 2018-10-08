@@ -1,8 +1,27 @@
 <?php
+    $site_id = get_current_blog_id();
+    $twitter_account = '';
+    switch ($site_id) {
+        case '26':
+            $twitter_account = 'mongabay_fr';
+            break;
+        case '28':
+            $twitter_account = 'mongabay_japan';
+            break;
+        case '29':
+            $twitter_account = 'mongabay_brasil';
+            break;
+        case '30':
+            $twitter_account = 'mongabayindia';
+            break;
+        default:
+            $twitter_account = 'Mongabay'
+
+    }
     $postURL = urlencode(get_permalink());
     $postTitle = str_replace( ' ', '%20', get_the_title());
 
-    $twitterURL = 'https://twitter.com/intent/tweet?text='.$postTitle.'&amp;url='.$postURL.'&amp;via=Mongabay';
+    $twitterURL = 'https://twitter.com/intent/tweet?text='.$postTitle.'&amp;url='.$postURL.'&amp;via='.$twitter_account;
     $facebookURL = 'https://www.facebook.com/sharer/sharer.php?u='.$postURL;
     //$googleURL = 'https://plus.google.com/share?url='.$postURL;
     $linkedInURL = 'https://www.linkedin.com/shareArticle?mini=true&url='.$postURL.'&amp;title='.$postTitle;
