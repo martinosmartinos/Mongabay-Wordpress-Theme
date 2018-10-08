@@ -2,6 +2,9 @@
     $site_id = get_current_blog_id();
     $twitter_account = '';
     switch ($site_id) {
+        case '25':
+            $twitter_account = 'mongabaylatam';
+            break;
         case '26':
             $twitter_account = 'mongabay_fr';
             break;
@@ -15,12 +18,11 @@
             $twitter_account = 'mongabayindia';
             break;
         default:
-            $twitter_account = 'Mongabay'
-
-    }
+            $twitter_account = 'Mongabay';
+            break;
+    };
     $postURL = urlencode(get_permalink());
     $postTitle = str_replace( ' ', '%20', get_the_title());
-
     $twitterURL = 'https://twitter.com/intent/tweet?text='.$postTitle.'&amp;url='.$postURL.'&amp;via='.$twitter_account;
     $facebookURL = 'https://www.facebook.com/sharer/sharer.php?u='.$postURL;
     //$googleURL = 'https://plus.google.com/share?url='.$postURL;
