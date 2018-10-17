@@ -2,7 +2,11 @@
     $postnumber = 4;
     if(wp_is_mobile()) $postnumber = 1;
     if(mongabay_subdomain_name() == 'wildtech') {
-        $wildtech_filter = array( 'key' => 'news_category', 'value' => 'wildtech', 'compare' => '=' );
+        $wildtech_filter = array(
+            'taxonomy' => 'topic',
+            'field' => 'slug',
+            'terms' => 'technology'
+        );
     }
     $args = array(
     	'posts_per_page' => $postnumber,
