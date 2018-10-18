@@ -3,9 +3,11 @@
     if(wp_is_mobile()) $postnumber = 1;
     if(mongabay_subdomain_name() == 'wildtech') {
         $wildtech_filter = array(
-            'taxonomy' => 'topic',
-            'field' => 'slug',
-            'terms' => 'technology'
+            array(
+                'taxonomy' => 'topic',
+                'field' => 'slug',
+                'terms' => 'technology'
+            ) 
         );
     }
     $args = array(
@@ -15,9 +17,9 @@
                'key' => 'featured_as',
                'value' => 'featured',
                'compare' => '='
-            ),
-            $wildtech_filter
-        )
+            )
+        ),
+        'tax_query' => $wildtech_filter
     );
     $query = new WP_Query( $args );
      
