@@ -1089,6 +1089,7 @@ function mongabay_sanitize_json( $data, $post, $context ) {
     );
     $data->data['content'] = preg_replace('/<noscript\b[>]*>(.*?)<\/noscript>/s', '', $data->data['content']);
     $data->data['content'] = preg_replace('/<p><\/p>/', '', $data->data['content']);
+    $data->data['content'] = preg_replace('/<p>&nbsp;<\/p>/', '', $data->data['content']);
     $data->data['content'] = preg_replace('/<div class=\'container\'>\\n<div class=\'row justify-content-center\'>\\n<div id=\'main\' class=\'col-lg-8 single\'>\\n/s', '', $data->data['content']);
     $data->data['content'] = preg_replace('/<div class=\'clearfix\'><\/div>\\n/s', '', $data->data['content']);
     $data->data['content'] = preg_replace('/<\/div>\\n<\/div>\\n<\/div>\\n/s', '', $data->data['content']);
@@ -1098,6 +1099,14 @@ function mongabay_sanitize_json( $data, $post, $context ) {
     $data->data['content'] = preg_replace('/\/>\\n<div>\\n<div>.*\w*<\/div>\\n<\/div>\\n<\/li>/', '/></li>', $data->data['content']);
     $data->data['content'] = preg_replace('/<p>\\n<p>/s', '<p>', $data->data['content']);
     $data->data['content'] = preg_replace('/<a href=\\"https:\/\/news[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay://article/', $data->data['content']);
+    $data->data['content'] = preg_replace('/<a href=\\"https:\/\/cn[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_cn://article/', $data->data['content']);
+    $data->data['content'] = preg_replace('/<a href=\\"https:\/\/de[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_de://article/', $data->data['content']);
+    $data->data['content'] = preg_replace('/<a href=\\"https:\/\/es[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_es://article/', $data->data['content']);
+    $data->data['content'] = preg_replace('/<a href=\\"https:\/\/fr[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_fr://article/', $data->data['content']);
+    $data->data['content'] = preg_replace('/<a href=\\"https:\/\/it[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_it://article/', $data->data['content']);
+    $data->data['content'] = preg_replace('/<a href=\\"https:\/\/jp[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_jp://article/', $data->data['content']);
+    $data->data['content'] = preg_replace('/<a href=\\"https:\/\/pt[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_pt://article/', $data->data['content']);
+    $data->data['content'] = preg_replace('/<a href=\\"https:\/\/india[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_in://article/', $data->data['content']);
     $data->data['content'] = preg_replace('/\\n/s', '', $data->data['content']);
     return $data;
 }
