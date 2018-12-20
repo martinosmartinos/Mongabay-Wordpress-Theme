@@ -1157,6 +1157,29 @@ if ($GLOBALS['pagenow'] == 'post-new.php' || $pagenow == 'post.php') :
     });
 endif;
 
+//redirect paid membership users after log in
+function my_pmpro_login_redirect_url($redirect_to, $request, $user)
+{
+    global $wpdb;
+    //if logged in and a member, send to members page
+    if(pmpro_hasMembershipLevel(NULL, $user->ID))
+        return "/membership-account/";
+    else
+        return $redirect_to;
+}
+add_filter("pmpro_login_redirect_url", "my_pmpro_login_redirect_url", 10, 3);
+
+//Apple news byline rewrite
+function mongabay_byline( $byline, $postID ) {
+    $byline = wp_get_post_terms( $postID, 'byline' );
+    $date = get_the_date();
+    $date_format = 'M j, Y';
+    if(!empty($byline)) {
+    $byline_formatted = sprintf('by %1$s | %2$s', $byline[0]->name, date( $date_format, strtotime( $date ) ));
+    return $byline_formatted;
+    }
+}
+add_filter( 'apple_news_exporter_byline', 'mongabay_byline', 10, 2 );
 /*------------------------------------*\
     Actions + Filters
 \*------------------------------------*/
@@ -1228,4 +1251,5 @@ add_filter( 'rest_prepare_page', 'mongabay_sanitize_page_json', 100, 3 ); //Get 
 remove_filter('the_excerpt', 'wpautop'); // Remove <p> tags from Excerpt altogether
 remove_filter( 'the_content', 'wpautop' );
 add_filter( 'the_content', 'wpautop' , 12); //Remove <p> and <br> from shortcodes
+add_filter('use_block_editor_for_post', '__return_false'); //Disable Gutenberg editor
 ?>
