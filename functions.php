@@ -991,7 +991,7 @@ function mongabay_rss_pre_get_posts( $query ) {
 
 // Remove p tags from images, scripts, and iframes.
 function mongabay_remove_iframe_ptags( $content ) {
-  $content = preg_replace('/<p>\s*(<iframe.*>*.<\/iframe>)\s*<\/p>/iU', '\1', $content);
+  $content = preg_replace('/<p>.*?\s*(<iframe.*>*.<\/iframe>)\s*<\/p>/iU', '\1', $content);
   return $content;
 }
 
@@ -1096,9 +1096,8 @@ function mongabay_sanitize_json( $data, $post, $context ) {
     $data->data['content'] = wp_kses($data->data['content'], $allowtags);
     $data->data['content'] = preg_replace('/\\n<div>\\n<div>\\n<ul class/s', '<ul class', $data->data['content']);
     $data->data['content'] = preg_replace('/\/>\\n<div>\\n<div>.*\w*<\/div>\\n<\/div>\\n<\/li>/', '/></li>', $data->data['content']);
-    $data->data['content'] = preg_replace('/<p>\\n<p>/s', '<p>', $data->data['content']);
-    $data->data['content'] = preg_replace('/<\/li><\/ul><\/div><p><\/div>/', '</li></ul>', $data->data['content']);
     $data->data['content'] = preg_replace('/<!--.*\w*-->/', '', $data->data['content']);
+    $data->data['content'] = preg_replace('/<p>\\n<p>/s', '<p>', $data->data['content']);
     $data->data['content'] = preg_replace('/<a href=\\"https:\/\/news[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay://article/', $data->data['content']);
     $data->data['content'] = preg_replace('/<a href=\\"https:\/\/cn[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_cn://article/', $data->data['content']);
     $data->data['content'] = preg_replace('/<a href=\\"https:\/\/de[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_de://article/', $data->data['content']);
@@ -1109,6 +1108,7 @@ function mongabay_sanitize_json( $data, $post, $context ) {
     $data->data['content'] = preg_replace('/<a href=\\"https:\/\/pt[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_pt://article/', $data->data['content']);
     $data->data['content'] = preg_replace('/<a href=\\"https:\/\/india[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_in://article/', $data->data['content']);
     $data->data['content'] = preg_replace('/\\n/s', '', $data->data['content']);
+    $data->data['content'] = preg_replace('/<\/li><\/ul><\/div><p><\/div>/', '</li></ul>', $data->data['content']);
     return $data;
 }
 
