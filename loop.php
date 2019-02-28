@@ -11,7 +11,9 @@
 		<?php echo get_the_post_thumbnail($post_id, 'medium')?>
 		</div>
 	<?php endif; ?>
-		<h2 class="post-title-news"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+		<h2 class="post-title-news">
+			<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+		</h2>
 		<div class="entry-meta-news">
 			<?php
 				switch ($subdomain) {
@@ -23,9 +25,8 @@
 					// 	echo '';
 					// 	break;
 					
-					// case 'kidsnews':
-					// 	echo '';
-					// 	break;
+
+
 
 					default:
 						_e('by ', 'mongabay');
@@ -33,7 +34,6 @@
 						echo ' ';
 						break;
 				}
-
 				the_time('j F Y');
 			?>
 		</div>
@@ -49,16 +49,10 @@
 	<?php endif; ?>
 
 </article>
-
-
 <?php endwhile; ?>
 <?php else: ?>
 
 <article>
-
 	<h2><?php _e( 'Sorry, nothing to display.', 'mongabay' ); ?></h2>
-
 </article>
-
-
 <?php endif;?>
