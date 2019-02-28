@@ -70,55 +70,47 @@
     }
 
 // Main WP_query modifier to process multiple vars
-
     function mongabay_mega_query($query) {
-
         if ($query->is_home() && $query->is_main_query() && ! is_admin()) {
-
             $home_url = esc_url( home_url( '/' ) );
             $section = get_query_var('section');
             $firstvar = get_query_var('nc1');
             $secondvar = get_query_var('nc2');
-
             if(get_current_blog_id() == 1) {
                 switch_to_blog(20);
                 $query->set('post_type', 'post');
             }
-
             if(get_current_blog_id() == 22) {
-
-                $tax_query = array(
-                    array(
-                        'taxonomy' => 'topic',
-                        'field' => 'slug',
-                        'terms' => 'technology'
-                        )
-                    );
+                $tax_query = array(array('taxonomy' => 'topic', 'field' => 'slug', 'terms' => 'technology'));
                 switch_to_blog(20);
                 $query->set('tax_query', $tax_query);
-
             }
-
+            if(get_current_blog_id() == 31) {
+                $tax_query = array(array('taxonomy' => 'location', 'field' => 'slug', 'terms' => 'sri-lanka'));
+                switch_to_blog(20);
+                $query->set('tax_query', $tax_query);
+            }
+            if(get_current_blog_id() == 32) {
+                $tax_query = array(array('taxonomy' => 'location', 'field' => 'slug', 'terms' => 'africa'));
+                switch_to_blog(20);
+                $query->set('tax_query', $tax_query);
+            }
+            if(get_current_blog_id() == 33) {
+                $tax_query = array(array('taxonomy' => 'location', 'field' => 'slug', 'terms' => 'madagascar'));
+                switch_to_blog(20);
+                $query->set('tax_query', $tax_query);
+            }
+            if(get_current_blog_id() == 34) {
+                $tax_query = array(array('taxonomy' => 'location', 'field' => 'slug', 'terms' => 'philippines'));
+                switch_to_blog(20);
+                $query->set('tax_query', $tax_query);
+            }
             if($section == 'moved') {
-
-                $moved_query = array(
-                    'post_type' => 'post',
-                    'posts_per_page' => 1,
-                    'offset' => 0,
-                    array(
-                        'key' => 'mongabay_post_legacy_url',
-                        'value' => $secondvar,
-                        'compare' => '='
-                        )
-                    );
-
+                $moved_query = array('post_type' => 'post', 'posts_per_page' => 1, 'offset' => 0, array('key' => 'mongabay_post_legacy_url', 'value' => $secondvar, 'compare' => '='));
                 $query->set('meta_query', $moved_query);
-
             }
-
-            // check if no first variable in url
             if($section == 'list' && empty($firstvar)) {
-                wp_redirect( $home_url );//home sweet home
+                wp_redirect( $home_url );
                 exit;
             }
 
@@ -202,8 +194,16 @@ function mongabay_byline_link( $link, $term, $taxonomy )
     return str_replace( 'byline/', 'by/', $link );
 }
 
-
-
+/*
+leave
+that
+space
+so
+translation
+is
+not
+shifting
+*/
 
 // special series section function. Usage mongabay_series_section (array('slug1','slug2','slug3'), 3) where 3 is number of posts
 function mongabay_series_section ( $names, $number) {
