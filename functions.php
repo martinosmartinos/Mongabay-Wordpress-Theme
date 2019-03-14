@@ -1016,6 +1016,9 @@ function onesignal_send_notification_filter($fields, $new_status, $old_status, $
     $fields_dup['data'] = array(
         "notifyurl" => $fields['url']
     );
+    $fields_dup['tags'] = array(
+      array("key" => "notify_domain", "relation" => "=", "value" => get_current_blog_id())
+    );
     unset($fields_dup['url']);
     $ch = curl_init();
     $onesignal_post_url = "https://onesignal.com/api/v1/notifications";
