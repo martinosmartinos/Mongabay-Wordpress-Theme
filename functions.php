@@ -1017,7 +1017,7 @@ function onesignal_send_notification_filter($fields, $new_status, $old_status, $
         "notifyurl" => $fields['url']
     );
     $fields_dup['tags'] = array(
-      array("key" => "notify_domain", "relation" => "=", "value" => home_url())
+        array("key" => "notify_domain", "relation" => "=", "value" => home_url())
     );
     unset($fields_dup['url']);
     $ch = curl_init();
@@ -1092,7 +1092,7 @@ function mongabay_sanitize_json( $data, $post, $context ) {
     );
     $data->data['content'] = preg_replace('/<noscript\b[>]*>(.*?)<\/noscript>/s', '', $data->data['content']);
     $data->data['content'] = preg_replace('/<p><\/p>/', '', $data->data['content']);
-    $data->data['content'] = preg_replace('/<p>&nbsp;<\/p>/', '', $data->data['content']);
+    $data->data['content'] = preg_replace('/<p> <\/p>/', '', $data->data['content']);
     $data->data['content'] = preg_replace('/<div class=\'container\'>\\n<div class=\'row justify-content-center\'>\\n<div id=\'main\' class=\'col-lg-8 single\'>\\n/s', '', $data->data['content']);
     $data->data['content'] = preg_replace('/<div class=\'clearfix\'><\/div>\\n/s', '', $data->data['content']);
     $data->data['content'] = preg_replace('/<\/div>\\n<\/div>\\n<\/div>\\n/s', '', $data->data['content']);
@@ -1152,9 +1152,7 @@ if ($GLOBALS['pagenow'] == 'post-new.php' || $pagenow == 'post.php') :
         $post = get_post();
         if ( 'publish' !== get_post_status( $post->ID ) && ! has_post_thumbnail( $post->ID ) ) { ?>
             <div id="message" class="error">
-                <p>
-                    <strong><?php _e( 'Please set Featured Image. Article cannot be published without one.' ); ?></strong>
-                </p>
+                <p><strong><?php _e( 'Please set Featured Image. Article cannot be published without one.' ); ?></strong></p>
             </div>
         <?php
         }
@@ -1165,7 +1163,6 @@ endif;
 function my_pmpro_login_redirect_url($redirect_to, $request, $user)
 {
     global $wpdb;
-    //if logged in and a member, send to members page
     if(pmpro_hasMembershipLevel(NULL, $user->ID))
         return "/membership-account/";
     else
@@ -1179,8 +1176,8 @@ function mongabay_byline( $byline, $postID ) {
     $date = get_the_date();
     $date_format = 'M j, Y';
     if(!empty($byline)) {
-    $byline_formatted = sprintf('by %1$s | %2$s', $byline[0]->name, date( $date_format, strtotime( $date ) ));
-    return $byline_formatted;
+        $byline_formatted = sprintf('by %1$s | %2$s', $byline[0]->name, date( $date_format, strtotime( $date ) ));
+        return $byline_formatted;
     }
 }
 add_filter( 'apple_news_exporter_byline', 'mongabay_byline', 10, 2 );
