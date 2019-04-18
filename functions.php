@@ -1009,16 +1009,14 @@ function onesignal_send_notification_filter($fields, $new_status, $old_status, $
     $fields_dup = $fields;
     $fields_dup['isAndroid'] = true;
     $fields_dup['isIos'] = true;
-    $fields_dup['isAnyWeb'] = false;
+    $fields_dup['isAnyWeb'] = true;
     $fields_dup['isWP'] = false;
     $fields_dup['isAdm'] = false;
     $fields_dup['isChrome'] = false;
     $fields_dup['data'] = array(
         "notifyurl" => $fields['url']
     );
-    $fields_dup['tags'] = array(
-        array("key" => "notify_domain", "relation" => "=", "value" => home_url())
-    );
+    $fields_dup['included_segments'] = array('mongabay_push');
     unset($fields_dup['url']);
     $ch = curl_init();
     $onesignal_post_url = "https://onesignal.com/api/v1/notifications";
