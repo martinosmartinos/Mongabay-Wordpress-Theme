@@ -38,6 +38,12 @@
 					<li class="nav-item">
 						<a class="nav-link" href="https://pt.mongabay.com/">Português (Portuguese)</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="https://india.mongabay.com/">India</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="https://philippines.mongabay.com/">Philippines</a>
+					</li>
 				</ul>
 			</div>
 		</div>
