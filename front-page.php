@@ -15,7 +15,8 @@
 		if ($section == 'list' && !empty($firstvar) && empty($secondvar)) {
 			$item1 = get_terms(array('topic','location'), array('slug' => $firstvar));
 			$title = $item1[0] -> name;
-			$line_end = ' News';
+            $line_end = ' News';
+            $type = !empty(get_terms(array('location'), array('slug' => $firstvar))) ? 'location' : 'list';
 		}
 
 		if ($section == 'list' && !empty($firstvar) && !empty($secondvar)) {
@@ -26,7 +27,6 @@
 			$title = $title1.' and '.$title2;
 			$line_end = ' News';
 		}
-
 		if (empty($section) && mongabay_subdomain_name() !== 'wildtech') {
 			$title = 'Environmental headlines';
 			$description = 'Mongabay is a non-profit provider of conservation and environmental science news.';
@@ -50,7 +50,7 @@
             <div id="main" class="col-lg-8">
                 <div class="tag-line">
                 	<h1><?php echo _e($title, 'mongabay'); ?><?php _e( $line_end, 'mongabay');?></h1>
-                    <?php echo ($section == 'list' && !empty($firstvar) && empty($secondvar)) ? '<a class="series-rss" href="'.esc_url( home_url( '/' ) ).'feed/?post_type=post&feedtype=bulletpoints&location='.$item1[0]->slug.'"><svg class="icon"><use xlink:href="#rss"></use></svg></a>' : ''; ?>
+                    <?php echo ($section == 'list' && !empty($firstvar) && empty($secondvar)) ? '<a class="series-rss" href="'.esc_url( home_url( '/' ) ).'feed/?post_type=post&feedtype=bulletpoints&'.$type.'='.$item1[0]->slug.'"><svg class="icon"><use xlink:href="#rss"></use></svg></a>' : ''; ?>
 					<p><?php echo _e($description, 'mongabay'); ?></p>
 				</div>
                 <!-- section -->
