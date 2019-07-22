@@ -1,9 +1,56 @@
 <?php
     $postnumber = 4;
+    $extra_filter = [];
     if(wp_is_mobile()) $postnumber = 1;
-    if(mongabay_subdomain_name() == 'wildtech') {
-        $wildtech_filter = array( 'key' => 'news_category', 'value' => 'wildtech', 'compare' => '=' );
+
+    switch(mongabay_subdomain_name()) {
+        case 'wildtech':
+        $extra_filter = array(
+            array(
+                'taxonomy' => 'topic',
+                'field' => 'slug',
+                'terms' => 'technology'
+            ) 
+        );
+        break;
+        case 'srilanka':
+        $extra_filter = array(
+            array(
+                'taxonomy' => 'location',
+                'field' => 'slug',
+                'terms' => 'sri-lanka'
+            ) 
+        );
+        break;
+        case 'africa':
+        $extra_filter = array(
+            array(
+                'taxonomy' => 'location',
+                'field' => 'slug',
+                'terms' => 'africa'
+            ) 
+        );
+        break;
+        case 'madagascar':
+        $extra_filter = array(
+            array(
+                'taxonomy' => 'location',
+                'field' => 'slug',
+                'terms' => 'madagascar'
+            ) 
+        );
+        break;
+        case 'philippines':
+        $extra_filter = array(
+            array(
+                'taxonomy' => 'location',
+                'field' => 'slug',
+                'terms' => 'philippines'
+            ) 
+        );
+        break;
     }
+
     $args = array(
     	'posts_per_page' => $postnumber,
         'meta_query' => array(
@@ -11,9 +58,9 @@
                'key' => 'featured_as',
                'value' => 'featured',
                'compare' => '='
-            ),
-            $wildtech_filter
-        )
+            )
+        ),
+        'tax_query' => $extra_filter
     );
     $query = new WP_Query( $args );
      
@@ -72,6 +119,7 @@
             <?php endif; ?>
             <?php endwhile;
     }
+
     wp_reset_postdata();
 
 ?>

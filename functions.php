@@ -70,55 +70,47 @@
     }
 
 // Main WP_query modifier to process multiple vars
-
     function mongabay_mega_query($query) {
-
         if ($query->is_home() && $query->is_main_query() && ! is_admin()) {
-
             $home_url = esc_url( home_url( '/' ) );
             $section = get_query_var('section');
             $firstvar = get_query_var('nc1');
             $secondvar = get_query_var('nc2');
-
             if(get_current_blog_id() == 1) {
                 switch_to_blog(20);
                 $query->set('post_type', 'post');
             }
-
             if(get_current_blog_id() == 22) {
-
-                $meta_query = array(
-                    array(
-                        'key' => 'news_category',
-                        'value' => 'wildtech',
-                        'compare' => '='
-                        )
-                    );
+                $tax_query = array(array('taxonomy' => 'topic', 'field' => 'slug', 'terms' => 'technology'));
                 switch_to_blog(20);
-                $query->set('meta_query', $meta_query);
-
+                $query->set('tax_query', $tax_query);
             }
-
+            if(get_current_blog_id() == 31) {
+                $tax_query = array(array('taxonomy' => 'location', 'field' => 'slug', 'terms' => 'sri-lanka'));
+                switch_to_blog(20);
+                $query->set('tax_query', $tax_query);
+            }
+            if(get_current_blog_id() == 32) {
+                $tax_query = array(array('taxonomy' => 'location', 'field' => 'slug', 'terms' => 'africa'));
+                switch_to_blog(20);
+                $query->set('tax_query', $tax_query);
+            }
+            if(get_current_blog_id() == 33) {
+                $tax_query = array(array('taxonomy' => 'location', 'field' => 'slug', 'terms' => 'madagascar'));
+                switch_to_blog(20);
+                $query->set('tax_query', $tax_query);
+            }
+            if(get_current_blog_id() == 34) {
+                $tax_query = array(array('taxonomy' => 'location', 'field' => 'slug', 'terms' => 'philippines'));
+                switch_to_blog(20);
+                $query->set('tax_query', $tax_query);
+            }
             if($section == 'moved') {
-
-                $moved_query = array(
-                    'post_type' => 'post',
-                    'posts_per_page' => 1,
-                    'offset' => 0,
-                    array(
-                        'key' => 'mongabay_post_legacy_url',
-                        'value' => $secondvar,
-                        'compare' => '='
-                        )
-                    );
-
+                $moved_query = array('post_type' => 'post', 'posts_per_page' => 1, 'offset' => 0, array('key' => 'mongabay_post_legacy_url', 'value' => $secondvar, 'compare' => '='));
                 $query->set('meta_query', $moved_query);
-
             }
-
-            // check if no first variable in url
             if($section == 'list' && empty($firstvar)) {
-                wp_redirect( $home_url );//home sweet home
+                wp_redirect( $home_url );
                 exit;
             }
 
@@ -170,7 +162,7 @@
 
     }
 
-add_filter( 'pre_get_posts', 'mongabay_mega_query' );
+
 
 //fix topics links
 function mongabay_topic_link( $link, $term, $taxonomy )
@@ -180,7 +172,7 @@ function mongabay_topic_link( $link, $term, $taxonomy )
 
     return str_replace( 'topic/', 'list/', $link );
 }
-add_filter( 'term_link', 'mongabay_topic_link', 10, 3 );
+
 
 //fix locations links
 function mongabay_location_link( $link, $term, $taxonomy )
@@ -190,7 +182,7 @@ function mongabay_location_link( $link, $term, $taxonomy )
 
     return str_replace( 'location/', 'list/', $link );
 }
-add_filter( 'term_link', 'mongabay_location_link', 10, 3 );
+
 
 
 //fix byline links
@@ -201,9 +193,17 @@ function mongabay_byline_link( $link, $term, $taxonomy )
 
     return str_replace( 'byline/', 'by/', $link );
 }
-add_filter( 'term_link', 'mongabay_byline_link', 10, 3 );
 
-
+/*
+leave
+that
+space
+so
+translation
+is
+not
+shifting
+*/
 
 // special series section function. Usage mongabay_series_section (array('slug1','slug2','slug3'), 3) where 3 is number of posts
 function mongabay_series_section ( $names, $number) {
@@ -352,7 +352,7 @@ function mongabay_featured() {
         exit;
     }
 }
-add_action('template_redirect', 'mongabay_featured');
+
 
 // Load styles
 function mongabay_styles()
@@ -476,7 +476,7 @@ if (function_exists('register_sidebar'))
 function mongabay_tabs() {
     register_widget( 'mongabay_topic_location' );
 }
-add_action( 'widgets_init', 'mongabay_tabs' );
+
 
 
 
@@ -737,7 +737,7 @@ function mongabay_query_var( $vars ) {
     return $vars;
 
 }
-add_filter( 'query_vars', 'mongabay_query_var' );
+
 
 // Customize RSS feed
 remove_all_actions( 'do_feed_rss2' );
@@ -750,33 +750,28 @@ function mongabay_feed_rss2() {
 
 }
 
-/* Parallax Shortcode */
-add_shortcode('parallax-img','parallax_img');
-
+// Parallax Shortcode
 function parallax_img($atts){
 
     extract(shortcode_atts(array('imagepath' => 'Image Needed','id' => '1', 'px_title' => 'Slide Title', 'title_color' => '#FFFFFF' , 'img_caption' => 'Your image caption'),$atts));
-    return "<div class='clearfix'></div><div class='parallax-section full-height' data-parallax='scroll' id='".$id."' data-image-src='".$imagepath."'); background-size: cover;'><div class='featured-article-meta'><span class='subtitle' style='color:".$title_color."'>".$img_caption."</span></div></div><div class='clearfix'></div>";
+    return "<div class='clearfix'></div><div class='parallax-section full-height' data-parallax='scroll' id='".$id."' data-image-src='".$imagepath."' style='background-size: cover'><div class='featured-article-meta'><span class='subtitle' style='color:".$title_color."'>".$img_caption."</span></div></div><div class='clearfix'></div>";
 }
-
-add_shortcode('open-parallax-content','parallax_open');
-
 
 function parallax_open() {
 
-    return "<div class='container'><div class='row justify-content-center'><div id='main' class='col-lg-8 single'><article>";
+    return "<div class='container'><div class='row justify-content-center'><div id='main' class='col-lg-8 single'>";
 }
 
-add_shortcode('close-parallax-content','parallax_close');
+
 
 function parallax_close() {
 
-    return "</article></div></div></div>";
+    return "</div></div></div>";
 
 }
 
 
-/* Parallax Slide Shortcode Button in a text editor*/
+// Parallax Slide Shortcode Button in a text editor
 function px_shortcode_button() {
 
     if(wp_script_is("quicktags"))
@@ -807,10 +802,8 @@ function px_shortcode_button() {
         <?php
     }
 }
-add_action("admin_print_footer_scripts", "px_shortcode_button");
 
-
-/* Parallax Content Shortcode Button in a text editor*/
+// Parallax Content Shortcode Button in a text editor
 function open_close_px_content()
 {
     if(wp_script_is("quicktags"))
@@ -841,9 +834,6 @@ function open_close_px_content()
         <?php
     }
 }
-add_action('admin_print_footer_scripts', 'open_close_px_content');
-
-
 
 // Remove meta boxes from post editing screen
 function mongabay_remove_custom_fields() {
@@ -855,13 +845,7 @@ function mongabay_remove_custom_fields() {
 
 }
 
-add_action( 'admin_menu' , 'mongabay_remove_custom_fields' );
-
-
-
 // Prevent from aading new location tags
-add_action( 'pre_insert_term', 'mongabay_prevent_terms', 1, 2 );
-
 function mongabay_prevent_terms ( $term, $taxonomy ) {
 
     if ( 'location' === $taxonomy && !current_user_can( 'activate_plugins' ) ) {
@@ -901,18 +885,17 @@ if ( !is_admin() ) {
     add_filter( 'style_loader_src', 'remove_query_string', 15, 1 );
 }
 
-//Custom rewrite rule for wildtech posts
-add_filter( 'post_link', 'mongabay_wildtech_post_link', 10, 3 );
+// Custom rewrite rule for wildtech posts
 function mongabay_wildtech_post_link( $url, $post, $leavename ) {
-	$parsed = parse_url($url);
-	if ( $post->post_type == 'post') {
-		$cat = get_post_meta( $post->ID, 'news_category', true );
-		if ( $cat == 'wildtech' ) $url = get_home_url().'/wildtech'.$parsed['path'];
-	}
-	return $url;
+    $parsed = parse_url($url);
+    if ( $post->post_type == 'post') {
+        $tech = has_term('technology', 'topic');
+        if ( $tech ) $url = get_home_url().'/wildtech'.$parsed['path'];
+    }
+    return $url;
 }
 
-//Listings proper page title
+// Listings proper page title
 function mongabay_custom_title() {
 
     $firstvar = get_query_var('nc1');
@@ -943,11 +926,9 @@ function mongabay_custom_title() {
 
 }
 
-//Customized mobile detection function
+// Customized mobile detection function
 function mongabay_wp_is_mobile() {
-
     static $is_mobile;
-
     if ( isset($is_mobile) )
         return $is_mobile;
 
@@ -972,9 +953,6 @@ function mongabay_wp_is_mobile() {
 }
 
 // Add the filter parameter for API
-
-add_action( 'rest_api_init', 'rest_api_filter_add_filters' );
-
 function rest_api_filter_add_filters() {
     foreach ( get_post_types( array( 'show_in_rest' => true ), 'objects' ) as $post_type ) {
         add_filter( 'rest_' . $post_type->name . '_query', 'rest_api_filter_add_filter_param', 10, 2 );
@@ -1000,9 +978,215 @@ function rest_api_filter_add_filter_param( $args, $request ) {
     return $args;
 }
 
+function mongabay_rss_pre_get_posts( $query ) {
+    if( $query->is_feed && $query->is_main_query() ) {
+        if( isset( $query->query_vars['grant'] ) && ! empty( $query->query_vars['grant'] ) ) {
+            // if you only want to allow 'alpha-numerics':
+            $grant =  preg_replace( "/[^a-zA-Z0-9]/", "", $query->query_vars['grant'] );
+            $query->set( 'meta_key', 'grant' );
+            $query->set( 'meta_value', $grant );
+        }
+    }
+}
+
+// Remove p tags from images, scripts, and iframes.
+function mongabay_remove_iframe_ptags( $content ) {
+  $content = preg_replace('/<p>.*?\s*(<iframe.*>*.<\/iframe>)\s*<\/p>/iU', '\1', $content);
+  return $content;
+}
+
+// Detect Android Mobile phone
+function is_android_mobile() { // detect only Android phones
+    $is_android   = (bool) strpos($_SERVER['HTTP_USER_AGENT'],'Android');
+    $is_android_m = (bool) strpos($_SERVER['HTTP_USER_AGENT'],'Mobile');
+    if ($is_android && $is_android_m)
+        return true;
+    else return false;
+}
+
+// Onesignal notification filter
+function onesignal_send_notification_filter($fields, $new_status, $old_status, $post) {
+    $fields_dup = $fields;
+    $fields_dup['isAndroid'] = true;
+    $fields_dup['isIos'] = true;
+    $fields_dup['isAnyWeb'] = true;
+    $fields_dup['isWP'] = false;
+    $fields_dup['isAdm'] = false;
+    $fields_dup['isChrome'] = false;
+    $fields_dup['data'] = array(
+        "notifyurl" => $fields['url']
+    );
+    $fields_dup['included_segments'] = array('mongabay_push');
+    unset($fields_dup['url']);
+    $ch = curl_init();
+    $onesignal_post_url = "https://onesignal.com/api/v1/notifications";
+    $onesignal_wp_settings = OneSignal::get_onesignal_settings();
+    $onesignal_auth_key = $onesignal_wp_settings['app_rest_api_key'];
+    curl_setopt($ch, CURLOPT_URL, $onesignal_post_url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'Authorization: Basic ' . $onesignal_auth_key
+    ));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields_dup));
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    return $fields;
+}
+
+// Sanitize json output for content. Consumed by APP.
+function mongabay_sanitize_json( $data, $post, $context ) {
+    $allowtags = array(
+        'a' => array(
+            'href' => array(),
+            'data-wpel-link' => array(),
+            'rel' => array()
+        ),
+        'p' => array(),
+        'b' => array(),
+        'strong' => array(),
+        'h1' => array(),
+        'h2' => array(),
+        'h3' => array(),
+        'h4' => array(),
+        'h5' => array(),
+        'h6' => array(),
+        'br' => array(),
+        'em' => array(),
+        'ul' => array(
+            'class' => array()
+        ),
+        'ol' => array(
+            'class' => array()
+        ),
+        'li' => array(),
+        'img' => array(
+            'alt' => array(),
+            'width' => array(),
+            'height' => array(),
+            'class' => array(),
+            'src' => array(),
+            'srcset' => array(),
+            'data-soliloquy-src' => array()
+        ),
+        'noscript' => array(),
+        'style' => array(),
+        'span' => array(
+            'class' => array()
+        ),
+        'figure' => array(),
+        'figcaption' => array(),
+        'iframe' => array(
+            'width' => array(),
+            'height'=> array(),
+            'src' => array()
+        ),
+        'div' => array(
+            'data-image-src' => array()
+        )
+    );
+    $data->data['content'] = preg_replace('/<noscript\b[>]*>(.*?)<\/noscript>/s', '', $data->data['content']);
+    $data->data['content'] = preg_replace('/<p><\/p>/', '', $data->data['content']);
+    $data->data['content'] = preg_replace('/<p> <\/p>/', '', $data->data['content']);
+    $data->data['content'] = preg_replace('/<div class=\'container\'>\\n<div class=\'row justify-content-center\'>\\n<div id=\'main\' class=\'col-lg-8 single\'>\\n/s', '', $data->data['content']);
+    $data->data['content'] = preg_replace('/<div class=\'clearfix\'><\/div>\\n/s', '', $data->data['content']);
+    $data->data['content'] = preg_replace('/<\/div>\\n<\/div>\\n<\/div>\\n/s', '', $data->data['content']);
+    $data->data['content'] = wp_kses($data->data['content'], $allowtags);
+    $data->data['content'] = preg_replace('/\\n<div>\\n<div>\\n<ul class/s', '<ul class', $data->data['content']);
+    $data->data['content'] = preg_replace('/\/>\\n<div>\\n<div>.*\w*<\/div>\\n<\/div>\\n<\/li>/', '/></li>', $data->data['content']);
+    $data->data['content'] = preg_replace('/<!--.*\w*-->/', '', $data->data['content']);
+    $data->data['content'] = preg_replace('/<p>\\n<p>/s', '<p>', $data->data['content']);
+    $data->data['content'] = preg_replace('/<a href=\\"https:\/\/news[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay://article/', $data->data['content']);
+    $data->data['content'] = preg_replace('/<a href=\\"https:\/\/cn[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_cn://article/', $data->data['content']);
+    $data->data['content'] = preg_replace('/<a href=\\"https:\/\/de[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_de://article/', $data->data['content']);
+    $data->data['content'] = preg_replace('/<a href=\\"https:\/\/es[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_es://article/', $data->data['content']);
+    $data->data['content'] = preg_replace('/<a href=\\"https:\/\/fr[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_fr://article/', $data->data['content']);
+    $data->data['content'] = preg_replace('/<a href=\\"https:\/\/it[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_it://article/', $data->data['content']);
+    $data->data['content'] = preg_replace('/<a href=\\"https:\/\/jp[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_jp://article/', $data->data['content']);
+    $data->data['content'] = preg_replace('/<a href=\\"https:\/\/pt[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_pt://article/', $data->data['content']);
+    $data->data['content'] = preg_replace('/<a href=\\"https:\/\/india[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_in://article/', $data->data['content']);
+    $data->data['content'] = preg_replace('/\\n/s', '', $data->data['content']);
+    $data->data['content'] = preg_replace('/<\/li><\/ul><\/div><p><\/div>/', '</li></ul>', $data->data['content']);
+    return $data;
+}
+
+function mongabay_sanitize_page_json( $data, $post, $context ) {
+    $data->data['content'] = preg_replace('/\\n/s', '', $data->data['content']);
+    return $data;
+}
+
+// Conditional logic to show or hide translated_by/ adapted_by POD fields
+function post_edit_screen() {
+    $current_screen = get_current_screen();
+    if($current_screen ->id === 'post') {
+        //var_dump($current_screen);
+        wp_register_script('trada', get_template_directory_uri() . '/js/lib/translated_adopted.min.js', array('jquery'), '1.0', true);
+        wp_enqueue_script('trada');
+    }
+
+}
+
+// Require featured image before publishing an article
+if ($GLOBALS['pagenow'] == 'post-new.php' || $pagenow == 'post.php') :
+    add_filter( 'wp_insert_post_data', function ( $data, $postarr ) {
+    $post_id = $postarr['ID'];
+    $post_status = $data['post_status'];
+    $original_post_status = $postarr['original_post_status'];
+    if ( $post_id && 'publish' === $post_status && 'publish' !== $original_post_status ) {
+        $post_type = get_post_type( $post_id );
+        if ( post_type_supports( $post_type, 'thumbnail' ) && ! has_post_thumbnail( $post_id ) ) {
+            $data['post_status'] = 'draft';
+        }
+    }
+    return $data;
+    }, 10, 2 );
+endif;
+
+if ($GLOBALS['pagenow'] == 'post-new.php' || $pagenow == 'post.php') :
+    add_action( 'admin_notices', function () {
+        $post = get_post();
+        if ( 'publish' !== get_post_status( $post->ID ) && ! has_post_thumbnail( $post->ID ) ) { ?>
+            <div id="message" class="error">
+                <p><strong><?php _e( 'Please set Featured Image. Article cannot be published without one.' ); ?></strong></p>
+            </div>
+        <?php
+        }
+    });
+endif;
+
+//redirect paid membership users after log in
+function my_pmpro_login_redirect_url($redirect_to, $request, $user)
+{
+    global $wpdb;
+    if(pmpro_hasMembershipLevel(NULL, $user->ID))
+        return "/membership-account/";
+    else
+        return $redirect_to;
+}
+add_filter("pmpro_login_redirect_url", "my_pmpro_login_redirect_url", 10, 3);
+
+//Apple news byline rewrite
+function mongabay_byline( $byline, $postID ) {
+    $byline = wp_get_post_terms( $postID, 'byline' );
+    $date = get_the_date();
+    $date_format = 'M j, Y';
+    if(!empty($byline)) {
+        $byline_formatted = sprintf('by %1$s | %2$s', $byline[0]->name, date( $date_format, strtotime( $date ) ));
+        return $byline_formatted;
+    }
+}
+add_filter( 'apple_news_exporter_byline', 'mongabay_byline', 10, 2 );
 /*------------------------------------*\
     Actions + Filters
 \*------------------------------------*/
+
+// Add shortcodes
+add_shortcode('parallax-img','parallax_img');
+add_shortcode('open-parallax-content','parallax_open');
+add_shortcode('close-parallax-content','parallax_close');
 
 // Add Actions
 add_action('init', 'mongabay_header_scripts'); // Add Custom Scripts to wp_head
@@ -1011,6 +1195,15 @@ add_action('wp_enqueue_scripts', 'mongabay_styles'); // Add Theme Stylesheet
 add_action('init', 'register_mongabay_menu'); // Add Blank Menu
 add_action('widgets_init', 'my_remove_recent_comments_style'); // Remove inline Recent Comment Styles from wp_head()
 add_action('init', 'mongabay_pagination'); // Add our Pagination
+add_action( 'rest_api_init', 'rest_api_filter_add_filters' ); // Add the filter parameter for API
+add_action( 'pre_get_posts', 'mongabay_rss_pre_get_posts' ); // Add 'grant' to meta query
+add_action( 'current_screen', 'post_edit_screen' ); // Determine post editing screen to load conditional script
+add_action( 'pre_insert_term', 'mongabay_prevent_terms', 1, 2 ); // Prevent new terms to be added
+add_action( 'admin_menu' , 'mongabay_remove_custom_fields' ); // Remove custom fields from post editing screen
+add_action('admin_print_footer_scripts', 'px_shortcode_button'); // Add parallax button
+add_action('admin_print_footer_scripts', 'open_close_px_content'); // Add parallax button
+add_action( 'widgets_init', 'mongabay_tabs' ); // Tabbed content widget
+add_action('template_redirect', 'mongabay_featured'); // Redirect template if content is Featured
 
 // Remove Actions
 remove_action('wp_head', 'feed_links_extra', 3); // Display the links to the extra feeds such as category feeds
@@ -1035,20 +1228,27 @@ add_filter('body_class', 'add_slug_to_body_class'); // Add slug to body class (S
 add_filter('widget_text', 'do_shortcode'); // Allow shortcodes in Dynamic Sidebar
 add_filter('widget_text', 'shortcode_unautop'); // Remove <p> tags in Dynamic Sidebars (better!)
 add_filter('wp_nav_menu_args', 'my_wp_nav_menu_args'); // Remove surrounding <div> from WP Navigation
-//add_filter('nav_menu_css_class', 'my_css_attributes_filter', 100, 1); // Remove Navigation <li> injected classes (Commented out by default)
-//add_filter('nav_menu_item_id', 'my_css_attributes_filter', 100, 1); // Remove Navigation <li> injected ID (Commented out by default)
 add_filter('page_css_class', 'my_css_attributes_filter', 100, 1); // Remove Navigation <li> Page ID's (Commented out by default)
 add_filter('the_category', 'remove_category_rel_from_category_list'); // Remove invalid rel attribute
 add_filter('the_excerpt', 'shortcode_unautop'); // Remove auto <p> tags in Excerpt (Manual Excerpts only)
 add_filter('the_excerpt', 'do_shortcode'); // Allows Shortcodes to be executed in Excerpt (Manual Excerpts only)
-//add_filter('excerpt_more', 'mongabay_blank_view_article'); // Add 'View Article' button instead of [...] for Excerpts
-//add_filter('show_admin_bar', 'remove_admin_bar'); // Remove Admin bar
 add_filter('style_loader_tag', 'mongabay_style_remove'); // Remove 'text/css' from enqueued stylesheet
 add_filter('post_thumbnail_html', 'remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to thumbnails
+add_filter( 'the_content', 'mongabay_remove_iframe_ptags', 13 ); // Remove paragraphs from iframe
+//add_filter( 'post_link', 'mongabay_wildtech_post_link', 10, 3 ); // Fix post links for wildtech posts
+add_filter( 'query_vars', 'mongabay_query_var' ); // Register custom query vars
+add_filter( 'term_link', 'mongabay_byline_link', 10, 3 ); // Fix byline taxonomy link
+add_filter( 'pre_get_posts', 'mongabay_mega_query' ); // Main query modifier
+add_filter( 'term_link', 'mongabay_location_link', 10, 3 ); // Fix location taxonomy link
+add_filter( 'term_link', 'mongabay_topic_link', 10, 3 ); // Fix topic taxonomy link
 //add_filter('image_send_to_editor', 'remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to post images
+add_filter('onesignal_send_notification', 'onesignal_send_notification_filter', 10, 4); // Add Onesignal notifications filter
+add_filter( 'rest_prepare_post', 'mongabay_sanitize_json', 100, 3 ); // Get content ready for App
+add_filter( 'rest_prepare_page', 'mongabay_sanitize_page_json', 100, 3 ); //Get content ready for App
 
 // Remove Filters
 remove_filter('the_excerpt', 'wpautop'); // Remove <p> tags from Excerpt altogether
 remove_filter( 'the_content', 'wpautop' );
 add_filter( 'the_content', 'wpautop' , 12); //Remove <p> and <br> from shortcodes
+add_filter('use_block_editor_for_post', '__return_false'); //Disable Gutenberg editor
 ?>

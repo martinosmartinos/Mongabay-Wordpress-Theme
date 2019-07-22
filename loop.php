@@ -1,5 +1,5 @@
 <?php
-	if(get_current_blog_id() == 1) switch_to_blog(20);
+	//if(get_current_blog_id() == 1) switch_to_blog(20);
 	if (have_posts()): while (have_posts()) : the_post();
 	$post_id = get_the_ID();
 	$subdomain = mongabay_subdomain_name();
@@ -11,21 +11,22 @@
 		<?php echo get_the_post_thumbnail($post_id, 'medium')?>
 		</div>
 	<?php endif; ?>
-		<h2 class="post-title-news"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+		<h2 class="post-title-news">
+			<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+		</h2>
 		<div class="entry-meta-news">
 			<?php
 				switch ($subdomain) {
-					case 'www':
-						echo '';
-						break;
+					// case 'www':
+					// 	echo '';
+					// 	break;
 
-					case 'wildtech':
-						echo '';
-						break;
+					// case 'wildtech':
+					// 	echo '';
+					// 	break;
 					
-					case 'kidsnews':
-						echo '';
-						break;
+
+
 
 					default:
 						_e('by ', 'mongabay');
@@ -33,7 +34,6 @@
 						echo ' ';
 						break;
 				}
-
 				the_time('j F Y');
 			?>
 		</div>
@@ -49,16 +49,10 @@
 	<?php endif; ?>
 
 </article>
-
-
 <?php endwhile; ?>
 <?php else: ?>
 
 <article>
-
 	<h2><?php _e( 'Sorry, nothing to display.', 'mongabay' ); ?></h2>
-
 </article>
-
-
 <?php endif;?>

@@ -11,6 +11,7 @@
         $topics = wp_get_post_terms($post_id, 'topic');
         $serial = wp_get_post_terms($post_id, 'serial');
         $legacy = get_post_meta($post_id, 'mongabay_post_legacy_status',true);
+        $img_url = wp_get_attachment_url( get_post_thumbnail_id() );
     ?>
 
     <div id="headline">
@@ -35,13 +36,13 @@
         <div class="single-article-meta">
             <?php if($commentary == '1' || $commentary == 'yes') _e('Commentary ', 'mongabay'); if($analysis == '1' || $analysis == 'yes') _e('Analysis ', 'mongabay'); _e('by ', 'mongabay'); ?><?php echo get_the_term_list( $post_id, 'byline', '', ', ', '' ); ?><?php _e(' on ', 'mongabay'); ?><?php the_time('j F Y'); ?>
             <?php
-                if (!empty($translator) || !empty($adaptor)) {
+                if ($translated_adapted == 'adapted' || $translated_adapted == 'translated') {
 
                         if ($translated_adapted == 'adapted' && !empty($adaptor)) {
                             $string_title = 'Adapted by';
                             $translator_adaptor = $adaptor;
                         }
-                        elseif (!empty($translator)) {
+                        elseif ($translated_adapted == 'translated' && !empty($translator)) {
                             $string_title = 'Translated by';
                             $translator_adaptor = $translator;
                         }
@@ -60,7 +61,7 @@
             ?>
         </div>
     </div>
-    <?php if ( has_post_thumbnail() && $legacy !== 'yes' )  : ?>
+    <?php if ( !empty($img_url) )  : ?>
         <div class="row article-cover-image no-gutters">
             <?php
                 if(wp_is_mobile()) {

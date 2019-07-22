@@ -8,13 +8,13 @@
 <!--[if !(IE 7) | !(IE 8) ]><!-->
 <?php
 	if(wp_is_mobile()) {
-		$html_style = 'margin-top: 46px!important';
+		$html_style = 'margin-top: 25px!important';
 	}
 ?>
 <html <?php language_attributes(); ?> class="no-js" style="<?php echo $html_style; ?>">
 <!--<![endif]-->
 	<head>
-		<meta charset="<?php bloginfo('charset'); ?>">
+		<meta charset="<?php bloginfo('charset'); ?>" />
 		<title><?php mongabay_custom_title(); ?></title>
 		<link href="//www.google-analytics.com" rel="dns-prefetch">
 		<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/img/icons/favicon.png" type="image/x-icon"/>
@@ -23,15 +23,23 @@
 		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo get_template_directory_uri(); ?>/img/icons/ico-s.jpg">
 		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo get_template_directory_uri(); ?>/img/icons/ico-l.jpg">
 		<meta name="referrer" content="always" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		<meta name="description" content="<?php bloginfo('description'); ?>">
-
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="description" content="<?php bloginfo('description'); ?>" />
+		<meta property="fb:pages" content="24436227877" />
+		<?php
+			if(is_home()) {
+				echo '<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />';
+				echo '<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>';
+				echo '<script>window.addEventListener("load", function(){window.cookieconsent.initialise({
+  "palette": {"popup": {"background": "#000"},"button": {"background": "#f1d600"}}})});</script>';
+			}
+		?>
 		<?php wp_head(); ?>
 
 	</head>
 	<body <?php body_class(); ?>>
-
+		
 		<!-- FB-added 2017-08-01 -->
 		<div id="fb-root"></div>
 		<script>(function(d, s, id) {
@@ -42,7 +50,7 @@
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));</script>
 		<!-- //FB-added 2017-08-01 -->
-
+		
 		<!-- Facebook Pixel Code 20171207-->
 		<script>
 		  !function(f,b,e,v,n,t,s)
@@ -60,7 +68,7 @@
 		  src="https://www.facebook.com/tr?id=1222207174458407&ev=PageView&noscript=1"
 		/></noscript>
 		<!-- End Facebook Pixel Code 20171207 -->
-
+		
 		<!-- container -->
 		<div class="container">
 			<header class="header" role="banner">
@@ -96,6 +104,8 @@
                             echo '<li><a href="https://it.mongabay.com/">Italiano (Italian)</a></li>';
                             echo '<li><a href="https://jp.mongabay.com/">日本語 (Japanese)</a></li>';
                             echo '<li><a href="https://pt.mongabay.com/">Português (Portuguese)</a></li>';
+                            echo '<li><a href="https://india.mongabay.com/">India</a></li>';
+                            echo '<li><a href="https://philippines.mongabay.com/">Philippines</a></li>';
                             echo '</ul>';
                             echo '</div>';
                         };

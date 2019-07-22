@@ -1,7 +1,7 @@
-<?php get_header(); ?>
-<?php
+<?php get_header();
     $queried_object = get_queried_object();
-    //var_dump($wp_query);
+    $term_id = $queried_object -> term_id;
+    $avatar = get_term_meta($term_id,'cover_image_url',true);
     $title = $queried_object -> name;
     $description = $queried_object -> description;
     $tax = $queried_object -> taxonomy;
@@ -26,7 +26,7 @@
             <div id="main" class="col-lg-8">
                 <div class="tag-line">
                     <h1><?php _e( $line_start, 'mongabay');?> <?php echo $title; ?><?php _e( $line_end, 'mongabay');?></h1>
-                    <p><?php echo $description; ?></p>
+                    <p><?php if($avatar) echo '<img src="'.$avatar.'" style="width: 150px;float: left;margin: 7px 15px 15px 0;"/>';?><?php echo $description; ?></p>
                 </div>
                 <!-- section -->
                 <section>
