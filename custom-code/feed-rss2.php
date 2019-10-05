@@ -160,9 +160,9 @@ do_action( 'rss_tag_pre', 'rss2' );
     <?php endif; ?>
 	<?php $content = wp_trim_words(get_the_content_feed('rss2'),250); ?>
 	<?php if ( strlen( $content ) > 0 ) : ?>
-		<content:encoded><![CDATA[<?php echo $content; ?>]]></content:encoded>
+		<content:encoded><![CDATA[<?php echo $content; echo 'This article was originally published on <a href="'.esc_url(home_url( '/' )).'">Mongabay</a>'; ?>]]></content:encoded>
 	<?php else : ?>
-		<content:encoded><![CDATA[<?php the_excerpt_rss(); ?>]]></content:encoded>
+		<content:encoded><![CDATA[<?php the_excerpt_rss(); echo 'This article was originally published on <a href="'.esc_url(home_url( '/' )).'">Mongabay</a>'; ?>]]></content:encoded>
 	<?php endif; ?>
 		<wfw:commentRss><?php echo esc_url( get_post_comments_feed_link(null, 'rss2') ); ?></wfw:commentRss>
 		<slash:comments><?php echo get_comments_number(); ?></slash:comments>
