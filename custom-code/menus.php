@@ -8,7 +8,7 @@
         $items_cn = array('雨林','海洋','动物和环境','少儿版块','摄影','WildTech','更多');
         $items_jp = array('熱帯雨林','海洋','動物・環境','キッズ向け','写真','WildTech','その他');
         $items_it = array('Foreste Pluviali','Oceani','Animali & Ambiente','Per i bambini','WildTech','Altro');
-        $items_pt = array('Florestas Tropicais','Oceanos','Animais e Meio Ambiente','Para Crianças','WildTech','Mais');
+        $items_brasil = array('Florestas Tropicais','Oceanos','Animais e Meio Ambiente','Para Crianças','WildTech','Mais');
         $items_fr = array('Forêts équatoriales','Océans','Animaux et environnement','Pour les enfants','Photographie','WildTech','Plus');
         $items_www = $items_en;
         $items_news = $items_en;
@@ -35,7 +35,7 @@
 
         $urls_india = array($url_base.'list/forests',$url_base.'list/animals', $url_base.'list/oceans',$url_base.'list/people',$url_base.'list/rivers','https://www.mongabay.org/programs/news/opportunities/','https://news.mongabay.com/','https://wildtech.mongabay.com/',$url_base.'about/',$url_base);
 
-        $urls_pt = array($url_base.'list/florestas-tropicais',$url_base.'list/oceanos',$url_base.'list/ambiente','http://global.mongabay.com/pt/','https://wildtech.mongabay.com/',$url_base);
+        $urls_brasil = array($url_base.'list/florestas-tropicais',$url_base.'list/oceanos',$url_base.'list/ambiente','http://global.mongabay.com/pt/','https://wildtech.mongabay.com/',$url_base);
 
         $urls_fr = array($url_base.'list/forets-equatoriales',$url_base.'list/oceans',$url_base.'list/environnement','http://global.mongabay.com/fr/','https://travel.mongabay.com/','https://wildtech.mongabay.com/',$url_base);
 
