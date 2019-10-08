@@ -557,7 +557,7 @@ class mongabay_topic_location extends WP_Widget {
                     break;
                 case '29':
                 //Portuguese
-                    mongabay_tabbed_content('https://pt.mongabay.com/', array('Agricultura','Animais','Aves','Alterações Climáticas','Conservação','Desflorestação','Energia','Destaque','Florestas','Otimismo ambiental','Herpetologia','Indigenous People','Interviews','Mamíferos','New species','Oceanos','Plantações de Óleo de Palma','Florestas Tropicais','Technology','Vida Selvagem'));
+                    mongabay_tabbed_content('https://brasil.mongabay.com/', array('Agricultura','Animais','Aves','Alterações Climáticas','Conservação','Desflorestação','Energia','Destaque','Florestas','Otimismo ambiental','Herpetologia','Indigenous People','Interviews','Mamíferos','New species','Oceanos','Plantações de Óleo de Palma','Florestas Tropicais','Technology','Vida Selvagem'));
                     break;
                 case '30':
                 //India
@@ -605,7 +605,7 @@ class mongabay_topic_location extends WP_Widget {
                         mongabay_tabbed_content('https://jp.mongabay.com/', array('アフリカ','アマゾン','アジア','オーストラリア','ボルネオ','ブラジル','カメルーン','中央アメリカ','中国','コロンビア','コンゴ','インド','インドネシア','ラテンアメリカ','マダガスカル','マレーシア','ニューギニア','ペルー','スマトラ','米国'));
                         break;
                     case '29':
-                        mongabay_tabbed_content('https://pt.mongabay.com/', array('África','Amazónia','Ásia','Austrália','Bornéu','Brasil','Camarões','América Central','China','Colômbia','Congo','Índia','Indonésia','América Latina','Madagáscar','Malásia','Nova Guiné','Peru','Sumatra','Estados Unidos'));
+                        mongabay_tabbed_content('https://brasil.mongabay.com/', array('África','Amazónia','Ásia','Austrália','Bornéu','Brasil','Camarões','América Central','China','Colômbia','Congo','Índia','Indonésia','América Latina','Madagáscar','Malásia','Nova Guiné','Peru','Sumatra','Estados Unidos'));
                         break;
                     case '30':
                         mongabay_tabbed_content('https://india.mongabay.com/', array('Deccan Plateau','Himalayas','Eastern Ghats','Western Ghats','Thar Desert ','Sundarbans','Andhra Pradesh','Assam','Arunachal Pradesh','Andaman and Nicobar Islands','Bihar','Chhattisgarh','Dadra and Nagar Haveli','Daman and Diu','Delhi','Goa','Gujarat','Haryana','Himachal Pradesh','Jammu and Kashmir','Jharkhand','Karnataka','Kerala'));
