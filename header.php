@@ -103,7 +103,7 @@
                             echo '<li><a href="https://www.mongabay.co.id/">Bahasa Indonesia (Indonesian)</a></li>';
                             echo '<li><a href="https://it.mongabay.com/">Italiano (Italian)</a></li>';
                             echo '<li><a href="https://jp.mongabay.com/">日本語 (Japanese)</a></li>';
-                            echo '<li><a href="https://pt.mongabay.com/">Português (Portuguese)</a></li>';
+                            echo '<li><a href="https://brasil.mongabay.com/">Brasil (Portuguese)</a></li>';
                             echo '<li><a href="https://india.mongabay.com/">India</a></li>';
                             echo '<li><a href="https://philippines.mongabay.com/">Philippines</a></li>';
                             echo '</ul>';
