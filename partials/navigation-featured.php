@@ -36,7 +36,7 @@
 						<a class="nav-link" href="https://jp.mongabay.com/">日本語 (Japanese)</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="https://pt.mongabay.com/">Português (Portuguese)</a>
+						<a class="nav-link" href="https://brasil.mongabay.com/">Brasil (Portuguese)</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="https://india.mongabay.com/">India</a>
