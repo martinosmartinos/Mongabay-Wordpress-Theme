@@ -357,6 +357,47 @@ msgstr ""
 #: single.php:37
 msgid " on "
 msgstr ""
+
+#: single.php:37
+msgid "Commentary "
+msgstr ""
+
+#: single.php:37
+msgid "Analysis "
+msgstr ""
+
+#: single.php:37
+msgid "by "
+msgstr ""
+
+#: single-featured.php:23
+msgid "Commentary "
+msgstr ""
+
+#: single-featured.php:23
+msgid "Analysis "
+msgstr ""
+
+#: single-featured.php:23
+msgid "by "
+msgstr ""
+
+#: single.php:36
+msgid "Adapted by "
+msgstr ""
+
+#: single.php:50
+msgid "Translated by "
+msgstr ""
+
+#: single-featured.php:50
+msgid "Adapted by "
+msgstr ""
+
+#: single-featured.php:36
+msgid "Translated by "
+msgstr ""
+
 #. Theme Name of the plugin/theme
 msgid "Mongabay Environmental News"
 msgstr ""
