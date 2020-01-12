@@ -263,7 +263,7 @@ function mongabay_series_section ( $names, $number) {
             wp_reset_postdata(); ?>
 
             <div class="more-special">
-                <a href="<?php echo esc_url( home_url( '/' ) ).'series/'.$name; ?>"><?php _e('More articles', 'mongabay'); ?></a>
+                <svg class="icon"><use xlink:href="#more"></use></svg><a href="<?php echo esc_url( home_url( '/' ) ).'series/'.$name; ?>"><?php _e('More articles', 'mongabay'); ?></a>
             </div>
             </div>
         <?php if ($count == 4 || $count == 8) { ?>
@@ -359,7 +359,7 @@ function mongabay_styles()
 {
     //wp_register_style('main', get_template_directory_uri() . '/style2017.css', array(), '1.0', 'all');
     //wp_enqueue_style('main');
-    wp_register_style('framework', get_template_directory_uri() . '/css/framework.min.css', array(), '1.0', 'all');
+    wp_register_style('framework', get_template_directory_uri() . '/css/framework.min.160719.css', array(), '1.0', 'all');
     wp_enqueue_style('framework');
     wp_register_style('boostrap', get_template_directory_uri() . '/css/bootstrap.min.css', array(), '4.0.0', 'all');
     wp_enqueue_style('boostrap');
@@ -557,7 +557,7 @@ class mongabay_topic_location extends WP_Widget {
                     break;
                 case '29':
                 //Portuguese
-                    mongabay_tabbed_content('https://brasil.mongabay.com/', array('Agricultura','Animais','Aves','Alterações Climáticas','Conservação','Desflorestação','Energia','Destaque','Florestas','Otimismo ambiental','Herpetologia','Indigenous People','Interviews','Mamíferos','New species','Oceanos','Plantações de Óleo de Palma','Florestas Tropicais','Technology','Vida Selvagem'));
+                    mongabay_tabbed_content('https://brasil.mongabay.com/', array('Agropecuária','Alterações Climáticas','Amazônia','Cerrado','Commodities','Conservação','Desmatamento','Energia','Entrevistas','Fauna','Florestas Tropicais','Infraestrutura','Mineração','Política Ambiental','Povos Indígenas','Recursos hídricos','Sustentabilidade','Oceanos','Tecnologia','Violência'));
                     break;
                 case '30':
                 //India
@@ -605,7 +605,7 @@ class mongabay_topic_location extends WP_Widget {
                         mongabay_tabbed_content('https://jp.mongabay.com/', array('アフリカ','アマゾン','アジア','オーストラリア','ボルネオ','ブラジル','カメルーン','中央アメリカ','中国','コロンビア','コンゴ','インド','インドネシア','ラテンアメリカ','マダガスカル','マレーシア','ニューギニア','ペルー','スマトラ','米国'));
                         break;
                     case '29':
-                        mongabay_tabbed_content('https://brasil.mongabay.com/', array('África','Amazónia','Ásia','Austrália','Bornéu','Brasil','Camarões','América Central','China','Colômbia','Congo','Índia','Indonésia','América Latina','Madagáscar','Malásia','Nova Guiné','Peru','Sumatra','Estados Unidos'));
+                        mongabay_tabbed_content('https://brasil.mongabay.com/', array('África','Amazônia','Ásia','Austrália','Bornéu','Brasil','Camarões','América Central','China','Colômbia','Congo','Índia','Indonésia','América Latina','Madagáscar','Malásia','Nova Guiné','Peru','Sumatra','Estados Unidos'));
                         break;
                     case '30':
                         mongabay_tabbed_content('https://india.mongabay.com/', array('Deccan Plateau','Himalayas','Eastern Ghats','Western Ghats','Thar Desert ','Sundarbans','Andhra Pradesh','Assam','Arunachal Pradesh','Andaman and Nicobar Islands','Bihar','Chhattisgarh','Dadra and Nagar Haveli','Daman and Diu','Delhi','Goa','Gujarat','Haryana','Himachal Pradesh','Jammu and Kashmir','Jharkhand','Karnataka','Kerala'));
@@ -1016,6 +1016,7 @@ function onesignal_send_notification_filter($fields, $new_status, $old_status, $
     $fields_dup['data'] = array(
         "notifyurl" => $fields['url']
     );
+    $fields_dup['web_url'] = $fields_dup['url'];
     $fields_dup['included_segments'] = array('mongabay_push');
     unset($fields_dup['url']);
     $ch = curl_init();
@@ -1179,6 +1180,40 @@ function mongabay_byline( $byline, $postID ) {
     }
 }
 add_filter( 'apple_news_exporter_byline', 'mongabay_byline', 10, 2 );
+
+//Prevent storing badly formatted HTML in articles
+add_filter('wp_insert_post_data', 'my_post_data_validator', '99');
+function my_post_data_validator($data) {
+    $error_1 = strpos($data['post_content'], '<br');
+    $error_2 = strpos($data['post_content'], '<span');
+    $error_3 = strpos($data['post_content'], '<div');
+    if($data['post_type'] === 'post') { 
+        if($error_1 || $error_2 || $error_3) {
+            $data['post_status'] = 'pending';
+            add_filter('redirect_post_location', 'my_post_redirect_filter', '99');
+        }
+    }
+    return $data;
+}
+
+function my_post_redirect_filter($location) {
+    remove_filter('redirect_post_location', __FILTER__, '99');
+    return add_query_arg('mongabay_error', 1, $location);
+}
+
+add_action('admin_notices', 'my_post_admin_notices');
+function my_post_admin_notices() {
+    if (!isset($_GET['mongabay_error'])) return;
+    switch (absint($_GET['mongabay_error'])) {
+        case 1:
+        $message = 'Invalid post data. Make sure post HTML content does not contain elements like span, br and div! This is most likely because of copy/paste content from elsewhere.';
+        break;
+        default:
+        $message = 'Something went wrong';
+    }
+    echo '<div id="notice" class="error"><p>' . $message . '</p></div>';
+}
+
 /*------------------------------------*\
     Actions + Filters
 \*------------------------------------*/
