@@ -193,16 +193,10 @@ function mongabay_byline_link( $link, $term, $taxonomy )
 
     return str_replace( 'byline/', 'by/', $link );
 }
-
 /*
 leave
 that
 space
-so
-translation
-is
-not
-shifting
 */
 
 // special series section function. Usage mongabay_series_section (array('slug1','slug2','slug3'), 3) where 3 is number of posts
@@ -240,7 +234,6 @@ function mongabay_series_section ( $names, $number) {
                     ),
                 );
 
-
             $query = new WP_Query( $args );
 
             if ($query->have_posts()) { ?>
@@ -261,7 +254,6 @@ function mongabay_series_section ( $names, $number) {
             <?php
             }
             wp_reset_postdata(); ?>
-
             <div class="more-special">
                 <svg class="icon"><use xlink:href="#more"></use></svg><a href="<?php echo esc_url( home_url( '/' ) ).'series/'.$name; ?>"><?php _e('More articles', 'mongabay'); ?></a>
             </div>
@@ -272,7 +264,6 @@ function mongabay_series_section ( $names, $number) {
     } ?>
     <?php if(mongabay_layout() == 'container-fluid') echo '</div>';?>
     </div>
-
 <?php }
 
 // Function to detect if we are dealing with featured aside article
@@ -281,10 +272,12 @@ function mongabay_layout() {
         $post_id = get_the_ID();
         $aside = get_post_format($post_id);
         $featured = get_post_meta( $post_id, 'featured_as', false );
-        if ( $aside == 'aside' && in_array('featured', $featured) ) {
+        $mobile_safe = get_post_meta( $post_id, 'mobile_safe', true );
+        if ( $aside == 'aside' && in_array('featured', $featured) && $mobile_safe == 'no') {
             $container = 'container-fluid';
-        }
-        else {
+        } elseif ($aside == 'aside' && in_array('featured', $featured) && $mobile_safe == 'yes') {
+            $container = 'container-mobile-safe';
+        } else {
             $container = 'container';
         }
     }
@@ -316,20 +309,19 @@ function mongabay_sanitized_content($post_id) {
 function mongabay_header_scripts()
 {
     if ($GLOBALS['pagenow'] != 'wp-login.php' && !is_admin()) {
-
         wp_register_script('fittext', get_template_directory_uri() . '/js/lib/jq.fittext.min.js', array('jquery'), '1.2', true);
         wp_enqueue_script('fittext');
-
         wp_register_script('bootstraputils', get_template_directory_uri() . '/js/lib/util.min.js', array('jquery'), '4.0.0', true);
         wp_enqueue_script('bootstraputils');
-
         wp_register_script('bootstraptabs', get_template_directory_uri() . '/js/lib/tabs.min.js', array('jquery'), '4.0.0', true);
         wp_enqueue_script('bootstraptabs');
-
+        wp_register_script('addtohomescreen', get_template_directory_uri() . '/js/lib/addtohomescreen.min.js', array(), '3.2.3', true);
+        wp_enqueue_script('addtohomescreen');
         wp_register_script('scripts', get_template_directory_uri() . '/js/scripts.min.js', array('jquery'), '1.0.0', true);
         wp_enqueue_script('scripts');
     }
 }
+
 // Load conditional scripts
 function mongabay_conditional_scripts()
 {
@@ -351,19 +343,23 @@ function mongabay_featured() {
         include (TEMPLATEPATH . '/single-featured.php');
         exit;
     }
+    if ( mongabay_layout() == "container-mobile-safe" ) {
+      include (TEMPLATEPATH . '/single-featured-mobile-safe.php');
+      exit;
+    }
 }
-
 
 // Load styles
 function mongabay_styles()
 {
-    //wp_register_style('main', get_template_directory_uri() . '/style2017.css', array(), '1.0', 'all');
-    //wp_enqueue_style('main');
-    wp_register_style('framework', get_template_directory_uri() . '/css/framework.min.160719.css', array(), '1.0', 'all');
+    wp_register_style('framework', get_template_directory_uri() . '/css/framework.min.010620.css', array(), '1.0', 'all');
     wp_enqueue_style('framework');
     wp_register_style('boostrap', get_template_directory_uri() . '/css/bootstrap.min.css', array(), '4.0.0', 'all');
     wp_enqueue_style('boostrap');
+    wp_register_style('addtohomescreen', get_template_directory_uri() . '/css/addtohomescreen.min.css', array(), '3.2.3', 'all');
+    wp_enqueue_style('addtohomescreen');
 }
+
 
 // Register Navigation
 function register_mongabay_menu()
@@ -563,6 +559,10 @@ class mongabay_topic_location extends WP_Widget {
                 //India
                     mongabay_tabbed_content('https://india.mongabay.com/', array('Animals','Biodiversity','Climate change','Conservation','Deforestation','Energy','Environment','Featured','Forests','Positive environmental','Indigenous peoples','Interviews','Mammals','New species','Oceans','Pollution','Rainforests','Technology','Wildlife'));
                     break;
+                case '35':
+                //Hindi
+                    mongabay_tabbed_content('https://hindi.mongabay.com/', array('कृषि','क्लाईमेट चेंज','ग्लोबल वार्मिंग','जीव','जैव विविधता','नदी','पक्षी','पर्यावरण कानून','पहल','पानी','प्रदूषण','भूमि अधिकार','महासागर','राष्ट्रीय उद्यान','लोग','वन','वन कटाई','वन्य जीव','वायु प्रदूषण','सरंक्षण'));
+                    break;
                 default:
                     mongabay_tabbed_content('https://news.mongabay.com/', array('Agriculture','Animals','Birds','Climate change','Conservation','Deforestation','Energy','Featured','Forests','Happy-upbeat environmental','Herps','Indigenous peoples','Interviews','Mammals','New species','Oceans','Palm oil','Rainforests','Technology','Wildlife'));
                     break;
@@ -609,6 +609,9 @@ class mongabay_topic_location extends WP_Widget {
                         break;
                     case '30':
                         mongabay_tabbed_content('https://india.mongabay.com/', array('Deccan Plateau','Himalayas','Eastern Ghats','Western Ghats','Thar Desert ','Sundarbans','Andhra Pradesh','Assam','Arunachal Pradesh','Andaman and Nicobar Islands','Bihar','Chhattisgarh','Dadra and Nagar Haveli','Daman and Diu','Delhi','Goa','Gujarat','Haryana','Himachal Pradesh','Jammu and Kashmir','Jharkhand','Karnataka','Kerala'));
+                        break;
+                    case '35':
+                        mongabay_tabbed_content('https://hindi.mongabay.com/', array('हिमालय','पूर्वी घाट','पश्चिमी घाट','सुंदरवन','आंध्र प्रदेश','असम','अरुणाचल प्रदेश','अंडमान व नोकोबार द्वीप समूह','बिहार','छत्तीसगढ़','दादरा और नगर हवेली','दिल्ली','गोवा','गुजरात','हरियाणा','हिमाचल प्रदेश','जम्मू और कश्मीर','झारखंड','कर्नाटक','केरल'));
                         break;
                     default:
                         mongabay_tabbed_content('https://news.mongabay.com/', array('Africa','Amazon','Asia','Australia','Borneo','Brazil','Cameroon','Central America','China','Colombia','Congo','India','Indonesia','Latin America','Madagascar','Malaysia','New Guinea','Peru','Sumatra','United States'));
@@ -1090,16 +1093,16 @@ function mongabay_sanitize_json( $data, $post, $context ) {
         )
     );
     $data->data['content'] = preg_replace('/<noscript\b[>]*>(.*?)<\/noscript>/s', '', $data->data['content']);
-    $data->data['content'] = preg_replace('/<p><\/p>/', '', $data->data['content']);
-    $data->data['content'] = preg_replace('/<p> <\/p>/', '', $data->data['content']);
+    //$data->data['content'] = preg_replace('/<p><\/p>/', '', $data->data['content']);
+    //$data->data['content'] = preg_replace('/<p> <\/p>/', '', $data->data['content']);
     $data->data['content'] = preg_replace('/<div class=\'container\'>\\n<div class=\'row justify-content-center\'>\\n<div id=\'main\' class=\'col-lg-8 single\'>\\n/s', '', $data->data['content']);
     $data->data['content'] = preg_replace('/<div class=\'clearfix\'><\/div>\\n/s', '', $data->data['content']);
     $data->data['content'] = preg_replace('/<\/div>\\n<\/div>\\n<\/div>\\n/s', '', $data->data['content']);
-    $data->data['content'] = wp_kses($data->data['content'], $allowtags);
+    //$data->data['content'] = wp_kses($data->data['content'], $allowtags);
     $data->data['content'] = preg_replace('/\\n<div>\\n<div>\\n<ul class/s', '<ul class', $data->data['content']);
     $data->data['content'] = preg_replace('/\/>\\n<div>\\n<div>.*\w*<\/div>\\n<\/div>\\n<\/li>/', '/></li>', $data->data['content']);
     $data->data['content'] = preg_replace('/<!--.*\w*-->/', '', $data->data['content']);
-    $data->data['content'] = preg_replace('/<p>\\n<p>/s', '<p>', $data->data['content']);
+    //$data->data['content'] = preg_replace('/<p>\\n<p>/s', '<p>', $data->data['content']);
     $data->data['content'] = preg_replace('/<a href=\\"https:\/\/news[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay://article/', $data->data['content']);
     $data->data['content'] = preg_replace('/<a href=\\"https:\/\/cn[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_cn://article/', $data->data['content']);
     $data->data['content'] = preg_replace('/<a href=\\"https:\/\/de[.]mongabay[.]com\/\d\d\d\d\/\d\d\//s', '<a href="mongabay_de://article/', $data->data['content']);
@@ -1118,6 +1121,67 @@ function mongabay_sanitize_page_json( $data, $post, $context ) {
     $data->data['content'] = preg_replace('/\\n/s', '', $data->data['content']);
     return $data;
 }
+
+//Make custom taxonomy registered by PODs available in GraphQL
+function add_pods_graphql_support( $options ) {
+
+    $options['show_in_graphql'] = true;
+    $options['graphql_single_name'] = $options['labels']['name'];
+    $options['graphql_plural_name'] = $options['labels']['singular_name'];
+
+    return $options;
+
+}
+
+//Resolve some post custom meta values for GraphQL
+add_action( 'graphql_register_types', function() {
+    register_graphql_field( 'Post', 'featuredAs', [
+       'type' => 'String',
+       'description' => __( 'If article is featured', 'wp-graphql' ),
+       'resolve' => function( $post ) {
+         $featured = get_post_meta( $post->ID, 'featured_as', true );
+         return ! empty( $featured ) ? $featured : 'simple';
+       }
+    ] );
+
+    register_graphql_field( 'Post', 'bulletPoint1', [
+        'type' => 'String',
+        'description' => __( 'Bulletpoint 1', 'wp-graphql' ),
+        'resolve' => function( $post ) {
+          $bulletpoint = get_post_meta( $post->ID, 'mog_bullet_0_mog_bulletpoint', true );
+          return !empty($bulletpoint) ? $bulletpoint : null;
+        }
+    ]);
+
+    register_graphql_field( 'Post', 'bulletPoint2', [
+        'type' => 'String',
+        'description' => __( 'Bulletpoint 2', 'wp-graphql' ),
+        'resolve' => function( $post ) {
+          $bulletpoint = get_post_meta( $post->ID, 'mog_bullet_1_mog_bulletpoint', true );
+          return !empty($bulletpoint) ? $bulletpoint : null;
+        }
+    ]);
+    
+    register_graphql_field( 'Post', 'bulletPoint3', [
+        'type' => 'String',
+        'description' => __( 'Bulletpoint 3', 'wp-graphql' ),
+        'resolve' => function( $post ) {
+          $bulletpoint = get_post_meta( $post->ID, 'mog_bullet_2_mog_bulletpoint', true );
+          return !empty($bulletpoint) ? $bulletpoint : null;
+        }
+    ]);
+
+    register_graphql_field( 'Post', 'bulletPoint4', [
+        'type' => 'String',
+        'description' => __( 'Bulletpoint 4', 'wp-graphql' ),
+        'resolve' => function( $post ) {
+          $bulletpoint = get_post_meta( $post->ID, 'mog_bullet_3_mog_bulletpoint', true );
+          return !empty($bulletpoint) ? $bulletpoint : null;
+        }
+    ]);
+  }
+);
+
 
 // Conditional logic to show or hide translated_by/ adapted_by POD fields
 function post_edit_screen() {
@@ -1214,6 +1278,16 @@ function my_post_admin_notices() {
     echo '<div id="notice" class="error"><p>' . $message . '</p></div>';
 }
 
+add_action( 'graphql_register_types', function() {
+	register_graphql_field( 'NodeWithContentEditor', 'unencodedContent', [
+		'type' => 'String',
+		'resolve' => function(  $post ) {
+			$content = get_post( $post->databaseId )->post_content;
+			return esc_html( $content );
+		}
+	]);
+});
+
 /*------------------------------------*\
     Actions + Filters
 \*------------------------------------*/
@@ -1280,10 +1354,12 @@ add_filter( 'term_link', 'mongabay_topic_link', 10, 3 ); // Fix topic taxonomy l
 add_filter('onesignal_send_notification', 'onesignal_send_notification_filter', 10, 4); // Add Onesignal notifications filter
 add_filter( 'rest_prepare_post', 'mongabay_sanitize_json', 100, 3 ); // Get content ready for App
 add_filter( 'rest_prepare_page', 'mongabay_sanitize_page_json', 100, 3 ); //Get content ready for App
+add_filter( 'pods_register_taxonomy_byline', 'add_pods_graphql_support' ); //Byline available in GraphQL
 
 // Remove Filters
 remove_filter('the_excerpt', 'wpautop'); // Remove <p> tags from Excerpt altogether
 remove_filter( 'the_content', 'wpautop' );
 add_filter( 'the_content', 'wpautop' , 12); //Remove <p> and <br> from shortcodes
 add_filter('use_block_editor_for_post', '__return_false'); //Disable Gutenberg editor
+add_filter( 'wp_lazy_loading_enabled', '__return_false' ); //Disable lazy load
 ?>
