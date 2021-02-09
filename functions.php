@@ -273,9 +273,9 @@ function mongabay_layout() {
         $aside = get_post_format($post_id);
         $featured = get_post_meta( $post_id, 'featured_as', false );
         $mobile_safe = get_post_meta( $post_id, 'mobile_safe', true );
-        if ( $aside == 'aside' && in_array('featured', $featured) && $mobile_safe == 'no') {
+        if ( $aside == 'aside' && in_array('featured', $featured) && $mobile_safe == '') {
             $container = 'container-fluid';
-        } elseif ($aside == 'aside' && in_array('featured', $featured) && $mobile_safe == 'yes') {
+        } elseif ($aside == 'aside' && in_array('featured', $featured) && $mobile_safe == '1') {
             $container = 'container-mobile-safe';
         } else {
             $container = 'container';
